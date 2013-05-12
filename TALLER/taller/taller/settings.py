@@ -1,4 +1,9 @@
 # Django settings for taller project.
+#encoding:utf-8
+
+# Identificando la ruta del proyecto
+import os
+RUTA_PROYECTO = os.path.dirname(os.path.realpath(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -50,7 +55,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(RUTA_PROYECTO,'carga')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -107,7 +112,7 @@ ROOT_URLCONF = 'taller.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'taller.wsgi.application'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = ( os.path.join(RUTA_PROYECTO,'templates' )
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -123,7 +128,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
 		'administrador',
 )
 

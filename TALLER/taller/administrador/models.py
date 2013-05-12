@@ -1,3 +1,4 @@
+#encoding:utf-8
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -16,6 +17,6 @@ class UserProfile(models.Model):
   telefono = models.CharField(max_length=15)
   direccion = models.CharField(max_length=100)
   cargo = models.CharField(max_length=100)
-  #avatar = models.ImageField()
+  imagen = models.ImageField(upload_to='perfiles',verbose_name='Imágen')
   
 	
