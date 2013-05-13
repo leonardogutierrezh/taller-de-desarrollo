@@ -1,8 +1,11 @@
 #encoding:utf-8
 from django.forms import ModelForm
 from django import forms
-from administrador.models import UserProfile
+from django.contrib.auth.models import User
+from administrador.models import Perfil
 
-class ProfileForm(forms.Form):
+class UserForm(forms.ModelForm):
   class Meta:
-    model = UserProfile
+    model = Perfil
+    fields = ('usuario','direccion','telefono','cargo',)
+

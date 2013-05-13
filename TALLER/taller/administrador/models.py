@@ -13,10 +13,12 @@ class Miembro(models.Model):
   proyecto = models.ForeignKey(Proyecto)
   rol = models.CharField(max_length=100)
 
-class UserProfile(models.Model):
-  telefono = models.CharField(max_length=15)
-  direccion = models.CharField(max_length=100)
-  cargo = models.CharField(max_length=100)
-  imagen = models.ImageField(upload_to='perfiles',verbose_name='Imágen')
-  
+class Perfil(models.Model):
+  usuario = models.ForeignKey(User, unique=True)
+  telefono = models.CharField(max_length=15, null=True)
+  direccion = models.CharField(max_length=100, null=True)
+  cargo = models.CharField(max_length=100, null=True)
+ # imagen = models.ImageField(upload_to='perfiles',verbose_name='Imágen')
+
+
 	
