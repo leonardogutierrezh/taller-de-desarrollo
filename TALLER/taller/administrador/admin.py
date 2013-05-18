@@ -8,12 +8,12 @@ class Proyecto_UserInline(admin.TabularInline):
 		extra = 1
 
 class ProyectoAdmin(admin.ModelAdmin):
-		list_display = ('nombre','fecha')
-		list_filter = ['fecha']
+		list_display = ('nombre','fechaInicio')
+		list_filter = ['fechaInicio']
 		search_fields = ['nombre']
 		fieldsets = [
         (None,               {'fields': ['nombre']}),
-        ('Informacion de Creacion', {'fields': ['fecha','descripcion','metodologia'], 'classes': ['collapse']}),
+        ('Informacion de Creacion', {'fields': ['fechaInicio','fechaFin','descripcion','metodologia','recursos'], 'classes': ['collapse']}),
     ]
 		inlines = [Proyecto_UserInline]
 

@@ -22,21 +22,12 @@
 	</header>
 
 	<section class='contenido'>
-		<div>
-				<nav>
-			<ul>
-				<li><a href='/crear_proyecto'>Crear Proyecto</a></li>
-			</ul>
-		</nav>
-		<div>
 		<h2>Proyectos</h2>
-		{% for proy in proyectos %}
 		<ul>
 			<li>
-			<a href='/proyecto/{{proy.proyecto.id}}' >{{proy.proyecto.nombre}}</a>
+			{{proyecto.nombre}}
 			</li>
 		</ul>
-		{% endfor %}
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

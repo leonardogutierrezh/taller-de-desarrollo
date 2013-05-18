@@ -20,7 +20,6 @@
 		</nav>
 		<hr>
 	</header>
-
 	<section class='contenido'>
 		<div>
 				<nav>
@@ -30,13 +29,11 @@
 		</nav>
 		<div>
 		<h2>Proyectos</h2>
-		{% for proy in proyectos %}
-		<ul>
-			<li>
-			<a href='/proyecto/{{proy.proyecto.id}}' >{{proy.proyecto.nombre}}</a>
-			</li>
-		</ul>
-		{% endfor %}
+		<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+			{{formulario.as_p}}
+			{{formMiembro.as_p}}
+			<p><input type='submit' value='Confirmar' /></p>
+		</form>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

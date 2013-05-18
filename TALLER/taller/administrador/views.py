@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm
 from administrador.models import Perfil
-from administrador.models import Miembro
+from administrador.models import Miembro, Proyecto
 
 def ingresar(request):
   if request.method == 'POST':
@@ -42,7 +42,6 @@ def cerrar(request):
 def editar_perfil(request):
     usuario = request.user
     if Perfil.objects.filter(pk=usuario.id):
-        print "ok"
         perfiles = Perfil.objects.get(pk=usuario.id)
     else:
         perfiles = Perfil.objects.create(usuario=usuario)
@@ -68,3 +67,20 @@ def proyectos(request):
     usuario = request.user
     proyectos = Miembro.objects.filter(usuario=usuario)
     return render_to_response('proyectos.html', { 'proyectos': proyectos, 'usuario': usuario }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def proyecto_detalle(request,id_proyecto):
+    print id_proyecto
+    dato = Proyecto.objects.get(pk=id_proyecto)
+    return render_to_response('proyecto_detalle.html',{'proyecto':dato}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def crear_proyecto(request):
+    if request.method=='POST':
+        formulario = ProyectoForm(request.POST)
+        if formulario.is_valid():
+          formulario.save()
+          return HttpResponseRedirect('/proyectos')
+    else:
+        formulario = ProyectoForm()
+    return render_to_response('crear_proyecto.html',{'formulario':formulario}, context_instance=RequestContext(request))
