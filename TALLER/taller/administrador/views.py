@@ -41,7 +41,11 @@ def cerrar(request):
 @login_required(login_url='/') 
 def editar_perfil(request):
     usuario = request.user
-    perfiles = Perfil.objects.get(pk=usuario.id)
+    if Perfil.objects.filter(pk=usuario.id):
+        print "ok"
+        perfiles = Perfil.objects.get(pk=usuario.id)
+    else:
+        perfiles = Perfil.objects.create(usuario=usuario)
     if request.method == 'POST':
         # formulario enviado
         user_form = UserForm(request.POST)
