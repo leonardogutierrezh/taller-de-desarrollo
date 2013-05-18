@@ -9,6 +9,7 @@ class Proyecto(models.Model):
   descripcion = models.TextField(max_length=200)
   metodologia = models.CharField(max_length=100)
   recursos = models.TextField(max_length=200)
+  iteraciones = models.IntegerField()
        
 class Miembro(models.Model):
   usuario = models.ForeignKey(User)
@@ -22,5 +23,7 @@ class Perfil(models.Model):
   cargo = models.CharField(max_length=100, null=True)
  # imagen = models.ImageField(upload_to='perfiles',verbose_name='Imágen')
 
-
+class Requerimiento(models.Model):
+  proyecto = models.ForeignKey(Proyecto)
+  descripcion = models.TextField(max_length=200)
 	
