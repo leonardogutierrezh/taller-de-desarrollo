@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 
 class Proyecto(models.Model):
   nombre = models.CharField(max_length=100)
-  fecha = models.DateTimeField('Fecha de Publicacion')
+  fechaInicio = models.DateTimeField('Fecha de Inicio')
+  fechaFin = models.DateTimeField('Fecha de Finalización')
   descripcion = models.TextField(max_length=200)
   metodologia = models.CharField(max_length=100)
+  recursos = models.TextField(max_length=200)
        
 class Miembro(models.Model):
   usuario = models.ForeignKey(User)
