@@ -7,5 +7,5 @@ from administrador.models import Perfil
 class UserForm(forms.ModelForm):
   class Meta:
     model = Perfil
-    fields = ('usuario','direccion','telefono','cargo',)
+    exclude = ['usuario']
 

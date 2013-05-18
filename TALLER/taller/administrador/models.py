@@ -14,7 +14,7 @@ class Miembro(models.Model):
   rol = models.CharField(max_length=100)
 
 class Perfil(models.Model):
-  usuario = models.ForeignKey(User, unique=True)
+  usuario = models.OneToOneField(User, unique=True)
   telefono = models.CharField(max_length=15, null=True)
   direccion = models.CharField(max_length=100, null=True)
   cargo = models.CharField(max_length=100, null=True)

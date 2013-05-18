@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^principal/$', 'administrador.views.principal'),
     url(r'^cerrar/$', 'administrador.views.cerrar'),
     url(r'^perfil/$', 'administrador.views.editar_perfil'),
+    url(r'^proyectos/$', 'administrador.views.proyectos'),
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT,}),
 
     # Uncomment the next line to enable the admin:

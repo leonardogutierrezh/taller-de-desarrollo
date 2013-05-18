@@ -6,6 +6,8 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from administrador.forms import UserForm
+from administrador.models import Perfil
+from administrador.models import Miembro
 
 def ingresar(request):
   if request.method == 'POST':
@@ -14,9 +16,7 @@ def ingresar(request):
       usuario = request.POST['username']
       clave = request.POST['password']
       acceso = authenticate(username=usuario, password=clave)
-      print "valid"
       if acceso is not None:
-        print " admitido"
         if acceso.is_active:
           login(request,acceso)
           return HttpResponseRedirect('/principal')
@@ -41,21 +41,26 @@ def cerrar(request):
 @login_required(login_url='/') 
 def editar_perfil(request):
     usuario = request.user
-    print "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    perfiles = Perfil.objects.get(pk=usuario.id)
     if request.method == 'POST':
         # formulario enviado
-        print "hi"
         user_form = UserForm(request.POST)
-        print "hi"
         if user_form.is_valid():
+            formulario = user_form.save(commit=False)
+            perfiles.direccion = formulario.direccion
+            perfiles.telefono = formulario.telefono
+            perfiles.cargo = formulario.cargo
             # formulario validado correctamente
-            user_form.save()
+            perfiles.save()
             return HttpResponseRedirect('/principal')
 
     else:
         # formulario inicial
-        print "hello"
-        user_form = UserForm()
-        print "antes"
-        print "heloo 2"
+        user_form = UserForm(instance = perfiles)
     return render_to_response('perfil.html', { 'user_form': user_form, 'usuario': usuario }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def proyectos(request):
+    usuario = request.user
+    proyectos = Miembro.objects.filter(usuario=usuario)
+    return render_to_response('proyectos.html', { 'proyectos': proyectos, 'usuario': usuario }, context_instance=RequestContext(request))
