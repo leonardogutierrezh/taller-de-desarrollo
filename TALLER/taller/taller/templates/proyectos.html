@@ -30,13 +30,15 @@
 		</nav>
 		<div>
 		<h2>Proyectos</h2>
-		{% for proy in proyectos %}
 		<ul>
+		{% for proy in proyectos %}
 			<li>
-			<a href='/proyecto/{{proy.proyecto.id}}' >{{proy.proyecto.nombre}}</a>
+			<a href='/proyecto/{{proy.proyecto.id}}/{{proy.rol}}' >{{proy.proyecto.nombre}}</a> Rol: {{proy.rol}}
 			</li>
-		</ul>
+		{% empty %}
+		<li>No tienes proyectos asignados</li>
 		{% endfor %}
+		</ul>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

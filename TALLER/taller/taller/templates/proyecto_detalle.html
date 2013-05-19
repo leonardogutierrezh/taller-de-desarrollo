@@ -22,12 +22,26 @@
 	</header>
 
 	<section class='contenido'>
+	{% if rol == "Administrador" %}		
+		<div>
+			<nav>
+				<ul>
+					<li><a href='/crear_proyecto/{{proyecto.id}}'>Agregar Equipo</a></li>
+					<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
+					<li><a href='/eliminar_proyecto'>Editar</a></li>
+				</ul>
+			</nav>
+		<div>
+	{% endif %}
 		<h2>Proyectos</h2>
-		<ul>
-			<li>
-			{{proyecto.nombre}}
-			</li>
-		</ul>
+{{proyecto.id}}
+			<p>Nombre del Proyecto {{proyecto.nombre}}</p>
+			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
+			<p>Fecha Final: {{proyecto.fechaFin}}</p>
+			<p>Descripcion: {{proyecto.descripcion}}</p>
+			<p>Metodologia:	{{proyecto.metodologia}}</p>
+			<p>Recursos: {{proyecto.recursos}}</p>
+			<p>Iteraciones: {{proyecto.iteraciones}}</p>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

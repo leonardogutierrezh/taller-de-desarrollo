@@ -16,3 +16,4 @@ class ProyectoForm(forms.ModelForm):
 class MiembroForm(forms.ModelForm):
   class Meta:
     model = Miembro
+    exclude = ['proyecto']

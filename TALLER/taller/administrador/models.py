@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Proyecto(models.Model):
-  nombre = models.CharField(max_length=100)
+  nombre = models.CharField(max_length=100, unique=True)
   fechaInicio = models.DateTimeField('Fecha de Inicio')
   fechaFin = models.DateTimeField('Fecha de Finalización')
   descripcion = models.TextField(max_length=200)

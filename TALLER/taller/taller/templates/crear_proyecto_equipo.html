@@ -20,19 +20,22 @@
 		</nav>
 		<hr>
 	</header>
+
 	<section class='contenido'>
-		<div>
-				<nav>
-			<ul>
-				<li><a href='/crear_proyecto'>Crear Proyecto</a></li>
-			</ul>
-		</nav>
-		<div>
+
 		<h2>Proyectos</h2>
+		{% for miembro in miembros %}
+		<ul>
+			<li>
+			Miembro: {{miembro.usuario}} Rol: {{miembro.rol}}
+			</li>
+		</ul>
+		{% endfor %}
 		<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 			{{formulario.as_p}}
-			<p><input type='submit' value='Confirmar' /></p>
+			<p><input type='submit' value='Agregar' /></p>
 		</form>
+		<p><a href='/proyectos'>Finalizar</a></p>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

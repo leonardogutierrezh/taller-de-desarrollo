@@ -13,7 +13,7 @@ class ProyectoAdmin(admin.ModelAdmin):
 		search_fields = ['nombre']
 		fieldsets = [
         (None,               {'fields': ['nombre']}),
-        ('Informacion de Creacion', {'fields': ['fechaInicio','fechaFin','descripcion','metodologia','recursos'], 'classes': ['collapse']}),
+        ('Informacion de Creacion', {'fields': ['fechaInicio','fechaFin','iteraciones','descripcion','metodologia','recursos'], 'classes': ['collapse']}),
     ]
 		inlines = [Proyecto_UserInline]
 
