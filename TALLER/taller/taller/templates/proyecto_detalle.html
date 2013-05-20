@@ -28,13 +28,12 @@
 				<ul>
 					<li><a href='/crear_proyecto/{{proyecto.id}}'>Agregar Equipo</a></li>
 					<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
-					<li><a href='/eliminar_proyecto'>Editar</a></li>
+					<li><a href='/editar/{{proyecto.id}}'>Editar</a></li>
 				</ul>
 			</nav>
 		<div>
 	{% endif %}
 		<h2>Proyectos</h2>
-{{proyecto.id}}
 			<p>Nombre del Proyecto {{proyecto.nombre}}</p>
 			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
 			<p>Fecha Final: {{proyecto.fechaFin}}</p>

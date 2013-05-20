@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm
 from administrador.models import Perfil
 from administrador.models import Miembro, Proyecto
 from django.core.urlresolvers import reverse
@@ -118,3 +118,28 @@ def eliminar_proyecto(request,id_proyecto):
     proyecto = Proyecto.objects.get(pk=id_proyecto)
     proyecto.delete()
     return render_to_response('proyecto_eliminado.html')
+
+@login_required(login_url='/') 
+def editar_proyecto(request,id_proyecto):
+    usuario = request.user
+    proyecto = Proyecto.objects.get(pk=id_proyecto)
+    if request.method == 'POST':
+        # formulario enviado
+        proyecto_form = ProyectoeForm(request.POST)
+        print proyecto_form
+        if proyecto_form.is_valid():
+            print "valido"
+            formulario = proyecto_form.save(commit=False)
+            proyecto.fechaInicio = formulario.fechaInicio
+            proyecto.fechaFin = formulario.fechaFin
+            proyecto.descripcion = formulario.descripcion
+            proyecto.metodologia = formulario.metodologia
+            proyecto.recursos = formulario.recursos
+            proyecto.iteraciones = formulario.iteraciones           
+            proyecto.save()
+            return render_to_response('proyecto_editado.html')
+
+    else:
+        # formulario inicial
+        proyecto_form = ProyectoeForm(instance = proyecto)
+    return render_to_response('editar_proyecto.html', { 'formulario': proyecto_form, 'usuario': usuario }, context_instance=RequestContext(request))
