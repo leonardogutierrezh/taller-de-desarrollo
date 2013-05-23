@@ -22,17 +22,20 @@
 	</header>
 
 	<section class='contenido'>
-	{% if rol == "Administrador" %}		
+	
 		<div>
 			<nav>
 				<ul>
+					{% if rol == "Administrador" %}	
 					<li><a href='/crear_proyecto/{{proyecto.id}}'>Agregar Equipo</a></li>
 					<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
 					<li><a href='/editar/{{proyecto.id}}'>Editar</a></li>
+          {% endif %}
+				  <li><a href='/requerimientos/{{proyecto.id}}/{{rol}}'>Requerimiento</a></li>
 				</ul>
 			</nav>
 		<div>
-	{% endif %}
+
 		<h2>Proyectos</h2>
 			<p>Nombre del Proyecto {{proyecto.nombre}}</p>
 			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>

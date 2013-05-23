@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm
 from administrador.models import Perfil
-from administrador.models import Miembro, Proyecto
+from administrador.models import Miembro, Proyecto, Requerimiento
 from django.core.urlresolvers import reverse
 
 def ingresar(request):
@@ -71,9 +71,9 @@ def proyectos(request):
 
 @login_required(login_url='/') 
 def proyecto_detalle(request,id_proyecto,rol):
-    print rol
     dato = Proyecto.objects.get(pk=id_proyecto)
-    return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol}, context_instance=RequestContext(request))
+    requerimiento = Requerimiento.objects.filter(proyecto=dato)
+    return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'requerimiento':requerimiento}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def crear_proyecto(request):
@@ -143,3 +143,29 @@ def editar_proyecto(request,id_proyecto):
         # formulario inicial
         proyecto_form = ProyectoeForm(instance = proyecto)
     return render_to_response('editar_proyecto.html', { 'formulario': proyecto_form, 'usuario': usuario }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def requerimientos(request,id_proyecto,rol):
+    proyecto = Proyecto.objects.get(pk=id_proyecto)
+    requerimientos = Requerimiento.objects.filter(proyecto=proyecto)
+    return render_to_response('requerimientos.html', { 'requerimientos': requerimientos,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def crear_requerimiento(request, id_proyecto,rol):
+    proyecto = Proyecto.objects.get(pk=id_proyecto)
+    if request.method=='POST':
+        formulario_req = RequerimientoForm(request.POST)
+        if formulario_req.is_valid():
+          requerimiento = formulario_req.save(commit=False)
+          requerimiento.proyecto = proyecto
+          requerimiento.save()
+          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario_req = RequerimientoForm()
+    return render_to_response('crear_requerimiento.html',{'formulario_req':formulario_req, 'id': id_proyecto}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def requerimiento_detalle(request,id_proyecto,rol,id_requerimiento):
+    dato = Requerimiento.objects.get(pk=id_requerimiento)
+    return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto}, context_instance=RequestContext(request))

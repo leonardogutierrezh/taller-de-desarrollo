@@ -22,6 +22,9 @@ urlpatterns = patterns('',
     url(r'^crear_proyecto/$', 'administrador.views.crear_proyecto'),
     url(r'^crear_proyecto/(?P<id_proyecto>\d+)$', 'administrador.views.crear_proyecto_equipo'),
     url(r'^eliminar_proyecto/(?P<id_proyecto>\d+)$', 'administrador.views.eliminar_proyecto'),
+    url(r'^crear_requerimiento/(?P<id_proyecto>\d+)/(?P<rol>\D*)$', 'administrador.views.crear_requerimiento'),
+    url(r'^requerimientos/(?P<id_proyecto>\d+)/(?P<rol>\D*)$', 'administrador.views.requerimientos'),
+    url(r'^requerimientos/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_requerimiento>\d+)$', 'administrador.views.requerimiento_detalle'),
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT,}),
 
     # Uncomment the next line to enable the admin:

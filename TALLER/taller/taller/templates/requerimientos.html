@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+	<meta charset='utf-8>
+	<title>Perfil</title>
+	<style>
+	</style>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li><a href='/'>Bienvenido {{usuario}}</a></li>
+				<li><a href='/principal'>Home</a></li>
+				<li><a href='/perfil'>Perfil</a></li>
+				<li><a href='/proyectos'>Proyectos</a></li>
+				<li><a href='/'>opcion2</a></li>
+				<li><a href='/cerrar'>Cerrar Sesion</a></li>
+			</ul>
+		</nav>
+		<hr>
+	</header>
+
+	<section class='contenido'>
+	
+		<div>
+			<nav>
+				<ul>
+				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Crear Requerimiento</a></li>
+				  <li><a href='/proyecto/{{id}}/{{rol}}'>Atras</a></li>
+				</ul>
+			</nav>
+		<div>
+
+		<h2>Requerimientos</h2>
+		{% for dato in requerimientos %}
+			<li>
+			<a href='/requerimientos/{{id}}/{{rol}}/{{dato.id}}' >{{dato.nombre}}
+			</li>
+		{% empty %}
+		<li>No existen requerimientos para este proyecto</li>
+		{% endfor %}
+	</section>
+	<footer>
+		<p>Proyecto taller de desarrollo &copy;2013</p>
+	</footer>
+</body>
+</html>

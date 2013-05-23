@@ -25,5 +25,6 @@ class Perfil(models.Model):
 
 class Requerimiento(models.Model):
   proyecto = models.ForeignKey(Proyecto)
+  nombre = models.CharField(max_length=100)
   descripcion = models.TextField(max_length=200)
 	

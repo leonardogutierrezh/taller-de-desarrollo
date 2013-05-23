@@ -1,7 +1,7 @@
 from django.contrib import admin
 from administrador.models import Proyecto
 from administrador.models import Miembro
-from administrador.models import Perfil
+from administrador.models import Perfil, Requerimiento
 
 class Proyecto_UserInline(admin.TabularInline):
 		model = Miembro
@@ -20,3 +20,4 @@ class ProyectoAdmin(admin.ModelAdmin):
 
 admin.site.register(Proyecto, ProyectoAdmin)
 admin.site.register(Perfil)
+admin.site.register(Requerimiento)
