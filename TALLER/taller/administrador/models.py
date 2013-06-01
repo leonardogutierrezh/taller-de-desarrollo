@@ -10,6 +10,16 @@ class Proyecto(models.Model):
   metodologia = models.CharField(max_length=100)
   recursos = models.TextField(max_length=200)
   iteraciones = models.IntegerField()
+
+
+class Iteracion(models.Model):
+  proyecto = models.ForeignKey(Proyecto)
+  numero = models.IntegerField()
+  objetivo = models.TextField(max_length=100)
+  criterio = models.TextField(max_length=100, verbose_name='criterio de evaluación')
+  planIteracion = models.FileField(upload_to='planIteracion', verbose_name='Plan de Iteracion')
+  planEvaIteracion = models.FileField(upload_to='planEvaIteracion', verbose_name='Plan de evaluación de iteración')
+  status = models.CharField(max_length=20)
        
 class Miembro(models.Model):
   usuario = models.ForeignKey(User)
