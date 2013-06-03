@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm
 from administrador.models import Perfil
 from administrador.models import Miembro, Proyecto, Requerimiento
 from django.core.urlresolvers import reverse
@@ -51,6 +51,7 @@ def editar_perfil(request):
         user_form = UserForm(request.POST)
         if user_form.is_valid():
             formulario = user_form.save(commit=False)
+            perfiles.usuario = usuario
             perfiles.direccion = formulario.direccion
             perfiles.telefono = formulario.telefono
             perfiles.cargo = formulario.cargo
@@ -87,14 +88,42 @@ def crear_proyecto(request):
           administrador = Miembro.objects.create(usuario=usuario,proyecto=instance)
           administrador.rol = 'Administrador'
           administrador.save()
-          redireccion = '/crear_proyecto/' + str(formulario2.id)
+          redireccion = '/crear_proyecto_iteracion/' + str(formulario2.id) + '/0'
           return HttpResponseRedirect(redireccion)
     else:
         formulario = ProyectoForm()
     return render_to_response('crear_proyecto.html',{'formulario':formulario}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
+def crear_proyecto_iteracion(request, id_proyecto,iteracion):
+  proyecto = Proyecto.objects.get(pk=id_proyecto)
+  iteracionInt = int(iteracion)
+  print proyecto.iteraciones
+  if proyecto.iteraciones > iteracionInt:
+    print "entre"
+    if request.method=='POST':
+      formulario = IteracionForm(request.POST,request.FILES)
+      if formulario.is_valid():
+        formulario2 = formulario.save(commit=False)
+        iteracionInt = iteracionInt + 1
+        formulario2.proyecto = proyecto
+        formulario2.numero = iteracionInt
+        formulario2.status = "Inactiva"
+        formulario2.save()
+
+        redireccion = '/crear_proyecto_iteracion/' + str(id_proyecto) + '/' + str(iteracionInt)
+        return HttpResponseRedirect(redireccion)
+    else:
+      formulario = IteracionForm()
+      numero = iteracionInt + 1
+    return render_to_response('crear_proyecto_iteracion.html',{'formulario':formulario,'numero':numero}, context_instance=RequestContext(request))
+  else:
+    redireccion = '/crear_proyecto_equipo/' + str(id_proyecto)
+    return HttpResponseRedirect(redireccion)
+
+@login_required(login_url='/') 
 def crear_proyecto_equipo(request,id_proyecto):
+    print "entre a crear"
     proyecto = Proyecto.objects.get(pk=id_proyecto)
     miembros = Miembro.objects.filter(proyecto = proyecto)
     redireccion = '/crear_proyecto/' + str(id_proyecto)
