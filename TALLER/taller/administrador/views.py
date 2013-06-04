@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm
 from administrador.models import Perfil
-from administrador.models import Miembro, Proyecto, Requerimiento
+from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica
 from django.core.urlresolvers import reverse
 
 def ingresar(request):
@@ -73,8 +73,14 @@ def proyectos(request):
 @login_required(login_url='/') 
 def proyecto_detalle(request,id_proyecto,rol):
     dato = Proyecto.objects.get(pk=id_proyecto)
-    requerimiento = Requerimiento.objects.filter(proyecto=dato)
-    return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'requerimiento':requerimiento}, context_instance=RequestContext(request))
+    sistemas = SistemaAsociado.objects.filter(proyecto=dato)
+    iteraciones = Iteracion.objects.filter(proyecto=dato)
+    if dato.iteActual > 0:
+      iteracion = Iteracion.objects.get(proyecto=dato,numero=dato.iteActual)
+      iteracion.status="En progreso"
+      return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'iteracion':iteracion,'iteraciones':iteraciones}, context_instance=RequestContext(request))
+    else:
+      return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'sistemas':sistemas,'iteraciones':iteraciones}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def crear_proyecto(request):
@@ -86,7 +92,7 @@ def crear_proyecto(request):
           formulario2.save()
           instance = Proyecto.objects.get(pk=formulario2.id)
           administrador = Miembro.objects.create(usuario=usuario,proyecto=instance)
-          administrador.rol = 'Administrador'
+          administrador.rol = 'Gerente de Proyecto'
           administrador.save()
           redireccion = '/crear_proyecto_iteracion/' + str(formulario2.id) + '/0'
           return HttpResponseRedirect(redireccion)
@@ -118,15 +124,48 @@ def crear_proyecto_iteracion(request, id_proyecto,iteracion):
       numero = iteracionInt + 1
     return render_to_response('crear_proyecto_iteracion.html',{'formulario':formulario,'numero':numero}, context_instance=RequestContext(request))
   else:
-    redireccion = '/crear_proyecto_equipo/' + str(id_proyecto)
+    redireccion = '/crear_proyecto_sistema/' + str(id_proyecto)
     return HttpResponseRedirect(redireccion)
+
+@login_required(login_url='/') 
+def crear_proyecto_sistema(request,id_proyecto):
+    proyecto = Proyecto.objects.get(pk=id_proyecto)
+    sistemas = SistemaAsociado.objects.exclude(proyecto=proyecto)
+    sistemasAso = SistemaAsociado.objects.filter(proyecto=proyecto)
+    if request.method=='POST':
+        formulario = SistemaForm(request.POST)
+        if formulario.is_valid():
+          formulario2 = formulario.save()
+          print formulario2.id
+          print formulario2.nombre
+          print formulario2.descripcion
+
+          asociado = SistemaAsociado.objects.create(sistema=formulario2,proyecto=proyecto)
+          print "se creo asociado"
+          print "antes de guardar"
+          asociado.save()
+          redireccion = '/crear_proyecto_sistema/' + str(id_proyecto)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario = SistemaForm()
+    return render_to_response('crear_proyecto_sistema.html',{'sistemas':sistemas,'formulario':formulario,'sistemasAso':sistemasAso,'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def crear_proyecto_sistema_asociar(request,id_proyecto,id_asociado):
+    asociado = SistemaAsociado.objects.get(pk=id_asociado)
+    proyecto = Proyecto.objects.get(pk=id_proyecto)
+    asociadonew = SistemaAsociado.objects.create(sistema=asociado.sistema,proyecto=proyecto)
+    asociadonew.save()
+    redireccion = '/crear_proyecto_sistema/' + str(id_proyecto)
+    return HttpResponseRedirect(redireccion)
+
 
 @login_required(login_url='/') 
 def crear_proyecto_equipo(request,id_proyecto):
     print "entre a crear"
     proyecto = Proyecto.objects.get(pk=id_proyecto)
     miembros = Miembro.objects.filter(proyecto = proyecto)
-    redireccion = '/crear_proyecto/' + str(id_proyecto)
+    redireccion = '/crear_proyecto_equipo/' + str(id_proyecto)
     if request.method=='POST':
         miembro_form = MiembroForm(request.POST)
         print "pase el post"
@@ -141,6 +180,35 @@ def crear_proyecto_equipo(request,id_proyecto):
     else:
         formulario = MiembroForm()
     return render_to_response('crear_proyecto_equipo.html',{'formulario':formulario,'miembros':miembros}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def proyecto_iterar(request,id_proyecto,rol):
+  proyecto = Proyecto.objects.get(pk=id_proyecto)
+  if proyecto.iteActual < proyecto.iteraciones:
+    if proyecto.iteActual != 0:
+      iteracion = Iteracion.objects.get(proyecto=proyecto,numero=proyecto.iteActual)
+      iteracion.status="Finalizada"
+      iteracion.save()
+    proyecto.iteActual = proyecto.iteActual + 1 
+    iteracionNew = Iteracion.objects.get(proyecto=proyecto,numero=proyecto.iteActual)
+    iteracionNew.status="En Proceso"
+    iteracionNew.save()
+    proyecto.save()
+  else:
+    iteracion = Iteracion.objects.get(proyecto=proyecto,numero=proyecto.iteActual)
+    iteracion.status="Finalizada"
+    iteracion.save()
+    proyecto.iteActual = -1
+    print proyecto.iteActual
+    proyecto.save()
+  redireccion = '/proyecto/' + str(id_proyecto) + '/' + rol
+  return HttpResponseRedirect(redireccion)
+
+@login_required(login_url='/') 
+def iteracion_detalle(request,id_proyecto,rol,id_iteracion):
+    iteracion= Iteracion.objects.get(pk=id_iteracion)
+    return render_to_response('iteracion.html',{'iteracion':iteracion,'id':id_proyecto,'rol':rol}, context_instance=RequestContext(request))
+	
 
 @login_required(login_url='/') 
 def eliminar_proyecto(request,id_proyecto):
@@ -174,10 +242,10 @@ def editar_proyecto(request,id_proyecto):
     return render_to_response('editar_proyecto.html', { 'formulario': proyecto_form, 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def requerimientos(request,id_proyecto,rol):
-    proyecto = Proyecto.objects.get(pk=id_proyecto)
-    requerimientos = Requerimiento.objects.filter(proyecto=proyecto)
-    return render_to_response('requerimientos.html', { 'requerimientos': requerimientos,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+def sistema(request,id_proyecto,rol,id_sistema):
+    sistema = Sistema.objects.get(pk=id_sistema)
+    requerimientos = Caracteristica.objects.filter(sistema=sistema)
+    return render_to_response('sistema.html', { 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def crear_requerimiento(request, id_proyecto,rol):

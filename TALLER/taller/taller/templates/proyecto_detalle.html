@@ -26,15 +26,14 @@
 		<div>
 			<nav>
 				<ul>
-					{% if rol == "Administrador" %}	
-					<li><a href='/crear_proyecto/{{proyecto.id}}'>Agregar Equipo</a></li>
+					{% if rol == "Gerente de Proyecto" %}	
+					<li><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a></li>
 					<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
 					<li><a href='/editar/{{proyecto.id}}'>Editar</a></li>
           {% endif %}
-				  <li><a href='/requerimientos/{{proyecto.id}}/{{rol}}'>Requerimiento</a></li>
 				</ul>
 			</nav>
-		<div>
+		<div style="float: left; width: 40%">
 
 		<h2>Proyectos</h2>
 			<p>Nombre del Proyecto {{proyecto.nombre}}</p>
@@ -44,8 +43,35 @@
 			<p>Metodologia:	{{proyecto.metodologia}}</p>
 			<p>Recursos: {{proyecto.recursos}}</p>
 			<p>Iteraciones: {{proyecto.iteraciones}}</p>
-			<p>Plan de iteración: <a href='/media/{{proyecto.planIteracion.url}}'>Descargar</a></p>
-			<p>Plan de evaluacion de iteración: <a href='/media/{{proyecto.planEvaIteracion.url}}'>Descargar</a></p>
+		</div>
+		<div style="float: right width: 40%">
+		<h2>Iteracion:</h2>
+		{% if proyecto.iteActual == 0 %}
+		<p>No hay iteración en proceso</p>
+		<p> <a href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
+		{% elif proyecto.iteActual > 0 %}
+		<p>Iteracion actual: {{iteracion.numero}} </p>
+		<p>Criterio de evaluacion: {{iteracion.criterio}} </p>
+		<p>Status: {{iteracion.status}} </p>
+		<p>Plan de iteración: <a href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
+		<p>Plan de evaluacion de iteración: <a href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
+		<p> <a href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
+		{% elif proyecto.iteActual < 0 %}
+		<p>Todas las iteraciones fueron terminadas</p>
+    {% endif %}		
+		<h3>Iteraciones del proyecto</h3>
+		<ul>
+		{% for ite in iteraciones %}
+		<li><a href='/iteracion/{{proyecto.id}}/{{rol}}/{{ite.id}}'>Iteracion {{ite.numero}}</a></li>
+		{%endfor%}
+		</div>
+		<div>
+		<h2>Sistemas Asociados</h2>
+		<ul>
+		{%for sistema in sistemas%}
+			<li><a href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
+		{%endfor%}
+		</ul>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

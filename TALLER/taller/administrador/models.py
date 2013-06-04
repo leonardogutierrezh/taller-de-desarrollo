@@ -10,6 +10,7 @@ class Proyecto(models.Model):
   metodologia = models.CharField(max_length=100)
   recursos = models.TextField(max_length=200)
   iteraciones = models.IntegerField()
+  iteActual = models.IntegerField(default=0)
 
 
 class Iteracion(models.Model):
@@ -33,8 +34,26 @@ class Perfil(models.Model):
   cargo = models.CharField(max_length=100, null=True)
  # imagen = models.ImageField(upload_to='perfiles',verbose_name='Imágen')
 
-class Requerimiento(models.Model):
+class Sistema(models.Model):
+  nombre = models.CharField(max_length=30, unique=True)
+  descripcion = models.CharField(max_length=100)
+
+class SistemaAsociado(models.Model):
+  sistema = models.ForeignKey(Sistema)
   proyecto = models.ForeignKey(Proyecto)
+
+class Caracteristica(models.Model):
+  sistema = models.ForeignKey(Sistema)
+  nombre = models.CharField(max_length=40)
+  precedencia = models.CharField(max_length=40)
+  prioridad = models.CharField(max_length=40)
+
+class Requerimiento(models.Model):
+  caracteristica = models.ForeignKey(Caracteristica)
   nombre = models.CharField(max_length=100)
   descripcion = models.TextField(max_length=200)
+
+
+
+
 	
