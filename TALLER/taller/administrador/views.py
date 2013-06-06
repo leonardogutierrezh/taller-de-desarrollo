@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm
 from administrador.models import Perfil
 from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica
 from django.core.urlresolvers import reverse
@@ -244,8 +244,26 @@ def editar_proyecto(request,id_proyecto):
 @login_required(login_url='/') 
 def sistema(request,id_proyecto,rol,id_sistema):
     sistema = Sistema.objects.get(pk=id_sistema)
-    requerimientos = Caracteristica.objects.filter(sistema=sistema)
-    return render_to_response('sistema.html', { 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    caracteristica = Caracteristica.objects.filter(sistema=sistema)
+    return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def caracteristica_crear(request,id_proyecto,rol,id_sistema):
+    if request.method=='POST':
+        formulario = CaracteristicaForm(request.POST)
+        if formulario.is_valid():
+          caracteristica = formulario.save(commit=False)
+          if caracteristica.precedencia == None:
+              caracteristica.precedencia = None  
+          print "victoria"
+          sistema= Sistema.objects.get(pk=id_sistema)
+          caracteristica.sistema = sistema
+          caracteristica.save()
+          redireccion = '/sistema/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario = CaracteristicaForm()
+    return render_to_response('crear_caracteristica.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def crear_requerimiento(request, id_proyecto,rol):

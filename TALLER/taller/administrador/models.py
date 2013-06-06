@@ -45,14 +45,16 @@ class SistemaAsociado(models.Model):
 class Caracteristica(models.Model):
   sistema = models.ForeignKey(Sistema)
   nombre = models.CharField(max_length=40)
-  precedencia = models.CharField(max_length=40)
+  precedencia = models.ForeignKey('self',null=True,blank=True)
   prioridad = models.CharField(max_length=40)
+
+  def __unicode__(self):
+    return self.nombre
 
 class Requerimiento(models.Model):
   caracteristica = models.ForeignKey(Caracteristica)
   nombre = models.CharField(max_length=100)
   descripcion = models.TextField(max_length=200)
-
 
 
 
