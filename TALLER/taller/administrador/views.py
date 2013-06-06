@@ -248,6 +248,13 @@ def sistema(request,id_proyecto,rol,id_sistema):
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
+def requerimientos(request,id_proyecto,rol,id_sistema):
+    #requerimiento = Sistema.objects.get(pk=id_sistema)
+    sistema= Sistema.objects.get(pk=id_sistema)
+    requerimientos = Requerimiento.objects.filter(sistema=sistema)
+    return render_to_response('requerimientos.html', { 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
 def caracteristica_crear(request,id_proyecto,rol,id_sistema):
     if request.method=='POST':
         formulario = CaracteristicaForm(request.POST)
@@ -266,19 +273,22 @@ def caracteristica_crear(request,id_proyecto,rol,id_sistema):
     return render_to_response('crear_caracteristica.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def crear_requerimiento(request, id_proyecto,rol):
-    proyecto = Proyecto.objects.get(pk=id_proyecto)
+def requerimiento_crear(request,id_proyecto,rol,id_sistema):
     if request.method=='POST':
-        formulario_req = RequerimientoForm(request.POST)
-        if formulario_req.is_valid():
-          requerimiento = formulario_req.save(commit=False)
-          requerimiento.proyecto = proyecto
+        formulario = RequerimientoForm(request.POST,request.FILES)
+        if formulario.is_valid():
+          requerimiento = formulario.save(commit=False)
+          if requerimiento.imagen == None:
+              requerimiento.imagen = None  
+          print "victoria"
+          sistema= Sistema.objects.get(pk=id_sistema)
+          requerimiento.sistema = sistema
           requerimiento.save()
-          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol)
+          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
           return HttpResponseRedirect(redireccion)
     else:
-        formulario_req = RequerimientoForm()
-    return render_to_response('crear_requerimiento.html',{'formulario_req':formulario_req, 'id': id_proyecto}, context_instance=RequestContext(request))
+        formulario = RequerimientoForm()
+    return render_to_response('crear_requerimiento.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def requerimiento_detalle(request,id_proyecto,rol,id_requerimiento):

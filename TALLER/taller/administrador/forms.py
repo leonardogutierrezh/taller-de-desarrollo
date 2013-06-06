@@ -31,7 +31,7 @@ class ProyectoeForm(forms.ModelForm):
 class RequerimientoForm(forms.ModelForm):
   class Meta:
     model = Requerimiento
-    exclude = ['proyecto']
+    exclude = ['sistema']
 
 class IteracionForm(forms.ModelForm):
   class Meta:

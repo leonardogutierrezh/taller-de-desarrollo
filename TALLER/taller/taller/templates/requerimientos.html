@@ -26,13 +26,21 @@
 		<div>
 			<nav>
 				<ul>
-				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Crear Requerimiento</a></li>
-				  <li><a href='/proyecto/{{id}}/{{rol}}'>Atras</a></li>
+				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
+				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Tabla de Requerimientos</a></li>
+				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Resumen de Casos de Uso</a></li>
+				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Detalle de Casos de Uso</a></li>
+				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
 				</ul>
 			</nav>
-		<div>
+		<div style="float:left;  width: 40%;">
 
-		<h2>Requerimientos</h2>
+		<h2>{{sistema.nombre}}</h2>
+		<p>{{sistema.descripcion}}
+		</div>
+		<div style="float:right;  width: 40%;">
+		<a href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
+		<h2>Requerimientos</h2>holaaa
 		{% for dato in requerimientos %}
 			<li>
 			<a href='/requerimientos/{{id}}/{{rol}}/{{dato.id}}' >{{dato.nombre}}

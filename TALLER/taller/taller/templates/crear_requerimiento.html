@@ -24,14 +24,13 @@
 		<div>
 				<nav>
 			<ul>
-				<li><a href='/crear_requerimiento'>Crear Requerimiento</a></li>
+				<li><a href='/requerimientos/{{id}}/{{rol}}/{{id_sistema}}'>Atras</a></li>
 			</ul>
 		</nav>
 		<div>
 		<h2> Crear Requerimiento</h2>
 		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario_req.as_p}}
-			{{formMiembro.as_p}}
+			{{formulario.as_p}}
 			<p><input type='submit' value='Confirmar' /></p>
 		</form>
 	</section>

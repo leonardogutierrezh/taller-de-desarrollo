@@ -52,9 +52,15 @@ class Caracteristica(models.Model):
     return self.nombre
 
 class Requerimiento(models.Model):
-  caracteristica = models.ForeignKey(Caracteristica)
-  nombre = models.CharField(max_length=100)
+  idrequerimiento = models.CharField(max_length=20, verbose_name='ID requerimiento')
+  nombre = models.CharField(max_length=30, verbose_name='Nombre del requerimiento')
+  sistema = models.ForeignKey(Sistema)
+  caracteristica = models.ForeignKey(Caracteristica,verbose_name='Caracteristica Asociada')
   descripcion = models.TextField(max_length=200)
+  prioridad =models.CharField(max_length=30)
+  interfaz = models.TextField(max_length=200,verbose_name='Interfaz grafica')
+  imagen = models.ImageField(upload_to='interfaz',verbose_name='Imagen de interfaz grafica (Opcional)')
+  reglas = models.TextField(max_length=200,verbose_name='Reglas del Negocio asociada')
 
 
 
