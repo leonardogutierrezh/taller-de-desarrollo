@@ -1,107 +1,73 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Business Co.</title>
+<title> SGP - Home</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript">
-<!--
-function MM_preloadImages() { //v3.0
-  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
-    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
-    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
-}
-
-function MM_swapImgRestore() { //v3.0
-  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
-}
-
-function MM_findObj(n, d) { //v4.01
-  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
-    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
-  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
-  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
-  if(!x && d.getElementById) x=d.getElementById(n); return x;
-}
-
-function MM_swapImage() { //v3.0
-  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
-   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
-}
-//-->
-</script>
 </head>
 <body>
 <!-- Save for Web Slices (index.psd) -->
-<table width="775" height="700" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
-		<td width="59" height="651" rowspan="15">
-			<img src="/static/images/main.jpg" width="59" height="651" alt="" /></td>
-		<td width="561" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">3 de Junio de 2013</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top"><a href="#"><img src="/static/images/client_login.jpg" alt="" width="95" height="33" border="0" /></a></td>
-		<td width="60" height="651" rowspan="15">
-			<img src="/static/images/main-03.jpg" width="60" height="651" alt="" /></td>
-		<td width="0" height="33" nowrap="nowrap"></td>
+		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+
+		    <script language="javascript"> 
+		    <!-- 
+		    today = new Date(); 
+		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
+		    //--> 
+		    </script> 
+		</td>
+		<td width="95" height="33" colspan="3" align="left" valign="top"><a href="/"><img src="/static/images/client_login.jpg" alt="" width="95" height="33" border="0" /></a></td>
+
 	</tr>
+
 	<tr>
-		<td width="775" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/">INICIO</a> | <a>PERFIL</a> | <a>PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a><br />
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/">HOME</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
 	</tr>
+
 	<tr>
-		<td width="656" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
 		<img src="/static/images/lisi.jpg" width="120" height="120"alt="" border="0" align="right" />
 		
-		<h2>SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</h2>
+		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
 		</td>
 			
 	</tr>
+
 	<tr>
-		<td width="656" height="300" colspan="25" rowspan="10" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+		<td width="800" colspan="25" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+
 		<h1>Ingresa</h1>
 		<form id='formulario' method='post' action=''>{% csrf_token %}
 			<table>{{formulario}}</table>
 		  <p><input type='submit' value='Ingresar'/></p>
 		</form> 
+
+		<br></br>
 		</td>
-		<td width="0" height="7" nowrap="nowrap"></td>
+
 	</tr>
+	
 	<tr>
-		<td width="0" height="43" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="56" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="26" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="12" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="17" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="23" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="22" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="58" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="0" height="57" nowrap="nowrap"></td>
-	</tr>
-	<tr>
-		<td width="775" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)"><a a href = "/">INICIO</a> | <a>PERFIL</a> | <a>PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a><br />
-      <span class="text3">Copyright &copy; Sistema de Gestión de Pruebas </span><br/>
-      
-      </td>
-		<td width="0" height="49" nowrap="nowrap"></td>
+		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
+		</td>
 	</tr>
 </table>
-<!-- End Save for Web Slices -->
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
