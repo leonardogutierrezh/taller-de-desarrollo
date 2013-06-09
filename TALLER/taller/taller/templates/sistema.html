@@ -39,25 +39,31 @@
 		<p>{{sistema.descripcion}}
 		</div>
 		<div style="float:right;  width: 40%;">
-		<a href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
-		<h2>Requerimientos</h2>
+		<a href='/caracteristica_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caracteristica</a>
 <table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
 	<tr>
-		<td>Id de requerimiento</td>
-		<td>Nombre</td>
-		<td>Caracteristica Asociada</td>
+		<td>Caracteristica</td>
+		<td>Precedencia</td>
+		<td>Prioridad</td>
 	</tr>
-		{% for dato in requerimientos %}
+		{% for dato in caracteristica %}
+		<td>{{dato.nombre}}</td>
+		<td>{% if dato.precedencia == None %}
+					No tiene precedencia
+				{%elif dato.precedencia != "None" %}	
+ 					{{dato.precedencia}}
+				{%endif%}</td>
+		<td> {{dato.prioridad}}</td>		
+		</tr>	 
+			{% empty %}
 	<tr>
-		<td>{{dato.idrequerimiento}}</td>
-		<td><a href='/requerimientos/{{id}}/{{rol}}/{{dato.id}}' >{{dato.nombre}}</a></td>
-		<td>{{dato.caracteristica}}</td>
-	</tr>
-		{% empty %}
-	<tr>
-		<td>No existen requerimientos para este proyecto</td>
-	</tr>
-		{% endfor %}
+		<td>No existen caracteristicas para este sistema</td>
+			</tr>
+		{%endfor%}
+</table>
+
+
+
 	</section>
 </body>
 </html>

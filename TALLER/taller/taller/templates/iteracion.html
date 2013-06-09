@@ -20,19 +20,23 @@
 		</nav>
 		<hr>
 	</header>
+
 	<section class='contenido'>
+	
 		<div>
-				<nav>
-			<ul>
-				<li><a href='/requerimientos/{{id}}/{{rol}}/{{id_sistema}}'>Atras</a></li>
-			</ul>
-		</nav>
+			<nav>
+				<ul>
+				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
+				</ul>
+			</nav>
 		<div>
-		<h2> Crear Requerimiento</h2>
-		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario.as_p}}
-			<p><input type='submit' value='Confirmar' /></p>
-		</form>
+
+		<h2>Iteracion {{iteracion.numero}} del proyecto {{iteracion.proyecto.nombre}}</h2>
+		<p>objetivo: {{iteracion.objetivo}}</p>
+		<p>criterio: {{iteracion.criterio}}</p>
+		<p>Plan de Iteracion: <a href='/media/{{iteracion.planIteracion.url}}'>Descargar</a>
+		<p>Plan de evaluacion de iteración: <a href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
+		<p>Estado: {{iteracion.status}}</p>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

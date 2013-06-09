@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+	<meta charset='utf-8>
+	<title>Perfil</title>
+	<style>
+	</style>
+</head>
+<body>
+	<header>
+		<nav>
+			<ul>
+				<li><a href='/'>Bienvenido {{usuario}}</a></li>
+				<li><a href='/principal'>Home</a></li>
+				<li><a href='/perfil'>Perfil</a></li>
+				<li><a href='/proyectos'>Proyectos</a></li>
+				<li><a href='/'>opcion2</a></li>
+				<li><a href='/cerrar'>Cerrar Sesion</a></li>
+			</ul>
+		</nav>
+		<hr>
+	</header>
+	<section class='contenido'>
+		<div>
+				<nav>
+			<ul>
+				<li><a href='/crear_proyecto'>Crear Proyecto</a></li>
+			</ul>
+		</nav>
+		<div>
+		<h2>Sistemas Disponibles</h2>
+		<h3>Sistemas Disponibles</h3>
+		<ul>
+		{% for sistema in sistemas %}
+ 			<li>{{sistema.sistema.nombre}} <a href='/crear_proyecto_sistema_asociar/{{id_proyecto}}/{{sistema.id}}'>Asociar</a></li>
+		{%empty%}
+			<p>no hay sistemas disponibles para este proyecto</p>
+		{% endfor %}
+		<h3>Sistemas Asociados</h3>
+			<ul>
+			{% for sistemaAso in sistemasAso %}
+ 				<li>{{sistemaAso.sistema.nombre}}</li>
+			{%empty%}
+				<p>No hay sistemas asociados a este proyecto</p>
+			{% endfor %}
+		<h3>Crear nuevo sistema</h3>
+				<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+			{{formulario.as_p}}
+			<p><input type='submit' value='Confirmar' /></p>
+		</form>
+		<a href='/crear_proyecto_equipo/{{id_proyecto}}'>Siguiente</a>
+	</section>
+	<footer>
+		<p>Proyecto taller de desarrollo &copy;2013</p>
+	</footer>
+</body>
+</html>
