@@ -10,6 +10,11 @@ _ruta_db = RUTA_PROYECTO.split("/")
 _ruta_db = _ruta_db[0:len(_ruta_db)-2] + ["base","base.db"]
 _ruta_db = "/".join(_ruta_db)
 
+_ruta_static = RUTA_PROYECTO.split("/")
+_ruta_static = _ruta_static[0:len(_ruta_static)-2] + ["taller","static"]
+_ruta_static = "/".join(_ruta_static)
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -80,11 +85,14 @@ STATIC_ROOT = ''
 # Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
 
+
+    
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    _ruta_static,
 )
 
 # List of finder classes that know how to find static files in
