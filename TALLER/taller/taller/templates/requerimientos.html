@@ -27,8 +27,8 @@
 			<nav>
 				<ul>
 				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
-				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Tabla de Requerimientos</a></li>
-				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Resumen de Casos de Uso</a></li>
+				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
+				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a></li>
 				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Detalle de Casos de Uso</a></li>
 				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
 				</ul>
@@ -40,17 +40,24 @@
 		</div>
 		<div style="float:right;  width: 40%;">
 		<a href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
-		<h2>Requerimientos</h2>holaaa
+		<h2>Requerimientos</h2>
+<table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
+	<tr>
+		<td>Id de requerimiento</td>
+		<td>Nombre</td>
+		<td>Caracteristica Asociada</td>
+	</tr>
 		{% for dato in requerimientos %}
-			<li>
-			<a href='/requerimientos/{{id}}/{{rol}}/{{dato.id}}' >{{dato.nombre}}
-			</li>
+	<tr>
+		<td>{{dato.idrequerimiento}}</td>
+		<td><a href='/requerimientos/{{id}}/{{rol}}/{{dato.id}}' >{{dato.nombre}}</a></td>
+		<td>{{dato.caracteristica}}</td>
+	</tr>
 		{% empty %}
-		<li>No existen requerimientos para este proyecto</li>
+	<tr>
+		<td>No existen requerimientos para este proyecto</td>
+	</tr>
 		{% endfor %}
 	</section>
-	<footer>
-		<p>Proyecto taller de desarrollo &copy;2013</p>
-	</footer>
 </body>
 </html>

@@ -2,7 +2,7 @@
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
-from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica
+from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso
 
 class UserForm(forms.ModelForm):
   class Meta:
@@ -41,4 +41,9 @@ class IteracionForm(forms.ModelForm):
 class CaracteristicaForm(forms.ModelForm):
   class Meta:
     model = Caracteristica
+    exclude= ['sistema']
+
+class CasosDeUsoForm(forms.ModelForm):
+  class Meta:
+    model = CasosDeUso
     exclude= ['sistema']

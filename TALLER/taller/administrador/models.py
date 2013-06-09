@@ -62,6 +62,16 @@ class Requerimiento(models.Model):
   imagen = models.ImageField(upload_to='interfaz',verbose_name='Imagen de interfaz grafica (Opcional)')
   reglas = models.TextField(max_length=200,verbose_name='Reglas del Negocio asociada')
 
+class CasosDeUso(models.Model):
+  caso= models.CharField(max_length=50)
+  sistema= models.ForeignKey(Sistema)
+  requerimiento = models.ForeignKey(Requerimiento)
+  actor = models.CharField(max_length=50)
+  descripcion = models.TextField(max_length=200)
+  precondicion = models.TextField(max_length=200)
+
+  def __unicode__(self):
+    return self.caso
 
 
 	

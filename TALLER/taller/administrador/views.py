@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm
 from administrador.models import Perfil
-from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica
+from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica, CasosDeUso
 from django.core.urlresolvers import reverse
 
 def ingresar(request):
@@ -294,3 +294,27 @@ def requerimiento_crear(request,id_proyecto,rol,id_sistema):
 def requerimiento_detalle(request,id_proyecto,rol,id_requerimiento):
     dato = Requerimiento.objects.get(pk=id_requerimiento)
     return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def casos_uso(request,id_proyecto,rol,id_sistema):
+    sistema = Sistema.objects.get(pk=id_sistema)
+    casos = CasosDeUso.objects.filter(sistema=sistema)
+    return render_to_response('casos_uso.html', { 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def casos_uso_crear(request,id_proyecto,rol,id_sistema):
+    if request.method=='POST':
+        formulario = RequerimientoForm(request.POST,request.FILES)
+        if formulario.is_valid():
+          requerimiento = formulario.save(commit=False)
+          if requerimiento.imagen == None:
+              requerimiento.imagen = None  
+          print "victoria"
+          sistema= Sistema.objects.get(pk=id_sistema)
+          requerimiento.sistema = sistema
+          requerimiento.save()
+          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario = CasosDeUsoForm()
+    return render_to_response('crear_casos_uso.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
