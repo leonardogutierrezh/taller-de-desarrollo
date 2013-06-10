@@ -59,6 +59,20 @@
 			    </ul>
 			  </div>
 
+			  <br></br> 
+			  <h2>Tus Proyectos</h2>
+			  <br></br> 
+			  <ul>
+			  {% for proy in proyectos %}
+				  <li>
+				  <a href='/proyecto/{{proy.proyecto.id}}/{{proy.rol}}' >{{proy.proyecto.nombre}}</a> Rol: {{proy.rol}}
+				  </li>
+			  {% empty %}
+
+			  <li>No tienes proyectos asignados</li>
+			  {% endfor %}
+			  </ul>
+
 			<br></br> 
 		  </section>
 		

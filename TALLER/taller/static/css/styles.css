@@ -158,3 +158,71 @@ font:12px/14px Tahoma, sans-serif; color:#000;
 a.adv:link {text-decoration: none; font-weight:bold; color:#000;}
 a.adv:hover {text-decoration: none; font-weight:bold; color:#000;}
 a.adv:visited {text-decoration: none; font-weight:bold; color:#000;}
+
+
+#menu ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    width: 200px;
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    border-radius: 15px;
+}
+
+#menu ul li {
+    border-radius: 15px;
+    background-color: #a7a7a7;
+}
+
+#menu ul li a {
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    padding: 10px 10px 10px 20px;
+    border-radius: 15px;
+}
+
+#menu ul li a:hover {
+    background: #a7a7a7;
+    border-left: 10px solid #666;
+    color: #fff;
+    border-radius: 15px;
+}
+
+
+
+#menu2 ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    width: 200px;
+    font-family: Arial, sans-serif;
+    font-size: 11pt;
+    border-radius: 15px;
+}
+
+#menu2 ul li a {
+    color: black;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    padding: 10px 10px 10px 20px;
+    border-radius: 15px;
+}
+
+#menu2 ul li a:hover {
+    background: #0099CC;
+    border-left: 10px solid #666;
+    color: #fff;
+    border-radius: 15px;
+}
+
+#siguiente {
+      font: 16px/18px Tahoma, Geneva, sans-serif;
+      color: #0099CC;
+      font-weight:normal;
+      text-decoration:none;
+      font-weight:bold;      
+}

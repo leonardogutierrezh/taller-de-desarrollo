@@ -71,10 +71,39 @@
 
 		  <section class='contenido'>
 			  
+		    <h2>Sistemas Disponibles</h2>
+		    <br></br>
+		    <ul>
+		    {% for sistema in sistemas %}
+			    <li>{{sistema.sistema.nombre}} <a href='/crear_proyecto_sistema_asociar/{{id_proyecto}}/{{sistema.id}}'>Asociar</a></li>
+		    {%empty%}
+			    <p>No hay sistemas disponibles para este proyecto</p>
+		    {% endfor %}
+
+		    <br></br>
+		    <h2>Sistemas Asociados</h2>
+		    <br></br>
+
+		    <ul>
+		    {% for sistemaAso in sistemasAso %}
+			    <li>{{sistemaAso.sistema.nombre}}</li>
+		    {%empty%}
+			    <p>No hay sistemas asociados a este proyecto</p>
+		    {% endfor %}
+		    
+		    <br></br>
+		    <h2>Crear nuevo sistema</h2>
+		    <br></br>
 			  <form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-				  <table>{{formulario.as_p}}</table>
-				  <p><br></br><input type='submit' value='Confirmar' /></p>
-			  </form>
+			    {{formulario.as_p}}
+			    <p> <br></br> <input type='submit' value='Confirmar' /></p>
+		    </form>
+		    
+		    <br></br>
+		    <bold>
+		    <a href='/crear_proyecto_equipo/{{id_proyecto}}'>Siguiente</a>
+		    </bold>
+		    <br></br>
 		  </section>
 
 		<br></br>

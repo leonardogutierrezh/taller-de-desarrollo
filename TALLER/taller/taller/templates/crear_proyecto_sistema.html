@@ -1,57 +1,122 @@
-<!DOCTYPE html>
-<html lang='es'>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset='utf-8>
-	<title>Perfil</title>
-	<style>
-	</style>
+<title> SGP - Crear Proyecto</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
-	<header>
-		<nav>
-			<ul>
-				<li><a href='/'>Bienvenido {{usuario}}</a></li>
-				<li><a href='/principal'>Home</a></li>
-				<li><a href='/perfil'>Perfil</a></li>
-				<li><a href='/proyectos'>Proyectos</a></li>
-				<li><a href='/'>opcion2</a></li>
-				<li><a href='/cerrar'>Cerrar Sesion</a></li>
-			</ul>
-		</nav>
-		<hr>
-	</header>
-	<section class='contenido'>
-		<div>
-				<nav>
-			<ul>
-				<li><a href='/crear_proyecto'>Crear Proyecto</a></li>
-			</ul>
-		</nav>
-		<div>
-		<h2>Sistemas Disponibles</h2>
-		<h3>Sistemas Disponibles</h3>
-		<ul>
-		{% for sistema in sistemas %}
- 			<li>{{sistema.sistema.nombre}} <a href='/crear_proyecto_sistema_asociar/{{id_proyecto}}/{{sistema.id}}'>Asociar</a></li>
-		{%empty%}
-			<p>no hay sistemas disponibles para este proyecto</p>
-		{% endfor %}
-		<h3>Sistemas Asociados</h3>
-			<ul>
-			{% for sistemaAso in sistemasAso %}
- 				<li>{{sistemaAso.sistema.nombre}}</li>
-			{%empty%}
-				<p>No hay sistemas asociados a este proyecto</p>
-			{% endfor %}
-		<h3>Crear nuevo sistema</h3>
-				<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario.as_p}}
-			<p><input type='submit' value='Confirmar' /></p>
-		</form>
-		<a href='/crear_proyecto_equipo/{{id_proyecto}}'>Siguiente</a>
-	</section>
-	<footer>
-		<p>Proyecto taller de desarrollo &copy;2013</p>
-	</footer>
+<!-- Save for Web Slices (index.psd) -->
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+
+	<tr>
+		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+
+		    <script language="javascript"> 
+		    <!-- 
+		    today = new Date(); 
+		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
+		    //--> 
+		    </script> 
+		</td>
+		<td width="95" height="33" colspan="3" align="left" valign="top"><a href = "/cerrar"><img src="/static/images/logout.jpg" alt="" width="95" height="33" border="0" /></a></td>
+
+	</tr>
+
+	<tr>
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+	</tr>
+
+	<tr>
+		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
+		<img src="/static/images/lisi.jpg" width="120" height="120"alt="" border="0" align="right" />
+		
+		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
+		</td>
+			
+	</tr>
+
+	<tr>
+		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+
+		<a>Usuario: {{usuario}}</a>
+		    <br></br>      
+		<h2>Proyectos</h2>
+		  <hr>
+		</td>
+	</tr>
+
+	<tr>
+		<td nowrap="nowrap" colspan="25" valign="middle" bgcolor="#efefef" class="text1">
+		  <section class='contenido'>
+
+			  <div id="menu">
+			    <ul>
+			      <li><a href="/crear_proyecto"> Crear Proyecto </a></li>
+			    </ul>
+			  </div>
+
+			<br></br> 
+		  </section>
+		
+		</td>
+
+	</tr>
+	
+	<tr>
+		<td nowrap="nowrap" colspan="25" valign="middle"  bgcolor="#efefef" class="text1"> 
+
+		  <section class='contenido'>
+			  
+		    <h2>Sistemas Disponibles</h2>
+		    <br></br>
+		    <ul>
+		    {% for sistema in sistemas %}
+			    <li>{{sistema.sistema.nombre}} <a href='/crear_proyecto_sistema_asociar/{{id_proyecto}}/{{sistema.id}}'>Asociar</a></li>
+		    {%empty%}
+			    <p>No hay sistemas disponibles para este proyecto</p>
+		    {% endfor %}
+
+		    <br></br>
+		    <h2>Sistemas Asociados</h2>
+		    <br></br>
+
+		    <ul>
+		    {% for sistemaAso in sistemasAso %}
+			    <li>{{sistemaAso.sistema.nombre}}</li>
+		    {%empty%}
+			    <p>No hay sistemas asociados a este proyecto</p>
+		    {% endfor %}
+		    
+		    <br></br>
+		    <h2>Crear nuevo sistema</h2>
+		    <br></br>
+			  <form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+			    {{formulario.as_p}}
+			    <p> <br></br> <input type='submit' value='Confirmar' /></p>
+		    </form>
+		    
+		    <br></br>
+		    <bold>
+		    <a id= "siguiente" href='/crear_proyecto_equipo/{{id_proyecto}}'>Siguiente</a>
+		    </bold>
+		    <br></br>
+		  </section>
+
+		<br></br>
+		</td>
+
+	</tr>
+
+	<tr>
+		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
+		</td>
+	</tr>
+</table>
 </body>
 </html>
+
