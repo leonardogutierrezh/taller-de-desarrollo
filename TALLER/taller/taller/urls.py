@@ -33,7 +33,8 @@ urlpatterns = patterns('',
     url(r'^requerimiento_crear/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)$', 'administrador.views.requerimiento_crear'),
     url(r'^caracteristica_crear/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)$', 'administrador.views.caracteristica_crear'),
     url(r'^iteracion/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_iteracion>\d+)$', 'administrador.views.iteracion_detalle'),
-    url(r'^requerimientos/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_requerimiento>\d+)$', 'administrador.views.requerimiento_detalle'),
+    url(r'^requerimientos_detalle/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_requerimiento>\d+)$', 'administrador.views.requerimiento_detalle'),
+    url(r'^casos_uso_detalle/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_caso>\d+)$', 'administrador.views.casos_uso_detalle'),
 
     url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_ROOT,}),
 

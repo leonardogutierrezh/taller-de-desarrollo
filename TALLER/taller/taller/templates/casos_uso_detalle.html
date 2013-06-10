@@ -25,15 +25,18 @@
 		<div>
 			<nav>
 				<ul>
-				  <li><a href='/editar_requerimiento/{{id}}/{{rol}}'>Editar Requerimiento</a></li>
-				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{id_sistema}}'>Atras</a></li>
+				  <li><a href='/editar_requerimiento/{{id}}/{{rol}}'>Editar caso de uso</a></li>
+				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'>Atras</a></li>
 				</ul>
 			</nav>
 		</div>
 		<div>
-		<h2>Requerimiento detalle</h2>
-			<p>Nombre del Requerimiento {{requerimiento.nombre}}</p>
-			<p>Descripcion: {{requerimiento.descripcion}}</p>
+		<h2>Caso de uso detalle</h2>
+			<p>Caso de uso {{caso.caso}}</p>
+			<p>Actor: {{caso.actor}}</p>
+			<p>Requerimiento asociado: {{caso.requerimiento}}</p>
+			<p>Descripción: {{caso.descripcion}}</p>
+			<p>Precondición: {{caso.precondicion}}</p>
 	</section>
 	<footer>
 		<p>Proyecto taller de desarrollo &copy;2013</p>

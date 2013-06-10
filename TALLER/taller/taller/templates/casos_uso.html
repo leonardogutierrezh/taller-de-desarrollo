@@ -29,7 +29,6 @@
 				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
 				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
 				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Resumen de Casos de Uso</a></li>
-				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Detalle de Casos de Uso</a></li>
 				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
 				</ul>
 			</nav>
@@ -39,8 +38,9 @@
 		<p>{{sistema.descripcion}}
 		</div>
 		<div style="float:right;  width: 40%;">
-		<a href='/casos_uso_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caso de Uso</a>
 		<h2>Resumen de Casos de Uso</h2>
+		<a href='/casos_uso_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caso de Uso</a>
+
 <table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<td>Caso de Uso</td>
@@ -48,8 +48,8 @@
 	</tr>
 		{% for caso in casos %}
 	<tr>
-		<td>{{dato}}</td>
-		<td>{{dato}}</td>
+		<td><a href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{caso.id}}' >{{caso.caso}}</a></td>
+		<td>{{caso.actor}}</td>
 	</tr>
 		{% empty %}
 	<tr>

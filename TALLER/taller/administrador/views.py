@@ -78,7 +78,7 @@ def proyecto_detalle(request,id_proyecto,rol):
     if dato.iteActual > 0:
       iteracion = Iteracion.objects.get(proyecto=dato,numero=dato.iteActual)
       iteracion.status="En progreso"
-      return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'iteracion':iteracion,'iteraciones':iteraciones}, context_instance=RequestContext(request))
+      return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'iteracion':iteracion,'iteraciones':iteraciones,'sistemas':sistemas}, context_instance=RequestContext(request))
     else:
       return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'sistemas':sistemas,'iteraciones':iteraciones}, context_instance=RequestContext(request))
 
@@ -291,9 +291,9 @@ def requerimiento_crear(request,id_proyecto,rol,id_sistema):
     return render_to_response('crear_requerimiento.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def requerimiento_detalle(request,id_proyecto,rol,id_requerimiento):
+def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
     dato = Requerimiento.objects.get(pk=id_requerimiento)
-    return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto}, context_instance=RequestContext(request))
+    return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def casos_uso(request,id_proyecto,rol,id_sistema):
@@ -304,17 +304,19 @@ def casos_uso(request,id_proyecto,rol,id_sistema):
 @login_required(login_url='/') 
 def casos_uso_crear(request,id_proyecto,rol,id_sistema):
     if request.method=='POST':
-        formulario = RequerimientoForm(request.POST,request.FILES)
+        formulario = CasosDeUsoForm(request.POST)
         if formulario.is_valid():
-          requerimiento = formulario.save(commit=False)
-          if requerimiento.imagen == None:
-              requerimiento.imagen = None  
-          print "victoria"
+          caso = formulario.save(commit=False)
           sistema= Sistema.objects.get(pk=id_sistema)
-          requerimiento.sistema = sistema
-          requerimiento.save()
-          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          caso.sistema = sistema
+          caso.save()
+          redireccion = '/casos_uso/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
           return HttpResponseRedirect(redireccion)
     else:
         formulario = CasosDeUsoForm()
     return render_to_response('crear_casos_uso.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def casos_uso_detalle(request,id_proyecto,rol,id_sistema,id_caso):
+    dato = CasosDeUso.objects.get(pk=id_caso)
+    return render_to_response('casos_uso_detalle.html',{'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))

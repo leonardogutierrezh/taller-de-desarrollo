@@ -29,7 +29,6 @@
 				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
 				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
 				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a></li>
-				  <li><a href='/crear_requerimiento/{{id}}/{{rol}}'>Detalle de Casos de Uso</a></li>
 				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
 				</ul>
 			</nav>
@@ -39,8 +38,9 @@
 		<p>{{sistema.descripcion}}
 		</div>
 		<div style="float:right;  width: 40%;">
+		<h2>Tabla de Requerimientos</h2>
 		<a href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
-		<h2>Requerimientos</h2>
+
 <table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
 	<tr>
 		<td>Id de requerimiento</td>
@@ -50,7 +50,7 @@
 		{% for dato in requerimientos %}
 	<tr>
 		<td>{{dato.idrequerimiento}}</td>
-		<td><a href='/requerimientos/{{id}}/{{rol}}/{{dato.id}}' >{{dato.nombre}}</a></td>
+		<td><a href='/requerimientos_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}' >{{dato.nombre}}</a></td>
 		<td>{{dato.caracteristica}}</td>
 	</tr>
 		{% empty %}

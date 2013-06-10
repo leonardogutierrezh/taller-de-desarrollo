@@ -59,8 +59,11 @@ class Requerimiento(models.Model):
   descripcion = models.TextField(max_length=200)
   prioridad =models.CharField(max_length=30)
   interfaz = models.TextField(max_length=200,verbose_name='Interfaz grafica')
-  imagen = models.ImageField(upload_to='interfaz',verbose_name='Imagen de interfaz grafica (Opcional)')
+  imagen = models.ImageField(upload_to='interfaz',verbose_name='Imagen de interfaz grafica (Opcional)',null=True,blank=True)
   reglas = models.TextField(max_length=200,verbose_name='Reglas del Negocio asociada')
+
+  def __unicode__(self):
+    return self.nombre
 
 class CasosDeUso(models.Model):
   caso= models.CharField(max_length=50)
