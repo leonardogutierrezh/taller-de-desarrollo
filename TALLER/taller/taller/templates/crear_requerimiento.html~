@@ -44,77 +44,27 @@
 
 		<a>Usuario: {{usuario}}</a>
 		    <br></br>      
-		<h2>Proyectos</h2>
+		<h2>Crear Requerimiento</h2>
 		  <hr>
 
+			<br></br> 
 		
 		  <section class='contenido'>
 
-			  <div id="menu">
-			    <ul>
-				{% if rol == "Gerente de Proyecto" %}	
-				<li><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a></li>
-				<br></br>
-				<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
-				<br></br>
-				<li><a href='/editar/{{proyecto.id}}'>Editar</a></li>
-				{% endif %}	
-			    </ul>
-			  </div>
+		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+			{{formulario.as_p}}
+			<p><input type='submit' value='Confirmar' /></p>
+		</form>
 
-		      <center>
-			<br></br>
-			<p>Nombre del Proyecto: {{proyecto.nombre}}</p>
-			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
-			<p>Fecha Final: {{proyecto.fechaFin}}</p>
-			<p>Descripcion: {{proyecto.descripcion}}</p>
-			<p>Metodologia:	{{proyecto.metodologia}}</p>
-			<p>Recursos: {{proyecto.recursos}}</p>
-			<p>Iteraciones: {{proyecto.iteraciones}}</p>
-			<br></br>
-		      </center>
+		<div>
+		<br></br>
+			<nav>
+			<ul>
+				<li><a id="siguiente" href='/requerimientos{{id}}/{{rol}}/{{id_sistema}}'>Atras</a></li>
+			</ul>
+			</nav>
+		<div>
 
-		      <div style="float: right width: 40%;">
-		      <h2>Iteración</h2>
-		      <br></br>
-		      {% if proyecto.iteActual == 0 %}
-			<p>No hay iteración en proceso</p>
-			<p> <a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
-		      {% elif proyecto.iteActual > 0 %}
-		      <p>Iteración actual: {{iteracion.numero}} </p>
-		      <p>Criterio de evaluación: {{iteracion.criterio}} </p>
-		      <p>Status: {{iteracion.status}} </p>
-		      <p>Plan de iteración: <a id= "siguiente" href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
-		      <p>Plan de evaluación de iteración: <a id= "siguiente" href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
-		      <p> <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
-		      {% elif proyecto.iteActual < 0 %}
-		      <p>Todas las iteraciones fueron terminadas</p>
-		      {% endif %}		
-
-		      <br></br>
-
-		      <h2>Iteraciones del proyecto</h2>
-		      <br></br>
-		      <ul>
-		      {% for ite in iteraciones %}
-		      <li><a id="siguiente" href='/iteracion/{{proyecto.id}}/{{rol}}/{{ite.id}}'>Iteracion {{ite.numero}}</a></li>
-		      {%endfor%}
-		      </div>
-		      <div>
-
-		      <br></br>
-
-		      <h2>Sistemas Asociados</h2>
-		      <br></br>
-		      <ul>
-		      {%for sistema in sistemas%}
-			      <li><a href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
-		{% empty %}
-	
-	No existen sistemas para este proyecto
-
-		      {%endfor%}
-		      </ul>
 			<br></br> 
 		  </section>
 		
@@ -130,5 +80,4 @@
 </table>
 </body>
 </html>
-
 

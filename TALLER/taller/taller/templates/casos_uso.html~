@@ -47,88 +47,59 @@
 		<h2>Proyectos</h2>
 		  <hr>
 
-		
 		  <section class='contenido'>
 
 			  <div id="menu">
 			    <ul>
 				{% if rol == "Gerente de Proyecto" %}	
-				<li><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a></li>
-				<br></br>
-				<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
-				<br></br>
-				<li><a href='/editar/{{proyecto.id}}'>Editar</a></li>
+				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
+				  <br></br>        
+				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
+				  <br></br>      
+				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a></li>
+				  <br></br>      
+				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
 				{% endif %}	
 			    </ul>
 			  </div>
 
-		      <center>
-			<br></br>
-			<p>Nombre del Proyecto: {{proyecto.nombre}}</p>
-			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
-			<p>Fecha Final: {{proyecto.fechaFin}}</p>
-			<p>Descripcion: {{proyecto.descripcion}}</p>
-			<p>Metodologia:	{{proyecto.metodologia}}</p>
-			<p>Recursos: {{proyecto.recursos}}</p>
-			<p>Iteraciones: {{proyecto.iteraciones}}</p>
-			<br></br>
-		      </center>
+		<br></br> 
+		<h2>{{sistema.nombre}}</h2>
+		<br></br> 
+		<p>{{sistema.descripcion}}
+		</div>
+		<br></br> 
+<h2> Resumen Casos de Uso</h2>
+		<br></br> 
 
-		      <div style="float: right width: 40%;">
-		      <h2>Iteración</h2>
-		      <br></br>
-		      {% if proyecto.iteActual == 0 %}
-			<p>No hay iteración en proceso</p>
-			<p> <a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
-		      {% elif proyecto.iteActual > 0 %}
-		      <p>Iteración actual: {{iteracion.numero}} </p>
-		      <p>Criterio de evaluación: {{iteracion.criterio}} </p>
-		      <p>Status: {{iteracion.status}} </p>
-		      <p>Plan de iteración: <a id= "siguiente" href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
-		      <p>Plan de evaluación de iteración: <a id= "siguiente" href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
-		      <p> <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
-		      {% elif proyecto.iteActual < 0 %}
-		      <p>Todas las iteraciones fueron terminadas</p>
-		      {% endif %}		
+		<a id="siguiente" href='/casos_uso_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
+<br></br> 
 
-		      <br></br>
-
-		      <h2>Iteraciones del proyecto</h2>
-		      <br></br>
-		      <ul>
-		      {% for ite in iteraciones %}
-		      <li><a id="siguiente" href='/iteracion/{{proyecto.id}}/{{rol}}/{{ite.id}}'>Iteracion {{ite.numero}}</a></li>
-		      {%endfor%}
-		      </div>
-		      <div>
-
-		      <br></br>
-
-		      <h2>Sistemas Asociados</h2>
-		      <br></br>
-		      <ul>
-		      {%for sistema in sistemas%}
-			      <li><a href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
-		{% empty %}
-	
-	No existen sistemas para este proyecto
-
-		      {%endfor%}
-		      </ul>
-			<br></br> 
-		  </section>
-		
-		</td>
-
+<table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
+	<tr>
+		<td>Caso de Uso</td>
+		<td>Actor</td>
 	</tr>
+		{% for caso in casos %}
+	<tr>
+		<td><a href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{caso.id}}' >{{caso.caso}}</a></td>
+		<td>{{caso.actor}}</td>
+	</tr>
+		{% empty %}
+	<tr>
+		<td>No existen casos de uso para este sistema</td>
+	</tr>
+		{% endfor %}
 
+</table>
+<br></br>
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
+
 </table>
 </body>
 </html>
-
 

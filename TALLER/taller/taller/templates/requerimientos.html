@@ -1,45 +1,79 @@
-<!DOCTYPE html>
-<html lang='es'>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset='utf-8>
-	<title>Perfil</title>
-	<style>
-	</style>
+<title> SGP - Proyectos</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
-	<header>
-		<nav>
-			<ul>
-				<li><a href='/'>Bienvenido {{usuario}}</a></li>
-				<li><a href='/principal'>Home</a></li>
-				<li><a href='/perfil'>Perfil</a></li>
-				<li><a href='/proyectos'>Proyectos</a></li>
-				<li><a href='/'>opcion2</a></li>
-				<li><a href='/cerrar'>Cerrar Sesion</a></li>
-			</ul>
-		</nav>
-		<hr>
-	</header>
+<!-- Save for Web Slices (index.psd) -->
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
-	<section class='contenido'>
-	
-		<div>
-			<nav>
-				<ul>
+	<tr>
+		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+
+		    <script language="javascript"> 
+		    <!-- 
+		    today = new Date(); 
+		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
+		    //--> 
+		    </script> 
+		</td>
+		<td width="95" height="33" colspan="3" align="left" valign="top"><a href = "/cerrar"><img src="/static/images/logout.jpg" alt="" width="95" height="33" border="0" /></a></td>
+
+	</tr>
+
+	<tr>
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+	</tr>
+
+	<tr>
+		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
+		<img src="/static/images/lisi.jpg" width="120" height="120"alt="" border="0" align="right" />
+		
+		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
+		</td>
+			
+	</tr>
+
+	<tr>
+		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+
+		<a>Usuario: {{usuario}}</a>
+		    <br></br>      
+		<h2>Proyectos</h2>
+		  <hr>
+
+		  <section class='contenido'>
+
+			  <div id="menu">
+			    <ul>
+				{% if rol == "Gerente de Proyecto" %}	
 				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
+				  <br></br>        
 				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
+				  <br></br>      
 				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a></li>
+				  <br></br>      
 				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
-				</ul>
-			</nav>
-		<div style="float:left;  width: 40%;">
+				{% endif %}	
+			    </ul>
+			  </div>
 
+		<br></br> 
 		<h2>{{sistema.nombre}}</h2>
+		<br></br> 
 		<p>{{sistema.descripcion}}
 		</div>
-		<div style="float:right;  width: 40%;">
-		<h2>Tabla de Requerimientos</h2>
-		<a href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
+		<br></br> 
+<h2> Tabla de Requerimientos</h2>
+		<br></br> 
+
+		<a id="siguiente" href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
+<br></br> 
 
 <table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
 	<tr>
@@ -58,6 +92,20 @@
 		<td>No existen requerimientos para este proyecto</td>
 	</tr>
 		{% endfor %}
-	</section>
+
+		  </section>
+		
+		</td>
+
+	</tr>
+</table>
+<br></br>
+	<tr>
+		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
+		</td>
+	</tr>
+
+</table>
 </body>
 </html>

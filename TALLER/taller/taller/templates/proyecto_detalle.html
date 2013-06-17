@@ -108,7 +108,7 @@
 		      <br></br>
 		      <ul>
 		      {%for sistema in sistemas%}
-			      <li><a href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
+			      <li><a id="siguiente" href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
 		{% empty %}
 	
 	No existen sistemas para este proyecto
