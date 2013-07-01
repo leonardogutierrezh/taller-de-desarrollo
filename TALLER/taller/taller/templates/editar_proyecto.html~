@@ -42,24 +42,17 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<a>Usuario: {{usuario}}</a>
-		    <br></br>      
 		<h2>Proyectos</h2>
+		<h3>Editar Proyecto</h3>
 		  <hr>
 
 		
-		  <section class='contenido'>
+		  <section class='contenido' style="padding-left:20px">
 
-			  <div id="menu">
-			    <ul>
-			      <li><a href="/crear_proyecto"> Crear Proyecto </a></li>
-			    </ul>
-			  </div>
-		      
 			 <br></br> 
 			<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 				{{formulario.as_p}}
-				<p><input type='submit' value='Editar' /></p>
+				<p> <br></br>  <input type='submit' value='Editar' /></p>
 			</form>
 			<br></br> 
 		  </section>

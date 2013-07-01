@@ -41,16 +41,13 @@
 
 	<tr>
 		<td width="800" colspan="25" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
-
-
 		    <br></br>
 		    <h2> Tu Proyecto Fue Eliminado Satisfactoriamente</h2> 
-		    <a id="siguiente" href='/proyectos'>Regresar a Proyectos</a>
 		    <br></br>
-		    <section class='contenido'>
-		    </section>
+		    <a id="siguiente" href='/proyectos'>Regresar a Proyectos <img src="/static/images/next.png" width="30" height="30"/></a>
+		    <br></br>
+		    <br></br>
 
-		    <br></br>
 		</td>
 	</tr>
 	

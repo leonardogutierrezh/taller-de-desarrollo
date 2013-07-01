@@ -21,7 +21,7 @@
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top"><a href = "/cerrar"><img src="/static/images/logout.jpg" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
@@ -32,7 +32,7 @@
 	<tr>
 		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
-		<img src="/static/images/lisi.jpg" width="120" height="120"alt="" border="0" align="right" />
+		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
 		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
 		</td>
@@ -42,13 +42,12 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<a>Usuario: {{usuario}}</a>
-		    <br></br>      
-		<h2>Proyectos</h2>
+		<h2>Sistema: {{sistema.nombre}}</h2>
+		<p>Descripción: {{sistema.descripcion}}</p>		
 		  <hr>
 
 		
-		  <section class='contenido'>
+		  <section class='contenido'  style="padding-left:20px; padding-right:20px">
 
 			  <div id="menu">
 			    <ul>
@@ -63,25 +62,19 @@
 				{% endif %}	
 			    </ul>
 			  </div>
-
-		<br></br> 
-		<h2>{{sistema.nombre}}</h2>
-		<br></br> 
-		<p>{{sistema.descripcion}}
-		</div>
 		
 		<br></br> 		
-		<h2> Tabla de Caracteristicas</h2>
+		<h3> Tabla de Caracteristicas</h3>
 		<br></br> 
 		<a id="siguiente" href='/caracteristica_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caracteristica</a>
 
 		<br></br> 
 
-		<table border="1" bordercolor="#000000" style="background-color:#FFFFFF" width="100%" cellpadding="3" cellspacing="3">
+		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
-				<td>Caracteristica</td>
-				<td>Precedencia</td>
-				<td>Prioridad</td>
+				<td style="background-color:#09C; border-radius:10px; text-align:center">Caracteristica</td>
+				<td style="background-color:#09C; border-radius:10px; text-align:center ">Precedencia</td>
+				<td style="background-color:#09C; border-radius:10px; text-align:center ">Prioridad</td>
 			</tr>
 				{% for dato in caracteristica %}
 				<td>{{dato.nombre}}</td>
@@ -99,8 +92,10 @@
 				{%endfor%}
 		</table>
 
-		  </section>
+		</section>
 		
+		<br></br> 
+
 		</td>
 
 	</tr>

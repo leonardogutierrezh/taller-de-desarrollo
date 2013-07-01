@@ -7,7 +7,6 @@
 
 </head>
 <body>
-
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
@@ -21,7 +20,7 @@
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef"><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
@@ -42,39 +41,59 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<h2>Crear Característica</h2>
+		<h2> Detalle Caso de Uso</h2>	
 		  <hr>
 
-			<br></br> 
+
+	<section class='contenido' style="padding-left:20px">
+		<p>Nombre de Requerimiento: {{requerimiento.nombre}}</p>
+		<p>Identificador: {{requerimiento.idrequerimiento}}</p>
+		<p>Descripción: {{requerimiento.descripcion}}</p>
+		<p>Característica Asociada: {{requerimiento.caracteristica}}</p>	
+		<br></br>  
+		<div id="menu">
+		<ul>
+		  <li><a href='/editar_casos_uso/{{id}}/{{rol}}'>Editar Caso de Uso</a></li>
+		  <br></br>    
+		</ul>
 		
-		  <section class='contenido'>
 		<center>
-		<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario.as_p}}
-			<p><br></br> <input type='submit' value='Confirmar' /></p>
-		</form>
-
-		<br></br>
-			<nav>
-			<ul>
-				<li><a id="siguiente" href='/sistema/{{id}}/{{rol}}/{{id_sistema}}'> <img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a></li>
-			</ul>
-			</nav>
-		<div>
-
-			<br></br> 
-		  </section>
+		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
+		</center>
 		
-		</td>
 
-	</tr>
-
+	</section>
+	
+	<br></br>
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
+
 </table>
 </body>
 </html>
 
+
+		<div>
+			<nav>
+				<ul>
+				  <li><a href='/editar_requerimiento/{{id}}/{{rol}}'>Editar caso de uso</a></li>
+				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'>Atras</a></li>
+				</ul>
+			</nav>
+		</div>
+		<div>
+		<h2>Caso de uso detalle</h2>
+			<p>Caso de uso {{caso.caso}}</p>
+			<p>Actor: {{caso.actor}}</p>
+			<p>Requerimiento asociado: {{caso.requerimiento}}</p>
+			<p>Descripción: {{caso.descripcion}}</p>
+			<p>Precondición: {{caso.precondicion}}</p>
+	</section>
+	<footer>
+		<p>Proyecto taller de desarrollo &copy;2013</p>
+	</footer>
+</body>
+</html>

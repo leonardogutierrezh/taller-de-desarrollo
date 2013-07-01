@@ -42,9 +42,7 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<a>Usuario: {{usuario}}</a>
-		    <br></br>      
-		      <h2>Iteracion {{iteracion.numero}} del Proyecto: {{iteracion.proyecto.nombre}}</h2>
+		      <h3>Iteración {{iteracion.numero}} del Proyecto: {{iteracion.proyecto.nombre}}</h3>
 		  <hr>
 
 	      <section class='contenido'>
@@ -60,7 +58,7 @@
 		      <div>
 			      <nav>
 				      <ul>
-					<li><a id="siguiente" href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
+					<li><a id="siguiente" href='/proyecto/{{id}}/{{rol}}'>Ir al Proyecto <img src="/static/images/next.png" width="30" height="30"/></a></li>
 				      </ul>
 			      </nav>
 		      <div>

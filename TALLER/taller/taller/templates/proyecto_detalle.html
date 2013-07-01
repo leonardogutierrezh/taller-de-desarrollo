@@ -7,7 +7,6 @@
 
 </head>
 <body>
-<!-- Save for Web Slices (index.psd) -->
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
@@ -21,7 +20,7 @@
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top"><a href = "/cerrar"><img src="/static/images/logout.jpg" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
@@ -32,7 +31,7 @@
 	<tr>
 		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
-		<img src="/static/images/lisi.jpg" width="120" height="120"alt="" border="0" align="right" />
+		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
 		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
 		</td>
@@ -42,13 +41,12 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<a>Usuario: {{usuario}}</a>
-		    <br></br>      
 		<h2>Proyectos</h2>
+		<h3>Detalle Proyecto<h3>
 		  <hr>
 
 		
-		  <section class='contenido'>
+		  <section class='contenido' style="padding-left:20px">
 
 			  <div id="menu">
 			    <ul>
@@ -62,7 +60,6 @@
 			    </ul>
 			  </div>
 
-		      <center>
 			<br></br>
 			<p>Nombre del Proyecto: {{proyecto.nombre}}</p>
 			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
@@ -72,46 +69,46 @@
 			<p>Recursos: {{proyecto.recursos}}</p>
 			<p>Iteraciones: {{proyecto.iteraciones}}</p>
 			<br></br>
-		      </center>
 
 		      <div style="float: right width: 40%;">
-		      <h2>Iteración</h2>
+		      <h3>Iteración:</h3>
 		      <br></br>
 		      {% if proyecto.iteActual == 0 %}
-			<p>No hay iteración en proceso</p>
-			<p> <a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
+			<p style="padding-left:20px">No hay iteración en proceso</p>
+			<p style="padding-left:20px"> <a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
 		      {% elif proyecto.iteActual > 0 %}
-		      <p>Iteración actual: {{iteracion.numero}} </p>
-		      <p>Criterio de evaluación: {{iteracion.criterio}} </p>
-		      <p>Status: {{iteracion.status}} </p>
-		      <p>Plan de iteración: <a id= "siguiente" href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
-		      <p>Plan de evaluación de iteración: <a id= "siguiente" href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
-		      <p> <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
+
+		      <p style="padding-left:20px">Iteración actual: {{iteracion.numero}} </p>
+		      <p style="padding-left:20px">Criterio de evaluación: {{iteracion.criterio}} </p>
+		      <p style="padding-left:20px">Status: {{iteracion.status}} </p>
+		      <p style="padding-left:20px">Plan de iteración: <a id= "siguiente" href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
+		      <p style="padding-left:20px">Plan de evaluación de iteración: <a id= "siguiente" href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
+		      <p style="padding-left:20px"> <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
 		      {% elif proyecto.iteActual < 0 %}
-		      <p>Todas las iteraciones fueron terminadas</p>
+		      <p style="padding-left:20px">Todas las iteraciones fueron terminadas</p>
 		      {% endif %}		
 
 		      <br></br>
 
-		      <h2>Iteraciones del proyecto</h2>
+		      <h3>Iteraciones del proyecto</h3>
 		      <br></br>
 		      <ul>
 		      {% for ite in iteraciones %}
-		      <li><a id="siguiente" href='/iteracion/{{proyecto.id}}/{{rol}}/{{ite.id}}'>Iteracion {{ite.numero}}</a></li>
+		      <li style="padding-left:20px"><a id="siguiente" href='/iteracion/{{proyecto.id}}/{{rol}}/{{ite.id}}'>Iteracion {{ite.numero}}</a></li>
 		      {%endfor%}
 		      </div>
 		      <div>
 
 		      <br></br>
 
-		      <h2>Sistemas Asociados</h2>
+		      <h3>Sistemas Asociados:</h3>
 		      <br></br>
 		      <ul>
 		      {%for sistema in sistemas%}
-			      <li><a id="siguiente" href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
+			      <li style="padding-left:20px"><a id="siguiente" href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
 		{% empty %}
 	
-	No existen sistemas para este proyecto
+			      <p style="padding-left:20px">No existen sistemas para este Proyecto </p>
 
 		      {%endfor%}
 		      </ul>

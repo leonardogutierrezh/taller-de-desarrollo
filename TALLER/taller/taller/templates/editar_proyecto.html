@@ -21,7 +21,7 @@
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top"><a href = "/cerrar"><img src="/static/images/logout.jpg" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef"><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
@@ -32,7 +32,7 @@
 	<tr>
 		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
-		<img src="/static/images/lisi.jpg" width="120" height="120"alt="" border="0" align="right" />
+		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
 		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
 		</td>
@@ -42,20 +42,13 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<a>Usuario: {{usuario}}</a>
-		    <br></br>      
 		<h2>Proyectos</h2>
+		<h3>Editar Proyecto</h3>
 		  <hr>
 
 		
-		  <section class='contenido'>
+		  <section class='contenido' style="padding-left:20px">
 
-			  <div id="menu">
-			    <ul>
-			      <li><a href="/crear_proyecto"> Crear Proyecto </a></li>
-			    </ul>
-			  </div>
-		      
 			 <br></br> 
 			<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 				{{formulario.as_p}}
