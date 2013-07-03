@@ -5,10 +5,11 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm
 from administrador.models import Perfil
-from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica, CasosDeUso
+from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor
 from django.core.urlresolvers import reverse
+from django.forms.formsets import formset_factory 
 
 def ingresar(request):
   if request.method == 'POST':
@@ -320,3 +321,69 @@ def casos_uso_crear(request,id_proyecto,rol,id_sistema):
 def casos_uso_detalle(request,id_proyecto,rol,id_sistema,id_caso):
     dato = CasosDeUso.objects.get(pk=id_caso)
     return render_to_response('casos_uso_detalle.html',{'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def escenarios_crear(request,id_proyecto,rol,id_sistema,id_caso):
+    if request.method=='POST':
+        formulario = EscenarioDefineForm(request.POST)
+        if formulario.is_valid():
+          numeroEsc = formulario.cleaned_data['numeroEscenarios']
+          numeroCamp = formulario.cleaned_data['numeroCampos']
+          redireccion = '/escenarios_crear2/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numeroEsc) + '/' + str(numeroCamp)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario = EscenarioDefineForm()
+    return render_to_response('crear_escenario.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def escenarios_crear2(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,numero_camp):
+    extra=int(numero_camp)
+    formularioSet = formset_factory(EscenarioExtraForm,extra=extra,can_delete=True)
+    if request.method=='POST':
+        formulario = formularioSet(request.POST)
+        if formulario.is_valid():
+          for form in formulario:
+            titulo = form.save(commit=False)
+            sistema= Sistema.objects.get(pk=id_sistema)
+            print sistema.nombre
+            titulo.sistema = sistema
+            titulo.save()
+          redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp)
+          return HttpResponseRedirect(redireccion)
+    else:
+        if numero_camp=='0':  
+            redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp)
+            return HttpResponseRedirect(redireccion)
+        else:
+            formulario = formularioSet
+            return render_to_response('crear_escenario2.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def escenarios_crear3(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,numero_camp):
+    sistema= Sistema.objects.get(pk=id_sistema)
+    caso = CasosDeUso.objects.get(pk=id_caso)
+    extra=int(numero_camp)
+    titulos = EscenarioExtra.objects.filter(sistema=sistema)
+    camposSet = formset_factory(EscenarioValorForm,extra=extra)
+    if request.method=='POST':
+        formulario = camposSet(request.POST)
+        escenario= EscenarioForm(request.POST)
+        if formulario.is_valid() and escenario.is_valid():
+          lista= zip(formulario,titulos) 
+          esc = escenario.save(commit=False)
+          esc.caso = caso
+          esc.save()
+          print "empieza" 
+          for l in lista:
+            elemento = l[0].save(commit=False)
+            elemento.titulo= l[1]
+            elemento.escenario = esc
+            elemento.save()
+          print "termina"
+          redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
+          return HttpResponseRedirect(redireccion)
+    else:
+
+        campos = camposSet
+        formulario = EscenarioForm()
+    return render_to_response('crear_escenario3.html',{'formulario':formulario,'campos':campos,'titulos':titulos, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))

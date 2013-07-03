@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Proyecto(models.Model):
   nombre = models.CharField(max_length=100, unique=True)
-  fechaInicio = models.DateTimeField('Fecha de Inicio')
-  fechaFin = models.DateTimeField('Fecha de Finalización')
+  fechaInicio = models.DateField('Fecha de Inicio')
+  fechaFin = models.DateField('Fecha de Finalización')
   descripcion = models.TextField(max_length=200)
   metodologia = models.CharField(max_length=100)
   recursos = models.TextField(max_length=200)
@@ -77,4 +77,18 @@ class CasosDeUso(models.Model):
     return self.caso
 
 
+class Escenario(models.Model):
+  caso = models.ForeignKey(CasosDeUso)
+  numero= models.TextField(max_length=10,verbose_name='ID Escenario')
+  flujoOriginario= models.TextField(max_length=400,verbose_name='Flujo Originario')
+  flujoAlterno= models.TextField(max_length=400,verbose_name='Flujo Alterno')
+
+class EscenarioExtra(models.Model):
+  sistema= models.ForeignKey(Sistema)
+  titulo= models.CharField(max_length=40,verbose_name='Nombre del campo')
+
+class EscenarioValor(models.Model):
+  escenario = models.ForeignKey(Escenario)
+  titulo = models.ForeignKey(EscenarioExtra)
+  valor = models.TextField(max_length=400)
 	
