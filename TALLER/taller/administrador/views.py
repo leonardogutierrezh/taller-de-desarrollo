@@ -348,42 +348,51 @@ def escenarios_crear2(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,nume
             print sistema.nombre
             titulo.sistema = sistema
             titulo.save()
-          redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp)
+          redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp)  + '/0'
           return HttpResponseRedirect(redireccion)
     else:
         if numero_camp=='0':  
-            redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp)
+            redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp) + '/0'
             return HttpResponseRedirect(redireccion)
         else:
             formulario = formularioSet
             return render_to_response('crear_escenario2.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def escenarios_crear3(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,numero_camp):
-    sistema= Sistema.objects.get(pk=id_sistema)
-    caso = CasosDeUso.objects.get(pk=id_caso)
-    extra=int(numero_camp)
-    titulos = EscenarioExtra.objects.filter(sistema=sistema)
-    camposSet = formset_factory(EscenarioValorForm,extra=extra)
-    if request.method=='POST':
-        formulario = camposSet(request.POST)
-        escenario= EscenarioForm(request.POST)
-        if formulario.is_valid() and escenario.is_valid():
-          lista= zip(formulario,titulos) 
-          esc = escenario.save(commit=False)
-          esc.caso = caso
-          esc.save()
-          print "empieza" 
-          for l in lista:
-            elemento = l[0].save(commit=False)
-            elemento.titulo= l[1]
-            elemento.escenario = esc
-            elemento.save()
-          print "termina"
-          redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
-          return HttpResponseRedirect(redireccion)
+def escenarios_crear3(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,numero_camp,contador):
+    cont = int(contador)
+    num_esc = int(numero_esc)
+    if cont < num_esc:
+      sistema= Sistema.objects.get(pk=id_sistema)
+      caso = CasosDeUso.objects.get(pk=id_caso)
+      escenarios = Escenario.objects.filter(caso=caso)
+      titulos = EscenarioExtra.objects.filter(sistema=sistema)
+      extra=len(titulos) 
+      camposSet = formset_factory(EscenarioValorForm,extra=extra)
+      if request.method=='POST':
+          formulario = camposSet(request.POST)
+          escenario= EscenarioForm(request.POST)
+          if formulario.is_valid() and escenario.is_valid():
+            cont = cont + 1
+            lista= zip(formulario,titulos) 
+            esc = escenario.save(commit=False)
+            esc.caso = caso
+            esc.numero = 1 + len(escenarios)
+            esc.save()
+            print "empieza" 
+            for l in lista:
+              elemento = l[0].save(commit=False)
+              elemento.titulo= l[1]
+              elemento.escenario = esc
+              elemento.save()
+            print "termina"
+            redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp) + '/' + str(cont)
+            return HttpResponseRedirect(redireccion)
+      else:
+          cont = cont + 1
+          campos = camposSet
+          formulario = EscenarioForm()
+          return render_to_response('crear_escenario3.html',{'formulario':formulario,'campos':campos,'titulos':titulos, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema,'contador':cont}, context_instance=RequestContext(request))
     else:
-
-        campos = camposSet
-        formulario = EscenarioForm()
-    return render_to_response('crear_escenario3.html',{'formulario':formulario,'campos':campos,'titulos':titulos, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+      redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
+      return HttpResponseRedirect(redireccion)

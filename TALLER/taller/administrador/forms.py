@@ -51,7 +51,7 @@ class CasosDeUsoForm(forms.ModelForm):
 class EscenarioForm(forms.ModelForm):
   class Meta:
     model=Escenario
-    exclude=['caso']
+    exclude=['caso','numero']
 
 class EscenarioExtraForm(forms.ModelForm):
   class Meta:

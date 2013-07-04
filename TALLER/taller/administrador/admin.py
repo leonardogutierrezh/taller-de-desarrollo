@@ -1,7 +1,7 @@
 from django.contrib import admin
 from administrador.models import Proyecto
 from administrador.models import Miembro
-from administrador.models import Perfil, Requerimiento, Iteracion, Sistema
+from administrador.models import Perfil, Requerimiento, Iteracion, Sistema, EscenarioValor, Escenario, EscenarioExtra
 
 class Proyecto_UserInline(admin.TabularInline):
 		model = Miembro
@@ -23,3 +23,6 @@ admin.site.register(Perfil)
 admin.site.register(Requerimiento)
 admin.site.register(Iteracion)
 admin.site.register(Sistema)
+admin.site.register(Escenario)
+admin.site.register(EscenarioExtra)
+admin.site.register(EscenarioValor)
