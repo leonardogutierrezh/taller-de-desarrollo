@@ -7,7 +7,6 @@
 
 </head>
 <body>
-<!-- Save for Web Slices (index.psd) -->
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
@@ -42,79 +41,34 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<h2>Sistema: {{sistema.nombre}}</h2>
-		<p>Descripción: {{sistema.descripcion}}</p>		
+		<h2> Detalle Característica</h2>	
 		  <hr>
 
+	<section class='contenido' style="padding-left:20px">
+		<p>Nombre de Característica: {{dato.nombre}}</p>
+		<p>Prioridad: {{dato.prioridad}}</p>
+		<p>Precedencia: {{dato.precedencia}}</p>
+		<br></br>  
+		<div id="menu">
+		<ul>
+		  <li><a href='/editar_caracteristica/{{id}}/{{rol}}'>Editar Característica</a></li>
+		  <br></br>    
+		</ul>
 		
-		  <section class='contenido'  style="padding-left:20px; padding-right:20px">
-
-			  <div id="menu">
-			    <ul>
-				{% if rol == "Gerente de Proyecto" %}	
-				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
-				  <br></br>        
-				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
-				  <br></br>      
-				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a></li>
-				  <br></br>      
-				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
-				{% endif %}	
-			    </ul>
-			  </div>
+		<center>
+		<a id="siguiente" href='/sistema/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
+		</center>
 		
-		<br></br> 		
-		<h3> Tabla de Caracteristicas</h3>
-		<br></br> 
-		<a id="siguiente" href='/caracteristica_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caracteristica</a>
 
-		<br></br> 
-
-		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
-			<tr>
-				<td style="background-color:#09C; border-radius:10px">Caracteristica</td>
-				<td style="background-color:#09C; border-radius:10px">Precedencia</td>
-				<td style="background-color:#09C; border-radius:10px">Prioridad</td>
-			</tr>
-				{% for dato in caracteristica %}
-				<td><a  id="siguiente" href='/caracteristica_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>{{dato.nombre}}</a></td>
-				<td>{% if dato.precedencia == None %}
-							No tiene precedencia
-						{%elif dato.precedencia != "None" %}	
-							{{dato.precedencia}}
-						{%endif%}</td>
-				<td> {{dato.prioridad}}</td>		
-				</tr>	 
-					{% empty %}
-			<tr>
-				<td>No existen caracteristicas para este sistema</td>
-					</tr>
-				{%endfor%}
-		</table>
-
-		</section>
-		
-		<br></br> 
-
-		</td>
-
-	</tr>
-
+	</section>
+	
+	<br></br>
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
+
 </table>
-</body>
-</html>
-
-
-
-
-
-
-
-	</section>
 </body>
 </html>

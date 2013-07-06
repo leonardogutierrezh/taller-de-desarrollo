@@ -72,12 +72,12 @@
 
 		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
-				<td style="background-color:#09C; border-radius:10px; text-align:center">Caracteristica</td>
-				<td style="background-color:#09C; border-radius:10px; text-align:center ">Precedencia</td>
-				<td style="background-color:#09C; border-radius:10px; text-align:center ">Prioridad</td>
+				<td style="background-color:#09C; border-radius:10px">Caracteristica</td>
+				<td style="background-color:#09C; border-radius:10px">Precedencia</td>
+				<td style="background-color:#09C; border-radius:10px">Prioridad</td>
 			</tr>
 				{% for dato in caracteristica %}
-				<td>{{dato.nombre}}</td>
+				<td><a  id="siguiente" href='/caracteristica_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>{{dato.nombre}}</a></td>
 				<td>{% if dato.precedencia == None %}
 							No tiene precedencia
 						{%elif dato.precedencia != "None" %}	

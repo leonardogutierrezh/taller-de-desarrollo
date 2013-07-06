@@ -294,6 +294,11 @@ def requerimiento_crear(request,id_proyecto,rol,id_sistema):
 def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
     dato = Requerimiento.objects.get(pk=id_requerimiento)
     return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_caracteristica):
+    dato = Requerimiento.objects.get(pk=id_caracteristica)
+    return render_to_response('caracteristica_detalle.html',{'caracteristica':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
     
 @login_required(login_url='/') 
 def casos_uso(request,id_proyecto,rol,id_sistema):

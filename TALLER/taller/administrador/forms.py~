@@ -1,38 +1,49 @@
+#encoding:utf-8
+from django.forms import ModelForm
 from django import forms
-from django.core.files.images import get_image_dimensions
+from django.contrib.auth.models import User
+from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso
 
-from my_app.models import UserProfile
+class UserForm(forms.ModelForm):
+  class Meta:
+    model = Perfil
+    exclude = ['usuario']
 
+class ProyectoForm(forms.ModelForm):
+  class Meta:
+    model = Proyecto
+    exclude = ['iteActual']
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
+class MiembroForm(forms.ModelForm):
+  class Meta:
+    model = Miembro
+    exclude = ['proyecto']
 
-    def clean_avatar(self):
-        avatar = self.cleaned_data['avatar']
+class SistemaForm(forms.ModelForm):
+  class Meta:
+    model = Sistema
 
-        try:
-            w, h = get_image_dimensions(avatar)
+class ProyectoeForm(forms.ModelForm):
+  class Meta:
+    model = Proyecto
+    exclude = ['nombre']
 
-            #validate dimensions
-            max_width = max_height = 100
-            if w != max_width or h != max_height:
-                raise forms.ValidationError(u'Please use an image that is %s x %s pixels.' % (max_width, max_height))
+class RequerimientoForm(forms.ModelForm):
+  class Meta:
+    model = Requerimiento
+    exclude = ['sistema']
 
-            #validate content type
-            main, sub = avatar.content_type.split('/')
-            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
-                raise forms.ValidationError(u'Please use a JPEG, GIF or PNG image.')
+class IteracionForm(forms.ModelForm):
+  class Meta:
+    model = Iteracion
+    exclude = ['proyecto','status','numero']
 
-            #validate file size
-            if len(avatar) > (20 * 1024):
-                raise forms.ValidationError(u'Avatar file size may not exceed 20k.')
+class CaracteristicaForm(forms.ModelForm):
+  class Meta:
+    model = Caracteristica
+    exclude= ['sistema']
 
-        except AttributeError:
-            """
-            Handles case when we are updating the user profile
-            and do not supply a new avatar
-            """
-            pass
-
-        return avatar
+class CasosDeUsoForm(forms.ModelForm):
+  class Meta:
+    model = CasosDeUso
+    exclude= ['sistema']
