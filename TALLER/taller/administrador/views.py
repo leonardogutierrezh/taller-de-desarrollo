@@ -320,7 +320,18 @@ def casos_uso_crear(request,id_proyecto,rol,id_sistema):
 @login_required(login_url='/') 
 def casos_uso_detalle(request,id_proyecto,rol,id_sistema,id_caso):
     dato = CasosDeUso.objects.get(pk=id_caso)
-    return render_to_response('casos_uso_detalle.html',{'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+    sistema = Sistema.objects.get(pk=id_sistema)
+    titulos = EscenarioExtra.objects.filter(sistema=sistema)
+    escenarios = Escenario.objects.filter(caso=dato)
+    valores = []
+    orden = []
+    for escenario in escenarios:
+        for titulo in titulos:
+            orden.append(EscenarioValor.objects.get(escenario=escenario,titulo=titulo))
+        valores.append(orden)
+        orden = []
+    lista = zip(escenarios,valores)    
+    return render_to_response('casos_uso_detalle.html',{'lista':lista,'titulos':titulos,'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def escenarios_crear(request,id_proyecto,rol,id_sistema,id_caso):

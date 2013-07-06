@@ -60,14 +60,39 @@
 		  <br></br>    
 		</ul>
 		
-		<center>
-		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
-		</center>
-		
 
 	</section>
 	
 	<br></br>
+
+		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+			<tr>
+				<td style="background-color:#09C; border-radius:10px">Numero</td>
+				<td style="background-color:#09C; border-radius:10px">Flujo Originario</td>
+				<td style="background-color:#09C; border-radius:10px">Flujo Alterno</td>
+        {% for titulo in titulos %}
+				<td style="background-color:#09C; border-radius:10px">{{titulo.titulo}}</td>      
+        {%endfor%}  
+			</tr>
+				{% for dato in lista %}
+				<td>Escenario {{dato.0.numero}}</td>
+				<td>{{dato.0.flujoOriginario}}</td>
+				<td> {{dato.0.flujoAlterno}}</td>
+        {%for valor  in dato.1 %}		
+        <td> {{valor.valor}}</td>
+        {%endfor%}
+				</tr>	 
+					{% empty %}
+			<tr>
+				<td>No existen escenarios identificados para este caso de uso</td>
+					</tr>
+				{%endfor%}
+		</table>
+
+		<center>
+		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
+		</center>
+
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
