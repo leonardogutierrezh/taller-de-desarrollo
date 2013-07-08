@@ -91,4 +91,21 @@ class EscenarioValor(models.Model):
   escenario = models.ForeignKey(Escenario)
   titulo = models.ForeignKey(EscenarioExtra)
   valor = models.TextField(max_length=400)
+
+class CasoPrueba(models.Model):
+  escenario = models.ForeignKey(Escenario)
+  idcaso = models.CharField(max_length=40,verbose_name='Id del Caso')
+  nombre = models.CharField(max_length=40,verbose_name='Nombre')
+  resultado = models.TextField(max_length=400,verbose_name='Resultado Esperado')
+  nivel = models.CharField(max_length=40,verbose_name='Nivel de Prueba')
+  tipo= models.TextField(max_length=10,verbose_name='Tipo de Prueba')
+
+class CasoPruebaExtra(models.Model):
+  sistema= models.ForeignKey(Sistema)
+  titulo= models.CharField(max_length=40,verbose_name='Nombre del campo')
+
+class CasoPruebaValor(models.Model):
+  caso = models.ForeignKey(CasoPrueba)
+  titulo = models.ForeignKey(CasoPruebaExtra)
+  valor = models.TextField(max_length=400)
 	

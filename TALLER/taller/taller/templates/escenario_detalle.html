@@ -41,22 +41,16 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<h2> Detalle Caso de Uso</h2>	
+		<h2> Detalle Escenario {{escenario.numero}}</h2>	
 		  <hr>
 
 
 	<section class='contenido' style="padding-left:20px">
-		<p>Caso de uso: {{caso.caso}}</p>
-		<p>Actor: {{caso.actor}}</p>
-		<p>Requerimiento Asociado: {{caso.requerimiento}}</p>
-		<p>Descripción: {{caso.descripcion}}</p>
-		<p>Precondición: {{caso.precondicion}}</p>
 		<br></br>  
 		<div id="menu">
 		<ul>
-		  <li><a href='/editar_casos_uso/{{id}}/{{rol}}'>Editar Caso de Uso</a></li>
 			<br></br>
-			<li><a href='/escenarios_crear/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}'>Identificar Escenarios</a></li>
+			<li><a href='/caso_prueba_crear/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{id_escenario}}'>Identificar Casos de Prueba</a></li>
 		  <br></br>    
 		</ul>
 		
@@ -67,24 +61,28 @@
 
 		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
-				<td style="background-color:#09C; border-radius:10px">Numero</td>
-				<td style="background-color:#09C; border-radius:10px">Flujo Originario</td>
-				<td style="background-color:#09C; border-radius:10px">Flujo Alterno</td>
+				<td style="background-color:#09C; border-radius:10px">Id</td>
+				<td style="background-color:#09C; border-radius:10px">Nombre</td>
+				<td style="background-color:#09C; border-radius:10px">Resultado Esperado</td>
+        <td style="background-color:#09C; border-radius:10px">Nivel de Prueba</td>
+        <td style="background-color:#09C; border-radius:10px">Tipo de Prueba</td>
         {% for titulo in titulos %}
 				<td style="background-color:#09C; border-radius:10px">{{titulo.titulo}}</td>      
         {%endfor%}  
 			</tr>
 				{% for dato in lista %}
-				<td><a href='/escenario_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{dato.0.id}}'>Escenario {{dato.0.numero}}</a></td>
-				<td>{{dato.0.flujoOriginario}}</td>
-				<td> {{dato.0.flujoAlterno}}</td>
+				<td>{{dato.0.idcaso}}</td>
+				<td>{{dato.0.nombre}}</td>
+				<td> {{dato.0.resultado}}</td>
+				<td> {{dato.0.nivel}}</td>
+				<td> {{dato.0.tipo}}</td>
         {%for valor  in dato.1 %}		
         <td> {{valor.valor}}</td>
         {%endfor%}
 				</tr>	 
 					{% empty %}
 			<tr>
-				<td>No existen escenarios identificados para este caso de uso</td>
+				<td>No existen casos de prueba identificados para este escenario</td>
 					</tr>
 				{%endfor%}
 		</table>
@@ -102,6 +100,4 @@
 </table>
 </body>
 </html>
-
-
 

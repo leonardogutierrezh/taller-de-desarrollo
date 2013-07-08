@@ -2,7 +2,7 @@
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
-from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor
+from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor
 
 class UserForm(forms.ModelForm):
   class Meta:
@@ -65,4 +65,23 @@ class EscenarioValorForm(forms.ModelForm):
 
 class EscenarioDefineForm(forms.Form):
   numeroEscenarios = forms.IntegerField(label='Numero de escenarios')
+  numeroCampos = forms.IntegerField(label='Numero de campos adicionales')
+
+class CasoPruebaForm(forms.ModelForm):
+  class Meta:
+    model=CasoPrueba
+    exclude=['escenario']
+
+class CasoPruebaExtraForm(forms.ModelForm):
+  class Meta:
+    model=CasoPruebaExtra
+    exclude=['sistema']
+
+class CasoPruebaValorForm(forms.ModelForm):
+  class Meta:
+    model=CasoPruebaValor
+    exclude=['caso','titulo']
+
+class CasoPruebaDefineForm(forms.Form):
+  numeroCasos = forms.IntegerField(label='Numero de casos de prueba')
   numeroCampos = forms.IntegerField(label='Numero de campos adicionales')
