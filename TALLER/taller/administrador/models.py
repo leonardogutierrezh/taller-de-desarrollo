@@ -99,6 +99,7 @@ class CasoPrueba(models.Model):
   resultado = models.TextField(max_length=400,verbose_name='Resultado Esperado')
   nivel = models.CharField(max_length=40,verbose_name='Nivel de Prueba')
   tipo= models.TextField(max_length=10,verbose_name='Tipo de Prueba')
+  detalle = models.BooleanField()
 
 class CasoPruebaExtra(models.Model):
   sistema= models.ForeignKey(Sistema)
@@ -108,4 +109,27 @@ class CasoPruebaValor(models.Model):
   caso = models.ForeignKey(CasoPrueba)
   titulo = models.ForeignKey(CasoPruebaExtra)
   valor = models.TextField(max_length=400)
-	
+
+class CasoPruebaDetalle(models.Model):
+  casoprueba = models.ForeignKey(CasoPrueba)
+  sistema = models.ForeignKey(Sistema)
+  casouso = models.ForeignKey(CasosDeUso)
+  requerimiento = models.ForeignKey(Requerimiento,null=True,blank=True)
+  version = models.CharField(max_length=40,verbose_name='Version del Caso de Prueba')
+  ambiente = models.CharField(max_length=40,verbose_name='Ambiente de Prueba')
+  autorcaso = models.ForeignKey(User)
+  probador = models.ForeignKey(User,related_name='relacion_probador_casoprueba')
+  fecha = models.DateField('Fecha de Creacion')
+  fechaejec = models.DateField('Fecha de Ejecucion',null=True,blank=True)
+  condicion = models.TextField(max_length=400,verbose_name='Condicion(es) para que se ejecute el Caso de Prueba')
+  criterios = models.TextField(max_length=400,verbose_name='Criterios de Aprobacion del Caso de Prueba')
+  desicion = models.CharField(max_length=40,verbose_name='Desicion de Aprobacion del Caso de Prueba')
+  fechaapro = models.DateField('Fecha de Aprobacion',null=True,blank=True)
+
+class EjecucionCasoPrueba(models.Model):
+  caso = models.ForeignKey(CasoPruebaDetalle)
+  paso = models.CharField(max_length=40)
+  condicion = models.CharField(max_length=40)
+  valor = models.CharField(max_length=40)
+  resultadoesp = models.CharField(max_length=40,verbose_name='Resultado Esperado')
+  resultadoobt = models.CharField(max_length=40,verbose_name='Resultado Obtenido')

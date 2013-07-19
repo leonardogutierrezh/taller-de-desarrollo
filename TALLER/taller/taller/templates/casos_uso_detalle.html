@@ -75,7 +75,7 @@
         {%endfor%}  
 			</tr>
 				{% for dato in lista %}
-				<td><a href='/escenario_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{dato.0.id}}'>Escenario {{dato.0.numero}}</a></td>
+				<td><a  id="siguiente" href='/escenario_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{dato.0.id}}'>Escenario {{dato.0.numero}}</a></td>
 				<td>{{dato.0.flujoOriginario}}</td>
 				<td> {{dato.0.flujoAlterno}}</td>
         {%for valor  in dato.1 %}		

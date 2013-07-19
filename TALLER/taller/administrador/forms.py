@@ -2,7 +2,7 @@
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
-from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor
+from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor, CasoPruebaDetalle, EjecucionCasoPrueba
 
 class UserForm(forms.ModelForm):
   class Meta:
@@ -70,7 +70,7 @@ class EscenarioDefineForm(forms.Form):
 class CasoPruebaForm(forms.ModelForm):
   class Meta:
     model=CasoPrueba
-    exclude=['escenario']
+    exclude=['escenario','detalle']
 
 class CasoPruebaExtraForm(forms.ModelForm):
   class Meta:
@@ -85,3 +85,16 @@ class CasoPruebaValorForm(forms.ModelForm):
 class CasoPruebaDefineForm(forms.Form):
   numeroCasos = forms.IntegerField(label='Numero de casos de prueba')
   numeroCampos = forms.IntegerField(label='Numero de campos adicionales')
+
+class CasoPruebaDetalleForm(forms.Form):
+  class Meta:
+    model=CasoPruebaDetalle
+    exclude=['casoprueba','sistema','casouso','autor']  
+
+class EjecucionCasoPruebaForm(forms.Form):
+  class Meta:
+    model=CasoPruebaDetalle
+    exclude=['caso'] 
+
+class CasoPruebaDetalleDefineForm(forms.Form):
+  numeroCampos = forms.IntegerField(label='Numero de ejecuciones')
