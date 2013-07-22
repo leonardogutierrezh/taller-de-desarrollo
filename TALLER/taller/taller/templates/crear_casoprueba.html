@@ -7,6 +7,7 @@
 
 </head>
 <body>
+
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
@@ -20,7 +21,7 @@
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef"><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
@@ -41,67 +42,39 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<h2> Detalle Caso de Uso</h2>	
+		<h2>Identificar Casos de Prueba</h2>
+		<h4>Configuracion de Formulario</h4>
 		  <hr>
-
-
-	<section class='contenido' style="padding-left:20px">
-		<p>Caso de uso: {{caso.caso}}</p>
-		<p>Actor: {{caso.actor}}</p>
-		<p>Requerimiento Asociado: {{caso.requerimiento}}</p>
-		<p>Descripción: {{caso.descripcion}}</p>
-		<p>Precondición: {{caso.precondicion}}</p>
-		<br></br>  
-		<div id="menu">
-		<ul>
-		  <li><a href='/editar_casos_uso/{{id}}/{{rol}}'>Editar Caso de Uso</a></li>
-			<br></br>
-			<li><a href='/escenarios_crear/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}'>Identificar Escenarios</a></li>
-		  <br></br>    
-		</ul>
 		
+		  <section class='contenido' style="padding-left:20px">
 
-	</section>
-	
-	<br></br>
+		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+			{{formulario.as_p}}
+			<p><br></br><input type='submit' value='Confirmar' /></p>
+		</form>
 
-		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
-			<tr>
-				<td style="background-color:#09C; border-radius:10px">Numero</td>
-				<td style="background-color:#09C; border-radius:10px">Flujo Originario</td>
-				<td style="background-color:#09C; border-radius:10px">Flujo Alterno</td>
-        {% for titulo in titulos %}
-				<td style="background-color:#09C; border-radius:10px">{{titulo.titulo}}</td>      
-        {%endfor%}  
-			</tr>
-				{% for dato in lista %}
-				<td><a  id="siguiente" href='/escenario_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{dato.0.id}}'>Escenario {{dato.0.numero}}</a></td>
-				<td>{{dato.0.flujoOriginario}}</td>
-				<td> {{dato.0.flujoAlterno}}</td>
-        {%for valor  in dato.1 %}		
-        <td> {{valor.valor}}</td>
-        {%endfor%}
-				</tr>	 
-					{% empty %}
-			<tr>
-				<td>No existen escenarios identificados para este caso de uso</td>
-					</tr>
-				{%endfor%}
-		</table>
+		<div>
+		<br></br>
+			<nav>
+			<ul>
+				<center><li><a id="siguiente" href='/requerimientos/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a></li></center>
+			</ul>
+			</nav>
+		<div>
 
-		<center>
-		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
-		</center>
+			<br></br> 
+		  </section>
+		
+		</td>
+
+	</tr>
 
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
-
 </table>
 </body>
 </html>
-
-
 

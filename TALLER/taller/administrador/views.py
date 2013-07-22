@@ -5,9 +5,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm, CasoPruebaForm, CasoPruebaExtraForm, CasoPruebaValorForm, CasoPruebaDefineForm, CasoPruebaDetalleDefineForm, CasoPruebaDetalleForm, EjecucionCasoPruebaForm
 from administrador.models import Perfil
-from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor
+from administrador.models import Miembro, Proyecto, Requerimiento, Iteracion, Sistema, SistemaAsociado, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor
 from django.core.urlresolvers import reverse
 from django.forms.formsets import formset_factory 
 
@@ -331,7 +331,7 @@ def casos_uso_detalle(request,id_proyecto,rol,id_sistema,id_caso):
         valores.append(orden)
         orden = []
     lista = zip(escenarios,valores)    
-    return render_to_response('casos_uso_detalle.html',{'lista':lista,'titulos':titulos,'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+    return render_to_response('casos_uso_detalle.html',{'lista':lista,'titulos':titulos,'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def escenarios_crear(request,id_proyecto,rol,id_sistema,id_caso):
@@ -407,3 +407,146 @@ def escenarios_crear3(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,nume
     else:
       redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
       return HttpResponseRedirect(redireccion)
+
+@login_required(login_url='/') 
+def caso_prueba_crear(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
+    if request.method=='POST':
+        formulario = CasoPruebaDefineForm(request.POST)
+        if formulario.is_valid():
+          numeroCas = formulario.cleaned_data['numeroCasos']
+          numeroCamp = formulario.cleaned_data['numeroCampos']
+          redireccion = '/caso_prueba_crear2/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario) + '/'+ str(numeroCas) + '/' + str(numeroCamp)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario = CasoPruebaDefineForm()
+    return render_to_response('crear_casoprueba.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def caso_prueba_crear2(request,id_proyecto,rol,id_sistema,id_caso,id_escenario,numero_cas,numero_camp):
+    extra=int(numero_camp)
+    formularioSet = formset_factory(CasoPruebaExtraForm,extra=extra,can_delete=True)
+    if request.method=='POST':
+        formulario = formularioSet(request.POST)
+        if formulario.is_valid():
+          for form in formulario:
+            titulo = form.save(commit=False)
+            sistema= Sistema.objects.get(pk=id_sistema)
+            titulo.sistema = sistema
+            titulo.save()
+            redireccion = '/caso_prueba_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario) + '/' + str(numero_cas) + '/' + str(numero_camp)  + '/0'
+          return HttpResponseRedirect(redireccion)
+    else:
+        if numero_camp=='0':  
+            redireccion = '/caso_prueba_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario) + '/' + str(numero_cas) + '/' + str(numero_camp)  + '/0'
+            return HttpResponseRedirect(redireccion)
+        else:
+            formulario = formularioSet
+            return render_to_response('crear_casoprueba2.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def caso_prueba_crear3(request,id_proyecto,rol,id_sistema,id_caso,id_escenario,numero_cas,numero_camp,contador):
+    cont = int(contador)
+    num_cas = int(numero_cas)
+    if cont < num_cas:
+      sistema= Sistema.objects.get(pk=id_sistema)
+      caso = Escenario.objects.get(pk=id_escenario)
+      escenarios = Escenario.objects.filter(caso=caso)
+      titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
+      extra=len(titulos) 
+      camposSet = formset_factory(CasoPruebaValorForm,extra=extra)
+      if request.method=='POST':
+          formulario = camposSet(request.POST)
+          casoPrueba= CasoPruebaForm(request.POST)
+          if formulario.is_valid() and casoPrueba.is_valid():
+            cont = cont + 1
+            lista= zip(formulario,titulos) 
+            cas = casoPrueba.save(commit=False)
+            cas.escenario = caso
+            cas.detalle = False
+            cas.save()
+            print "empieza" 
+            for l in lista:
+              elemento = l[0].save(commit=False)
+              elemento.titulo= l[1]
+              elemento.caso = cas
+              elemento.save()
+            print "termina"
+            redireccion = '/caso_prueba_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario) + '/' + str(numero_cas) + '/' + str(numero_camp)  + '/' + str(cont)
+            return HttpResponseRedirect(redireccion)
+      else:
+          cont = cont + 1
+          campos = camposSet
+          formulario = CasoPruebaForm()
+          return render_to_response('crear_casoprueba3.html',{'formulario':formulario,'campos':campos,'titulos':titulos, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema,'contador':cont}, context_instance=RequestContext(request))
+    else:
+      redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
+      return HttpResponseRedirect(redireccion)
+
+@login_required(login_url='/') 
+def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
+    dato = Escenario.objects.get(pk=id_escenario)
+    sistema = Sistema.objects.get(pk=id_sistema)
+    titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
+    casos = CasoPrueba.objects.filter(escenario=dato)
+    valores = []
+    orden = []
+    for caso in casos:
+        for titulo in titulos:
+            orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+        valores.append(orden)
+        orden = []
+    lista = zip(casos,valores)    
+    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'escenario':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':id_escenario}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
+    dato = CasoPrueba.objects.get(pk=id_casoprueba)
+    if dato.detalle==False:
+      redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
+      return HttpResponseRedirect(redireccion)      
+    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'escenario':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':id_escenario}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
+    if request.method=='POST':
+        formulario = CasoPruebaDetalleDefineForm(request.POST)
+        if formulario.is_valid():
+          numeroCamp = formulario.cleaned_data['numeroCampos']
+          redireccion = '/caso_prueba_detalle_llenar2/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba) + '/' + str(numeroCamp)
+          return HttpResponseRedirect(redireccion)
+    else:
+        formulario = CasoPruebaDetalleDefineForm()
+    return render_to_response('crear_casoprueba.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def caso_prueba_detalle_llenar2(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba,numero_camp):
+    sistema= Sistema.objects.get(pk=id_sistema)
+#    caso = Escenario.objects.get(pk=id_escenario)
+#    escenarios = Escenario.objects.filter(caso=caso)
+    titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
+    extra= int(numero_camp)
+    camposSet = formset_factory(EjecucionCasoPruebaForm,extra=extra)
+    if request.method=='POST':
+        formulario = camposSet(request.POST)
+        casoPrueba= CasoPruebaDetalleForm(request.POST)
+        if formulario.is_valid() and casoPrueba.is_valid():
+          cont = cont + 1
+          lista= zip(formulario,titulos) 
+          cas = casoPrueba.save(commit=False)
+          cas.escenario = caso
+          cas.detalle = False
+          cas.save()
+          print "empieza" 
+          for l in lista:
+            elemento = l[0].save(commit=False)
+            elemento.titulo= l[1]
+            elemento.caso = cas
+            elemento.save()
+          print "termina"
+ #         redireccion = '/caso_prueba_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario) + '/' + str(numero_cas) + '/' + str(numero_camp)  + '/' + str(cont)
+  #        return HttpResponseRedirect(redireccion)
+    else:
+          campos = camposSet
+          print "ajaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          formulario = CasoPruebaDetalleForm()
+          return render_to_response('crear_casopruebadetalle.html',{'formulario':formulario,'campos':campos,'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
