@@ -25,7 +25,11 @@ class Iteracion(models.Model):
 class Miembro(models.Model):
   usuario = models.ForeignKey(User)
   proyecto = models.ForeignKey(Proyecto)
-  rol = models.CharField(max_length=100)
+  rol = models.CharField(max_length=400)
+  privilegio = models.IntegerField(null=True)
+
+  def __unicode__(self):
+    return self.rol
 
 class Perfil(models.Model):
   usuario = models.OneToOneField(User, unique=True)

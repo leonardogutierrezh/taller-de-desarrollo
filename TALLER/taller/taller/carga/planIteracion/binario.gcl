@@ -1,0 +1,20 @@
+program binario
+|[
+	fun bin:(n:int) -> String
+	{pre n>=0} {post true} {bound n}
+	|[ var s:="":String;
+	   if n>0 -> s:=bin(n div 2) + (n mod 2)
+	   | n=0 -> skip
+	   fi
+	   >> s
+	]|
+	
+   var x:=readInt("\nIntroduzca un numero en sistema decimal:"):int;
+   {x>=0}
+   var res:=bin(x):String;
+   if x=0 -> res:="0"
+   |  x>0 -> skip
+   fi;
+   write("\nEl numero en sistema binario es " + res);
+   write("")
+]|

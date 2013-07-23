@@ -19,6 +19,19 @@ class MiembroForm(forms.ModelForm):
     model = Miembro
     exclude = ['proyecto']
 
+class MiembroForm(forms.Form):
+  rol_choices = (
+    ('Gerente de Proyecto', 'Gerente de Proyecto'),
+    ('Gerente de Pruebas', 'Gerente de Pruebas'),
+    ('Analista de Pruebas', 'Analista de Pruebas'),
+    ('Disenador de Pruebas', 'Diseñador de Pruebas'),
+    ('Cliente', 'Cliente'),
+    ('Probador', 'Probador',),
+    ('Analista de Requerimiento', 'Analista de Requerimiento'),
+    )
+  usuario = forms.ModelChoiceField(queryset=User.objects.all())
+  rol = forms.MultipleChoiceField(choices=rol_choices, widget=forms.CheckboxSelectMultiple())
+
 class SistemaForm(forms.ModelForm):
   class Meta:
     model = Sistema
