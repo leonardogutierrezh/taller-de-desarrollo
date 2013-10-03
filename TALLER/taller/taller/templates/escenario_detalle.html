@@ -57,7 +57,7 @@
 	</section>
 	
 	<br></br>
-
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 		<table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Id</td>
@@ -79,6 +79,9 @@
 
 		</table>
 		<a id="boton1">Agregar Ejecucion</a>
+
+<input type='submit' value='Guardar' />
+</form>
 		<center>
 		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>

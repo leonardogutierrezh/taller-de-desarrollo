@@ -513,9 +513,19 @@ def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     casos = CasoPrueba.objects.filter(escenario=dato)
     valores = []
     orden = []
-#    if request.method=='POST':
-#      formulario = camposSet(request.POST)
-#        if formulario.is_valid() and casoPrueba.is_valid():
+    if request.method=='POST':
+      ids = request.POST.getlist('id')
+      nombres = request.POST.getlist('nombre')
+      esperados = request.POST.getlist('esperado')
+      niveles = request.POST.getlist('nivel')
+      tipos = request.POST.getlist('tipo')
+      i = 0
+      while i < len(ids):
+        try:        
+          CasoPrueba.objects.create(escenario=dato,idcaso=ids[i],nombre=nombres[i],resultado=esperados[i],nivel=niveles[i],tipo=tipos[i],detalle=False)
+          i += 1
+        except:         
+          i += 1
     for caso in casos:
         for titulo in titulos:
             orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
@@ -535,13 +545,18 @@ def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
     if request.method=='POST':
-        formulario = CasoPruebaDetalleDefineForm(request.POST)
+        formulario = CasoPruebaDetalleForm(request.POST)
         if formulario.is_valid():
-          numeroCamp = formulario.cleaned_data['numeroCampos']
-          redireccion = '/caso_prueba_detalle_llenar2/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba) + '/' + str(numeroCamp)
+          casoprueba = CasoPrueba.objects.get(id=id_casoprueba)
+          form = formulario.save(commit=False)
+          form.casoprueba = casoprueba
+          form.sistema = Sistema.objects.get(id=id_sistema)
+          form.casouso = CasosDeUso.objects.get(id=id_caso)
+          form.save()
+          casoprueba.detalle = True
           return HttpResponseRedirect(redireccion)
     else:
-        formulario = CasoPruebaDetalleDefineForm()
+      formulario = CasoPruebaDetalleForm()
     return render_to_response('crear_casoprueba.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
