@@ -38,6 +38,16 @@
 			
 	</tr>
 
+<tr>
+
+		{% if rol == "Gerente de Proyecto" %}	
+
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
+		</td>
+		{% endif %}
+</tr>
+
+
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
@@ -47,22 +57,7 @@
 
 		
 		  <section class='contenido'  style="padding-left:20px; padding-right:20px">
-
-			  <div id="menu">
-			    <ul>
-				{% if rol == "Gerente de Proyecto" %}	
-				  <li><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a></li>
-				  <br></br>        
-				  <li><a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a></li>
-				  <br></br>      
-				  <li><a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a></li>
-				  <br></br>      
-				  <li><a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a></li>
-				{% endif %}	
-			    </ul>
-			  </div>
 		
-		<br></br> 		
 		<h3> Tabla de Requerimientos</h3>
 		<br></br> 
 

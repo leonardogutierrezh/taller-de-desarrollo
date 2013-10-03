@@ -38,7 +38,16 @@
 			
 	</tr>
 
+<tr>
+
+		{% if rol == "Gerente de Proyecto" %}	
+
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> <br />	
+		</td>
+		{% endif %}
+</tr>
 	<tr>
+
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
 		<h2>Proyectos</h2>
@@ -48,7 +57,7 @@
 		
 		  <section class='contenido' style="padding-left:20px">
 
-			  <div id="menu">
+			  <!--<div id="menu">
 			    <ul>
 				{% if rol == "Gerente de Proyecto" %}	
 				<li><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a></li>
@@ -59,8 +68,7 @@
 				{% endif %}	
 			    </ul>
 			  </div>
-
-			<br></br>
+			 !-->
 			<p>Nombre del Proyecto: {{proyecto.nombre}}</p>
 			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
 			<p>Fecha Final: {{proyecto.fechaFin}}</p>
@@ -72,7 +80,6 @@
 
 		      <div style="float: right width: 40%;">
 		      <h3>Iteración:</h3>
-		      <br></br>
 		      {% if proyecto.iteActual == 0 %}
 			<p style="padding-left:20px">No hay iteración en proceso</p>
 			<p style="padding-left:20px"> <a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
@@ -90,8 +97,7 @@
 
 		      <br></br>
 
-		      <h3>Iteraciones del proyecto</h3>
-		      <br></br>
+		      <h3>Iteraciones del proyecto:</h3>
 		      <ul>
 		      {% for ite in iteraciones %}
 		      <li style="padding-left:20px"><a id="siguiente" href='/iteracion/{{proyecto.id}}/{{rol}}/{{ite.id}}'>Iteracion {{ite.numero}}</a></li>
@@ -102,7 +108,6 @@
 		      <br></br>
 
 		      <h3>Sistemas Asociados:</h3>
-		      <br></br>
 		      <ul>
 		      {%for sistema in sistemas%}
 			      <li style="padding-left:20px"><a id="siguiente" href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
