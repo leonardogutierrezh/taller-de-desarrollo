@@ -545,13 +545,18 @@ def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
     if request.method=='POST':
-        formulario = CasoPruebaDetalleDefineForm(request.POST)
+        formulario = CasoPruebaDetalleForm(request.POST)
         if formulario.is_valid():
-          numeroCamp = formulario.cleaned_data['numeroCampos']
-          redireccion = '/caso_prueba_detalle_llenar2/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba) + '/' + str(numeroCamp)
+          casoprueba = CasoPrueba.objects.get(id=id_casoprueba)
+          form = formulario.save(commit=False)
+          form.casoprueba = casoprueba
+          form.sistema = Sistema.objects.get(id=id_sistema)
+          form.casouso = CasosDeUso.objects.get(id=id_caso)
+          form.save()
+          casoprueba.detalle = True
           return HttpResponseRedirect(redireccion)
     else:
-        formulario = CasoPruebaDetalleDefineForm()
+      formulario = CasoPruebaDetalleForm()
     return render_to_response('crear_casoprueba.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 

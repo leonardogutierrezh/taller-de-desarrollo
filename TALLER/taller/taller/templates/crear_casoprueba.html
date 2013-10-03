@@ -75,6 +75,15 @@
 		</td>
 	</tr>
 </table>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                //Aqui asignamos el click al elemento <a>
+                $("#boton1").click(function (){
+                    $( "#contenedor" ).append("<div class=\"campo-form\"><div class=\"label-form\">Nombre del campo</div><div class=\"input-form\"><input  name=\"alist\" /></div></div><div class=\"campo-error\"></div><div class=\"campo-form\"><div class=\"label-form\">Valor</div><div class=\"input-form\"><input  name=\"alist\" /></div></div><div class=\"campo-error\"></div>");
+                });
+});
+</script>
 </body>
 </html>
 
