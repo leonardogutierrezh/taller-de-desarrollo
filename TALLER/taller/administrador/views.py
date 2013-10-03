@@ -513,9 +513,19 @@ def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     casos = CasoPrueba.objects.filter(escenario=dato)
     valores = []
     orden = []
-#    if request.method=='POST':
-#      formulario = camposSet(request.POST)
-#        if formulario.is_valid() and casoPrueba.is_valid():
+    if request.method=='POST':
+      ids = request.POST.getlist('id')
+      nombres = request.POST.getlist('nombre')
+      esperados = request.POST.getlist('esperado')
+      niveles = request.POST.getlist('nivel')
+      tipos = request.POST.getlist('tipo')
+      i = 0
+      while i < len(ids):
+        try:        
+          CasoPrueba.objects.create(escenario=dato,idcaso=ids[i],nombre=nombres[i],resultado=esperados[i],nivel=niveles[i],tipo=tipos[i],detalle=False)
+          i += 1
+        except:         
+          i += 1
     for caso in casos:
         for titulo in titulos:
             orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
