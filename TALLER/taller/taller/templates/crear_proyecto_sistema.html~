@@ -67,7 +67,7 @@
 
 		    <ul>
 		    {% for sistemaAso in sistemasAso %}
-			    <li>{{sistemaAso.sistema.nombre}}</li>
+			    <li  style="padding-left:20px">{{sistemaAso.sistema.nombre}}</li>
 		    {%empty%}
 			    <p style="padding-left:20px">No hay sistemas asociados a este proyecto</p>
 		    {% endfor %}
@@ -76,7 +76,7 @@
 		    <h3>Crear nuevo sistema</h3>
 		    <br></br>
 			  <form style="padding-left:20px" id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			    {{formulario.as_p}}
+			    <table>{{formulario.as_p}}</table>
 			    <p> <br></br> <input type='submit' value='Confirmar' /></p>
 		    </form>
 

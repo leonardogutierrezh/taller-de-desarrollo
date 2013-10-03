@@ -50,7 +50,7 @@
 		  <section class='contenido' style="padding-left:20px">
 
 		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario.as_p}}
+			<table>{{formulario.as_table}}</table>
 			<p><br></br> <input type='submit' value='Confirmar' /></p>
 		</form>
 

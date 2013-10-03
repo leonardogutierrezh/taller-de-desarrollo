@@ -171,13 +171,36 @@ def crear_proyecto_equipo(request,id_proyecto):
         miembro_form = MiembroForm(request.POST)
         print "pase el post"
         if miembro_form.is_valid():
-          print "pase 1"
-          formulario = miembro_form.save(commit=False)
-          print "pase 2"
-          formulario.proyecto = proyecto
-          print "pase 3"
-          formulario.save()
-          return HttpResponseRedirect(redireccion)
+            rol = miembro_form.cleaned_data.get('rol')
+	    privilegio = 10
+
+            for k in rol:
+                if k == 'Gerente de Proyecto' and privilegio > 1 :
+                    privilegio = 1
+                    rol_aux = k
+  		if k == 'Gerente de Pruebas' and privilegio > 2 :
+                    privilegio = 2
+                    rol_aux = k
+  		if k == 'Analista de Pruebas' and privilegio > 3 :
+                    privilegio = 3
+                    rol_aux = k
+  		if k == 'Disenador de Pruebas' and privilegio > 4 :
+                    privilegio = 4
+                    rol_aux = k
+  		if k == 'Cliente' and privilegio > 5 :
+                    privilegio = 5
+                    rol_aux = k
+  		if k == 'Probador' and privilegio > 6 :
+                    privilegio = 6
+                    rol_aux = k
+  		if k == 'Analista de Requerimiento' and privilegio > 7 :
+                    privilegio = 7
+                    rol_aux = k
+			
+            formulario = Miembro.objects.create(usuario=miembro_form.cleaned_data.get('usuario'), proyecto = proyecto, rol=rol_aux, privilegio=privilegio)
+            formulario.save()
+            print formulario.privilegio
+            return HttpResponseRedirect(redireccion)
     else:
         formulario = MiembroForm()
     return render_to_response('crear_proyecto_equipo.html',{'formulario':formulario,'miembros':miembros}, context_instance=RequestContext(request))
@@ -490,6 +513,9 @@ def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     casos = CasoPrueba.objects.filter(escenario=dato)
     valores = []
     orden = []
+#    if request.method=='POST':
+#      formulario = camposSet(request.POST)
+#        if formulario.is_valid() and casoPrueba.is_valid():
     for caso in casos:
         for titulo in titulos:
             orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))

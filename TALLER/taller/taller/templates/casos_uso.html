@@ -5,6 +5,43 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
 
+<SCRIPT language="javascript">
+var count = "1";
+function addRow() {
+	  
+  // Borro la primera fila
+  if (count == "1"){
+  document.getElementById("tablaCasosUso").deleteRow(1);
+  };
+  var tbody = document.getElementById("tablaCasosUso").getElementsByTagName("TBODY")[0];
+      // creo una fila
+      var row = document.createElement("TR");
+      // celda 1
+      var td1 = document.createElement("TD")
+      var strHtml1 = "<input></input>";
+      td1.innerHTML = strHtml1.replace(/!count!/g,count);
+      // clda 2
+      var td2 = document.createElement("TD")
+      var strHtml2 = "<input></input>";
+      td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      
+      // agrego
+      row.appendChild(td1);
+      row.appendChild(td2);
+      
+      count = parseInt(count) + 1;
+      // agrego a la tabla
+      tbody.appendChild(row);
+	
+}
+
+function deleteRow() {
+  var a = document.getElementById("tablaCasosUso").rows.length;
+  document.getElementById("tablaCasosUso").deleteRow(a-1);
+  	
+} 
+    </SCRIPT>
+</HEAD>
 </head>
 <body>
 <!-- Save for Web Slices (index.psd) -->
@@ -64,7 +101,7 @@
 		<a id="siguiente" href='/casos_uso_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caso de Uso</a>
 <br></br> 
 
-<table  border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+<table  id="tablaCasosUso" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 	<tr>
 		<td style="background-color:#09C; border-radius:10px">Caso de Uso</td>
 		<td style="background-color:#09C; border-radius:10px">Actor</td>
@@ -81,6 +118,8 @@
 		{% endfor %}
 
 </table>
+<img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
+<img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 <br></br>
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">

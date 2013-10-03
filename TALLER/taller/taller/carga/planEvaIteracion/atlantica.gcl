@@ -1,0 +1,15 @@
+program atlantica
+|[
+	fun items:(x:int) -> int
+	{pre x>=0} {post items=2^x} {bound x}
+	|[	var y:=0:int;
+		if x=0 ->  y:=1
+		| x!=0 -> y:=2*items(x-1)
+		fi
+		>> y
+	]|
+	
+	var x:=readInt("Introduce el valor del upgrade ( + x ) que quieres:"):int;
+	var y:=items(x):int;
+	write("Necesitas " + y + " items para hacer ese upgrade\n")
+]|

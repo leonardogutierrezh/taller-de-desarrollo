@@ -76,7 +76,7 @@
 		    <h3>Crear nuevo sistema</h3>
 		    <br></br>
 			  <form style="padding-left:20px" id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			    {{formulario.as_p}}
+			    <table>{{formulario.as_table}}</table>
 			    <p> <br></br> <input type='submit' value='Confirmar' /></p>
 		    </form>
 

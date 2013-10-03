@@ -54,7 +54,7 @@ a:link {
 
 a:visited{
 	font: 14px Tahoma, Geneva, sans-serif;
-	color:black;
+	color:white;
 	font-weight:normal;
 	text-decoration:none;
 }
@@ -225,4 +225,9 @@ a.adv:visited {text-decoration: none; font-weight:bold; color:#000;}
       font-weight:normal;
       text-decoration:none;
       font-weight:bold;      
+}
+
+#formulario th {
+  text-align:left;
+  
 }

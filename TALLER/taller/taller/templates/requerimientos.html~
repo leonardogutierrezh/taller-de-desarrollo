@@ -5,9 +5,50 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
 
+<SCRIPT language="javascript">
+var count = "1";
+function addRow() {
+	  
+  // Borro la primera fila
+  if (count == "1"){
+  document.getElementById("tablaRequerimientos").deleteRow(1);
+  };
+  var tbody = document.getElementById("tablaRequerimientos").getElementsByTagName("TBODY")[0];
+      // creo una fila
+      var row = document.createElement("TR");
+      // celda 1
+      var td1 = document.createElement("TD")
+      var strHtml1 = "<input></input>";
+      td1.innerHTML = strHtml1.replace(/!count!/g,count);
+      // clda 2
+      var td2 = document.createElement("TD")
+      var strHtml2 = "<input></input>";
+      td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      // celda 1
+      var td3 = document.createElement("TD")
+      var strHtml3 = "<input></input>";
+      td1.innerHTML = strHtml3.replace(/!count!/g,count);
+      // agrego
+      row.appendChild(td1);
+      row.appendChild(td2);
+      row.appendChild(td3);
+      
+      count = parseInt(count) + 1;
+      // agrego a la tabla
+      tbody.appendChild(row);
+	
+}
+
+function deleteRow() {
+  var a = document.getElementById("tablaRequerimientos").rows.length;
+  document.getElementById("tablaRequerimientos").deleteRow(a-1);
+  	
+} 
+    </SCRIPT>
+
 </head>
 <body>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+<table  width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
 		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
@@ -57,16 +98,14 @@
 
 		
 		  <section class='contenido'  style="padding-left:20px; padding-right:20px">
-
 		
-		<br></br> 		
 		<h3> Tabla de Requerimientos</h3>
 		<br></br> 
 
 		<a id="siguiente" href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
 <br></br> 
 
-<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center">
+<table id="tablaRequerimientos" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center">
 	<tr>
 		<td style="background-color:#09C; border-radius:10px">Id de requerimiento</td>
 		<td style="background-color:#09C; border-radius:10px">Nombre</td>
@@ -90,6 +129,10 @@
 
 	</tr>
 </table>
+
+<img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
+<img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
+
 <br></br>
 	<tr>
 		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">

@@ -4,7 +4,6 @@
 <title> SGP - Proyectos</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
-
 </head>
 <body>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
@@ -59,34 +58,27 @@
 	
 	<br></br>
 
-		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+		<table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Id</td>
 				<td style="background-color:#09C; border-radius:10px">Nombre</td>
 				<td style="background-color:#09C; border-radius:10px">Resultado Esperado</td>
         <td style="background-color:#09C; border-radius:10px">Nivel de Prueba</td>
         <td style="background-color:#09C; border-radius:10px">Tipo de Prueba</td>
-        {% for titulo in titulos %}
-				<td style="background-color:#09C; border-radius:10px">{{titulo.titulo}}</td>      
-        {%endfor%}  
 			</tr>
+
 				{% for dato in lista %}
+				<tr>
 				<td>{{dato.0.idcaso}}</td>
 				<td><a id="siguiente" href='/caso_prueba_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{dato.0.id}}'>{{dato.0.nombre}}</a></td>
 				<td> {{dato.0.resultado}}</td>
 				<td> {{dato.0.nivel}}</td>
 				<td> {{dato.0.tipo}}</td>
-        {%for valor  in dato.1 %}		
-        <td> {{valor.valor}}</td>
-        {%endfor%}
 				</tr>	 
-					{% empty %}
-			<tr>
-				<td>No existen casos de prueba identificados para este escenario</td>
-					</tr>
 				{%endfor%}
-		</table>
 
+		</table>
+		<a id="boton1">Agregar Ejecucion</a>
 		<center>
 		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
@@ -98,6 +90,15 @@
 	</tr>
 
 </table>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                //Aqui asignamos el click al elemento <a>
+                $("#boton1").click(function (){
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><input type=\"text\" name=\"nivel\"></td><td><input type=\"text\" name=\"tipo\"></td></tr>");
+                });
+});
+</script>
 </body>
 </html>
 

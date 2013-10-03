@@ -41,8 +41,8 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
   
-		<h2>Proyectos</h2>
-		<h3>Crear Proyecto<h3>
+		<h2>Proyectos</h2> 
+		<h3>Crear Proyecto<h3> 
 		  <hr>
 		</td>
 	</tr>
@@ -52,7 +52,7 @@
 
 		  <section class='contenido' style="padding-left:20px">
 			  <form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-				  <table>{{formulario.as_p}}</table>
+				  <table>{{formulario.as_table}}</table>
 				  <p><br></br><input type='submit' value='Confirmar' /></p>
 			  </form>
 		  </section>

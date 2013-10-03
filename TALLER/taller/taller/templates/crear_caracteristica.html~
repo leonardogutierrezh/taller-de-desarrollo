@@ -47,7 +47,7 @@
 
 			<br></br> 
 		
-		  <section class='contenido' style="padding-left:20px; padding-right:20px">
+		  <section class='contenido'>
 		<center>
 		<form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 			{{formulario.as_p}}

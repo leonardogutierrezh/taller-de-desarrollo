@@ -1,0 +1,143 @@
+program ADN
+|[
+
+fun deNucAInt:(in nuc:String)->int
+{pre true}{post true}
+|[
+	var num:=0:int;
+	if nuc="A"-> num:=1
+	 | nuc="C"-> num:=2
+	 | nuc="G"-> num:=3
+	 | nuc="T"-> num:=4
+	 | !(nuc="A" \/nuc="C"\/nuc="G"\/nuc="T")->skip
+	 fi
+	 
+	 >> num
+]|
+
+fun deIntANuc:(in num:int)->String
+{pre num=1\/num=2 \/num=3\/num=4}{post deIntANuc="A"\/deIntANuc="C"\/deIntANuc="T"\/deIntANuc="G"}
+|[
+	var nuc:="":String;
+	if num=1-> nuc:="A"
+	 | num=2-> nuc:="C"
+	 | num=3-> nuc:="G"
+	 | num=4-> nuc:="T"
+	 fi
+	 
+	 >> nuc
+]|
+
+
+fun complemento : (in x: int) -> int
+{pre 0<x<=4}{post 0<complemento<=4}
+|[
+	var ncomplemento:=0:int;
+	if x=1 -> ncomplemento:=4
+	|  x=2 -> ncomplemento:=3
+	|  x=3 -> ncomplemento:=2
+	|  x=4 -> ncomplemento:=1
+	fi
+	
+	>> ncomplemento
+]|
+
+fun mutar : (in x: int, in p: double) -> int
+{pre 0<x<=4 /\ 0.0<=p<=1.0}{post true}
+|[
+	var r:=0.0:double;
+	random r;
+	var mutacion:=0:int;
+	
+	if r<=p ->
+		mutacion:=complemento(x)
+	| r>p ->
+		skip
+	fi
+
+>> mutacion	
+]|
+
+proc traducirADobleCadena : (in crom: String, in N: int,in out dc:array [][] of int)
+
+|[
+	var i:=0:int;
+	{inv 0<=i<=N+1}{bound N+1-i}
+	do i < N+1 ->
+		dc[i div 2][0] := deNucAInt(substring(crom,i,i+1));
+		dc[i div 2][1] := deNucAInt(substring(crom,i+1,i+2));
+		i:=i+2
+	od
+]|
+
+
+proc traducirACromosoma : (in dc: array [][] of int, in N: int, out crom:="": String)
+{pre true}{post true}
+|[
+	var i:=0:int;
+	{inv 0<=i<=N}{bound N-i}
+	do i < N div 2 ->
+		crom:=crom+dc[i][0]+dc[i][1];
+		i:=i+1
+	od
+]|
+
+proc extraerCadena : (in dc: array [][] of int, in N: int, in k: int, out cs:=%[i:N:0]%: array [] of int)
+{pre true}{post true}
+|[
+	var i:=0:int;
+	{inv 0<=i<=N}{bound N-i}
+	do i<N ->
+		cs[i]:=dc[i][k];
+		i:=i+1
+	od
+]|		
+
+proc complementarCadena : (in cs: array [ ] of int, in N: int, out cscomp:=%[i:N:0]%: array [] of int)
+{pre true}{post true}
+|[
+	var i:=0:int;
+	{inv 0<=i<=N}{bound N-i}
+	do i<N ->
+		cscomp[i]:= complemento(cs[i]);
+		i:=i+1
+	od
+]|
+
+proc construirDobleCadena : (in cs: array [ ] of int, in N: int, out dc:=%[i,j:N,2:0]%: array [][] of int)
+{pre true}{post true}
+|[
+	var i:=0:int;
+	{inv 0<=i<=N}{bound N-i}
+		do i<N ->
+			dc[i][0]:=cs[i];
+			dc[i][1]:=complemento(cs[i]);
+			i:=i+1
+		od
+]|
+
+
+
+
+
+
+//var x:= readString("Ingrese letra:"):String;
+//var y:= deNucAInt(x):int;
+//y:= complemento(y);
+//x:= deIntANuc(y);
+//write (x);
+//var p:= readDouble("Probabilidad:"):double;
+//var z:=mutar(y,p):int;
+//write(z);
+var crom:=readString("Cadena Simple:"):String;
+{length(crom) mod 2 = 0}
+var N:= length(crom) div 2:int;
+var dc:=%[i,j:N,2:0]%: array[][] of int;
+traducirADobleCadena (crom,N,dc);
+var j:=0:int;
+{inv true}{bound N-j}
+	do j!=N->
+		write(%sigma i: 0<=i<2:dc[j][i]+ " ");
+		j:=j+1
+	od
+]|

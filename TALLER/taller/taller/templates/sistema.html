@@ -5,6 +5,48 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
 
+<SCRIPT language="javascript">
+var count = "1";
+function addRow() {
+	  
+  // Borro la primera fila
+  if (count == "1"){
+  document.getElementById("tablaSistema").deleteRow(1);
+  };
+  var tbody = document.getElementById("tablaSistema").getElementsByTagName("TBODY")[0];
+      // creo una fila
+      var row = document.createElement("TR");
+      // celda 1
+      var td1 = document.createElement("TD")
+      var strHtml1 = "<input></input>";
+      td1.innerHTML = strHtml1.replace(/!count!/g,count);
+      // clda 2
+      var td2 = document.createElement("TD")
+      var strHtml2 = "<input></input>";
+      td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      // celda 1
+      var td3 = document.createElement("TD")
+      var strHtml3 = "<input></input>";
+      td3.innerHTML = strHtml3.replace(/!count!/g,count);
+      
+      // agrego
+      row.appendChild(td1);
+      row.appendChild(td2);
+      row.appendChild(td3);
+      
+      count = parseInt(count) + 1;
+      // agrego a la tabla
+      tbody.appendChild(row);
+	
+}
+
+function deleteRow() {
+  var a = document.getElementById("tablaSistema").rows.length;
+  document.getElementById("tablaSistema").deleteRow(a-1);
+  	
+} 
+    </SCRIPT>
+
 </head>
 <body>
 <!-- Save for Web Slices (index.psd) -->
@@ -64,7 +106,7 @@
 
 		<br></br> 
 
-		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+		<table id="tablaSistema" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Caracteristica</td>
 				<td style="background-color:#09C; border-radius:10px">Precedencia</td>
@@ -85,6 +127,9 @@
 					</tr>
 				{%endfor%}
 		</table>
+
+<img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
+<img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 
 		</section>
 		
