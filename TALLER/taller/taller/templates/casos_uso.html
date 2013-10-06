@@ -95,10 +95,11 @@ function deleteRow() {
 		
 		  <section class='contenido'  style="padding-left:20px; padding-right:20px">
 	
-		<h3> Resumen Casos de Uso</h3>
-		<br></br> 
-
-		<a id="siguiente" href='/casos_uso_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caso de Uso</a>
+		<h3> Resumen Casos de Uso {{dato.caso}}</h3>
+		<br>
+    <p>Requerimiento: {{dato.requerimiento}}</p>
+    <p>Descripcion: {{dato.descripcion}}</p>
+    <p>Precondicion: {{dato.precondicion}}</p>
 <br></br> 
 <form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 <table  id="tablaCasosUso" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
@@ -108,7 +109,7 @@ function deleteRow() {
 	</tr>
 		{% for caso in casos %}
 	<tr>
-		<td><a id="siguiente" href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{caso.id}}' >{{caso.caso}}</a></td>
+		<td><a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/{{caso.id}}' >{{caso.caso}}</a></td>
 		<td>{{caso.actor}}</td>
 	</tr>
 		{% empty %}

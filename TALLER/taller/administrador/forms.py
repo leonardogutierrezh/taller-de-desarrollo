@@ -59,7 +59,7 @@ class CaracteristicaForm(forms.ModelForm):
 class CasosDeUsoForm(forms.ModelForm):
   class Meta:
     model = CasosDeUso
-    exclude= ['sistema']
+    exclude= ['sistema','actor','caso','detalle']
 
 class EscenarioForm(forms.ModelForm):
   class Meta:

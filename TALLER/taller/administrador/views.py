@@ -321,7 +321,7 @@ def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
     
 @login_required(login_url='/') 
 def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
-
+    dato = ""
     sistema = Sistema.objects.get(pk=id_sistema)
     casos = CasosDeUso.objects.filter(sistema=sistema)
     valores = []
@@ -339,20 +339,23 @@ def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
     if id_casouso != '0':
       dato = CasosDeUso.objects.get(pk=id_casouso)
       if dato.detalle==False:
-        redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
+        redireccion = '/casos_uso_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_casouso)
         return HttpResponseRedirect(redireccion)   
-    return render_to_response('casos_uso.html', { 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def casos_uso_crear(request,id_proyecto,rol,id_sistema):
+def casos_uso_crear(request,id_proyecto,rol,id_sistema,id_casouso):
     if request.method=='POST':
         formulario = CasosDeUsoForm(request.POST)
         if formulario.is_valid():
+          dato = CasosDeUso.objects.get(pk=id_casouso)
           caso = formulario.save(commit=False)
-          sistema= Sistema.objects.get(pk=id_sistema)
-          caso.sistema = sistema
-          caso.save()
-          redireccion = '/casos_uso/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          dato.requerimiento = caso.requerimiento
+          dato.descripcion = caso.descripcion
+          dato.detalle = True
+          dato.precondicion = caso.precondicion
+          dato.save()
+          redireccion = '/casos_uso/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0'
           return HttpResponseRedirect(redireccion)
     else:
         formulario = CasosDeUsoForm()
