@@ -537,10 +537,37 @@ def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
 @login_required(login_url='/') 
 def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
     dato = CasoPrueba.objects.get(pk=id_casoprueba)
+    escenario = dato.escenario
+    if request.method=='POST':
+      print "entreeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ids = request.POST.getlist('id')
+      nombres = request.POST.getlist('nombre')
+      esperados = request.POST.getlist('esperado')
+      niveles = request.POST.getlist('nivel')
+      tipos = request.POST.getlist('tipo')
+      i = 0
+      while i < len(ids):
+        try:        
+          CasoPrueba.objects.create(escenario=escenario,idcaso=ids[i],nombre=nombres[i],resultado=esperados[i],nivel=niveles[i],tipo=tipos[i],detalle=False)
+          i += 1
+        except:         
+          i += 1
     if dato.detalle==False:
       redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
-      return HttpResponseRedirect(redireccion)      
-    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'escenario':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':id_escenario}, context_instance=RequestContext(request))
+      return HttpResponseRedirect(redireccion)   
+    detalle = CasoPruebaDetalle.objects.get(casoprueba=dato)  
+    casos = CasoPrueba.objects.filter(escenario=dato)
+    sistema = Sistema.objects.get(pk=id_sistema)
+    titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
+    valores = []
+    orden = []
+    for caso in casos:
+      for titulo in titulos:
+        orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+      valores.append(orden)
+      orden = []
+    lista = zip(casos,valores)   
+    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'detalle':detalle,'escenario':escenario,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':escenario.id,'casoprueba':dato}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):

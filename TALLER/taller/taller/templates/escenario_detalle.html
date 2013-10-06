@@ -40,7 +40,7 @@
 	<tr>
 		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
-		<h2> Detalle Escenario {{escenario.numero}}</h2>	
+		<h2> Casos de Prueba del escenario: {{escenario.numero}}</h2>	
 		  <hr>
 
 
@@ -52,7 +52,11 @@
 			<li><a href='/caso_prueba_crear/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{id_escenario}}'>Identificar Casos de Prueba</a></li>
 		  <br></br>    
 		</ul>
-		
+		<h3> Caso de prueba: {{casoprueba.nombre}} id: {{casoprueba.id}} </h3>
+    <p>Version: {{detalle.version}} Autor: {{detalle.autorcaso}}</p>
+    <p>Ambiente: {{detalle.ambiente}} Probador: {{detalle.probador}} </p>
+    <p>Condicion: {{detalle.condicion}} </p>
+    <p>Criterios: {{detalle.criterios}} </p>
 
 	</section>
 	
@@ -78,7 +82,7 @@
 				{%endfor%}
 
 		</table>
-		<a id="boton1">Agregar Ejecucion</a>
+		<a id="boton1">Agregar</a>
 
 <input type='submit' value='Guardar' />
 </form>
