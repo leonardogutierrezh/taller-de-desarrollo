@@ -45,6 +45,19 @@ function deleteRow() {
   document.getElementById("tablaRequerimientos").deleteRow(a-1);
   	
 } 
+
+function eliminarFila() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		x="You pressed OK!";
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
     </SCRIPT>
 
 </head>
@@ -115,8 +128,17 @@ function deleteRow() {
 		{% for dato in requerimientos %}
 	<tr>
 		<td>{{dato.idrequerimiento}}</td>
-		<td><a id="siguiente" href='/requerimientos_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}' >{{dato.nombre}}</a></td>
-		<td>{{dato.caracteristica}}</td>
+		<td>
+			<a id="siguiente" href='/requerimientos_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}' >
+				{{dato.nombre}}
+			</a>
+		</td>
+		<td>
+			{{dato.caracteristica}}
+		</td>
+		<td style="border:0; width:50px">
+			<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+		</td>
 	</tr>
 		{% empty %}
 	<tr>
