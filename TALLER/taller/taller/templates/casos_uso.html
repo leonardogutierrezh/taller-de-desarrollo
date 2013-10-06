@@ -18,11 +18,11 @@ function addRow() {
       var row = document.createElement("TR");
       // celda 1
       var td1 = document.createElement("TD")
-      var strHtml1 = "<input></input>";
+      var strHtml1 = "<input type=\"text\" name=\"caso\"></input>";
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
       // clda 2
       var td2 = document.createElement("TD")
-      var strHtml2 = "<input></input>";
+      var strHtml2 = "<input type=\"text\" name=\"actor\"></input>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
       
       // agrego
@@ -100,7 +100,7 @@ function deleteRow() {
 
 		<a id="siguiente" href='/casos_uso_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caso de Uso</a>
 <br></br> 
-
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 <table  id="tablaCasosUso" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 	<tr>
 		<td style="background-color:#09C; border-radius:10px">Caso de Uso</td>
@@ -118,6 +118,8 @@ function deleteRow() {
 		{% endfor %}
 
 </table>
+<input type='submit' value='Guardar' />
+</form>
 <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
 <img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 <br></br>

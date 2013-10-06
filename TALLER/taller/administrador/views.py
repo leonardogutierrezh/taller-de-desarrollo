@@ -323,6 +323,18 @@ def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
 def casos_uso(request,id_proyecto,rol,id_sistema):
     sistema = Sistema.objects.get(pk=id_sistema)
     casos = CasosDeUso.objects.filter(sistema=sistema)
+    valores = []
+    orden = []
+    if request.method=='POST':
+      caso = request.POST.getlist('caso')
+      actor = request.POST.getlist('actor')
+      i = 0
+      while i < len(caso):
+        try:        
+          CasosDeUso.objects.create(caso=caso[i],actor=actor[i],sistema=sistema,detalle=False)
+          i += 1
+        except:         
+          i += 1    
     return render_to_response('casos_uso.html', { 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
