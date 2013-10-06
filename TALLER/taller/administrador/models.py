@@ -72,10 +72,11 @@ class Requerimiento(models.Model):
 class CasosDeUso(models.Model):
   caso= models.CharField(max_length=50)
   sistema= models.ForeignKey(Sistema)
-  requerimiento = models.ForeignKey(Requerimiento)
+  requerimiento = models.ForeignKey(Requerimiento,null=True,blank=True)
   actor = models.CharField(max_length=50)
   descripcion = models.TextField(max_length=200)
   precondicion = models.TextField(max_length=200)
+  detalle = models.BooleanField()
 
   def __unicode__(self):
     return self.caso
