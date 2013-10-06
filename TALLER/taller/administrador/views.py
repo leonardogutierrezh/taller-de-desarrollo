@@ -273,19 +273,18 @@ def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     if request.method=='POST':
       carac = request.POST.getlist('caracteristica')
       prese = request.POST.getlist('presedencia')
-      priodirdad = request.POST.getlist('prioridad')
+      prioridad = request.POST.getlist('prioridad')
       i = 0
       while i < len(carac):
-#        try:        
-        if prese[i] == 'null':
-          value = 'null'
-        else:
-          value = Caracteristica.objects.get(pk=prese[i])
-        print value
-        Caracteristica.objects.create(nombre=carac[i],precedencia=value,prioridad=prioridad[i],sistema=sistema)
-        i += 1
-#        except:         
-#          i += 1
+        try:        
+          if prese[i] == 'null':
+            value = None
+          else:
+            value = Caracteristica.objects.get(pk=prese[i])
+          Caracteristica.objects.create(nombre=carac[i],precedencia=value,prioridad=prioridad[i],sistema=sistema)
+          i += 1
+        except:         
+          i += 1
     if id_caracteristica != '0':
       dato = Caracteristica.objects.get(pk=id_caracteristica)
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
