@@ -45,7 +45,7 @@ urlpatterns = patterns('',
     url(r'^caso_prueba_crear2/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_caso>\d+)/(?P<id_escenario>\d+)/(?P<numero_cas>\d+)/(?P<numero_camp>\d+)$', 'administrador.views.caso_prueba_crear2'),
     url(r'^caso_prueba_crear3/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_caso>\d+)/(?P<id_escenario>\d+)/(?P<numero_cas>\d+)/(?P<numero_camp>\d+)/(?P<contador>\d+)$', 'administrador.views.caso_prueba_crear3'),
     url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.STATIC_ROOT,}),
-    url(r'^casos_uso/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)$', 'administrador.views.casos_uso'),
+    url(r'^casos_uso/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_casouso>\d+)$', 'administrador.views.casos_uso'),
     url(r'^casos_uso_crear/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)$', 'administrador.views.casos_uso_crear'),
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT,}),
 

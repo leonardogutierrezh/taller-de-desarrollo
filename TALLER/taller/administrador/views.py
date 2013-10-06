@@ -320,7 +320,8 @@ def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
     return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
     
 @login_required(login_url='/') 
-def casos_uso(request,id_proyecto,rol,id_sistema):
+def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
+
     sistema = Sistema.objects.get(pk=id_sistema)
     casos = CasosDeUso.objects.filter(sistema=sistema)
     valores = []
@@ -335,6 +336,11 @@ def casos_uso(request,id_proyecto,rol,id_sistema):
           i += 1
         except:         
           i += 1    
+    if id_casouso != '0':
+      dato = CasosDeUso.objects.get(pk=id_casouso)
+      if dato.detalle==False:
+        redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
+        return HttpResponseRedirect(redireccion)   
     return render_to_response('casos_uso.html', { 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
