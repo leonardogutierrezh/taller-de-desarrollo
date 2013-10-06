@@ -273,19 +273,18 @@ def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     if request.method=='POST':
       carac = request.POST.getlist('caracteristica')
       prese = request.POST.getlist('presedencia')
-      priodirdad = request.POST.getlist('prioridad')
+      prioridad = request.POST.getlist('prioridad')
       i = 0
       while i < len(carac):
-#        try:        
-        if prese[i] == 'null':
-          value = 'null'
-        else:
-          value = Caracteristica.objects.get(pk=prese[i])
-        print value
-        Caracteristica.objects.create(nombre=carac[i],precedencia=value,prioridad=prioridad[i],sistema=sistema)
-        i += 1
-#        except:         
-#          i += 1
+        try:        
+          if prese[i] == 'null':
+            value = None
+          else:
+            value = Caracteristica.objects.get(pk=prese[i])
+          Caracteristica.objects.create(nombre=carac[i],precedencia=value,prioridad=prioridad[i],sistema=sistema,detalle=False)
+          i += 1
+        except:         
+          i += 1
     if id_caracteristica != '0':
       dato = Caracteristica.objects.get(pk=id_caracteristica)
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
@@ -296,24 +295,6 @@ def requerimientos(request,id_proyecto,rol,id_sistema):
     sistema= Sistema.objects.get(pk=id_sistema)
     requerimientos = Requerimiento.objects.filter(sistema=sistema)
     return render_to_response('requerimientos.html', { 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
-
-@login_required(login_url='/') 
-def caracteristica_crear(request,id_proyecto,rol,id_sistema):
-    if request.method=='POST':
-        formulario = CaracteristicaForm(request.POST)
-        if formulario.is_valid():
-          caracteristica = formulario.save(commit=False)
-          if caracteristica.precedencia == None:
-              caracteristica.precedencia = None  
-          print "victoria"
-          sistema= Sistema.objects.get(pk=id_sistema)
-          caracteristica.sistema = sistema
-          caracteristica.save()
-          redireccion = '/sistema/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
-          return HttpResponseRedirect(redireccion)
-    else:
-        formulario = CaracteristicaForm()
-    return render_to_response('crear_caracteristica.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def requerimiento_crear(request,id_proyecto,rol,id_sistema):

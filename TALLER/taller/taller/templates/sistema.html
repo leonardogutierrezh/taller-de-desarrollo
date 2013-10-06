@@ -102,7 +102,6 @@ function deleteRow() {
 
 		<h3> Tabla de Caracteristicas</h3>
 		<br></br> 
-		<a id="siguiente" href='/caracteristica_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caracteristica</a>
 
 		<br></br> 
 <form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
@@ -113,7 +112,7 @@ function deleteRow() {
 				<td style="background-color:#09C; border-radius:10px">Prioridad</td>
 			</tr>
 				{% for dato in caracteristica %}
-				<td><a  id="siguiente" href='/caracteristica_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>{{dato.nombre}}</a></td>
+				<td><a  id="siguiente" href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>{{dato.nombre}}</a></td>
 				<td>{% if dato.precedencia == None %}
 							No tiene precedencia
 						{%elif dato.precedencia != "None" %}	
