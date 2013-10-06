@@ -18,15 +18,15 @@ function addRow() {
       var row = document.createElement("TR");
       // celda 1
       var td1 = document.createElement("TD")
-      var strHtml1 = "<input></input>";
+      var strHtml1 = "<input type=\"text\" name=\"caracteristica\"></input>";
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
       // clda 2
       var td2 = document.createElement("TD")
-      var strHtml2 = "<input></input>";
+      var strHtml2 = "<select name=\"presedencia\"><option value=\"null\">Sin presedencia</option>{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
       // celda 1
       var td3 = document.createElement("TD")
-      var strHtml3 = "<input></input>";
+      var strHtml3 = "<input type=\"text\" name=\"prioridad\"></input>";
       td3.innerHTML = strHtml3.replace(/!count!/g,count);
       
       // agrego
@@ -85,7 +85,7 @@ function deleteRow() {
 
 		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
 		</td>
 		{% endif %}
 </tr>
@@ -105,7 +105,7 @@ function deleteRow() {
 		<a id="siguiente" href='/caracteristica_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caracteristica</a>
 
 		<br></br> 
-
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 		<table id="tablaSistema" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Caracteristica</td>
@@ -127,7 +127,8 @@ function deleteRow() {
 					</tr>
 				{%endfor%}
 		</table>
-
+<input type='submit' value='Guardar' />
+</form>
 <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
 <img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 

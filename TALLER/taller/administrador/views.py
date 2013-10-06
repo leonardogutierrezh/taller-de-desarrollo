@@ -266,9 +266,28 @@ def editar_proyecto(request,id_proyecto):
     return render_to_response('editar_proyecto.html', { 'formulario': proyecto_form, 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def sistema(request,id_proyecto,rol,id_sistema):
+def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     sistema = Sistema.objects.get(pk=id_sistema)
     caracteristica = Caracteristica.objects.filter(sistema=sistema)
+    sistema = Sistema.objects.get(pk=id_sistema)
+    if request.method=='POST':
+      carac = request.POST.getlist('caracteristica')
+      prese = request.POST.getlist('presedencia')
+      priodirdad = request.POST.getlist('prioridad')
+      i = 0
+      while i < len(carac):
+#        try:        
+        if prese[i] == 'null':
+          value = 'null'
+        else:
+          value = Caracteristica.objects.get(pk=prese[i])
+        print value
+        Caracteristica.objects.create(nombre=carac[i],precedencia=value,prioridad=prioridad[i],sistema=sistema)
+        i += 1
+#        except:         
+#          i += 1
+    if id_caracteristica != '0':
+      dato = Caracteristica.objects.get(pk=id_caracteristica)
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 

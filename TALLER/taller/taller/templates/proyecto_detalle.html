@@ -110,7 +110,7 @@
 		      <h3>Sistemas Asociados:</h3>
 		      <ul>
 		      {%for sistema in sistemas%}
-			      <li style="padding-left:20px"><a id="siguiente" href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}'>{{sistema.sistema.nombre}}</a></li>
+			      <li style="padding-left:20px"><a id="siguiente" href='/sistema/{{proyecto.id}}/{{rol}}/{{sistema.sistema.id}}/0'>{{sistema.sistema.nombre}}</a></li>
 		{% empty %}
 	
 			      <p style="padding-left:20px">No existen sistemas para este Proyecto </p>
