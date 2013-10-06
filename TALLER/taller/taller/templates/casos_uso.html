@@ -40,6 +40,19 @@ function deleteRow() {
   document.getElementById("tablaCasosUso").deleteRow(a-1);
   	
 } 
+
+function eliminarFila() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		x="You pressed OK!";
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
     </SCRIPT>
 </HEAD>
 </head>
@@ -111,6 +124,9 @@ function deleteRow() {
 	<tr>
 		<td><a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/{{caso.id}}' >{{caso.caso}}</a></td>
 		<td>{{caso.actor}}</td>
+		<td style="border:0;">
+			<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+		</td>
 	</tr>
 		{% empty %}
 	<tr>
