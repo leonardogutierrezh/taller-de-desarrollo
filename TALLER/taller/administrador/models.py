@@ -51,6 +51,7 @@ class Caracteristica(models.Model):
   nombre = models.CharField(max_length=40)
   precedencia = models.ForeignKey('self',null=True,blank=True)
   prioridad = models.CharField(max_length=40)
+  detalle = models.BooleanField()
 
   def __unicode__(self):
     return self.nombre
@@ -65,6 +66,7 @@ class Requerimiento(models.Model):
   interfaz = models.TextField(max_length=200,verbose_name='Interfaz grafica')
   imagen = models.ImageField(upload_to='interfaz',verbose_name='Imagen de interfaz grafica (Opcional)',null=True,blank=True)
   reglas = models.TextField(max_length=200,verbose_name='Reglas del Negocio asociada')
+  detalle = models.BooleanField()
 
   def __unicode__(self):
     return self.nombre
