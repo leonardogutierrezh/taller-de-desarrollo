@@ -290,6 +290,13 @@ def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
+def delete_caracteristica(request,id_proyecto,rol,id_sistema,id_caracteristica):
+    sistema = Sistema.objects.get(pk=id_sistema)
+    caracteristica = Caracteristica.objects.get(pk=id_caracteristica).delete()
+    redireccion = '/sistema/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0'
+    return HttpResponseRedirect(redireccion)   
+
+@login_required(login_url='/') 
 def requerimientos(request,id_proyecto,rol,id_sistema,id_requerimiento):
     #requerimiento = Sistema.objects.get(pk=id_sistema)
     dato =""
