@@ -24,15 +24,20 @@ function addRow() {
       var td2 = document.createElement("TD")
       var strHtml2 = "<select name=\"presedencia\"><option value=\"null\">Sin presedencia</option>{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
-      // celda 1
+      // celda 3
       var td3 = document.createElement("TD")
       var strHtml3 = "<input type=\"text\" name=\"prioridad\"></input>";
       td3.innerHTML = strHtml3.replace(/!count!/g,count);
+      // celda 4
+      var td4 = document.createElement("TD")
+      var strHtml4 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td4.innerHTML = strHtml4.replace(/!count!/g,count);
       
       // agrego
       row.appendChild(td1);
       row.appendChild(td2);
       row.appendChild(td3);
+      row.appendChild(td4);
       
       count = parseInt(count) + 1;
       // agrego a la tabla
@@ -51,6 +56,19 @@ function eliminarFila() {
 	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
 	if (r==true) {
   		x="You pressed OK!";
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		var a = document.getElementById("tablaSistema").rows.length;
+  		document.getElementById("tablaSistema").deleteRow(a-1);
   	}
 	else {
   		x="You pressed Cancel!";
@@ -145,7 +163,6 @@ function eliminarFila() {
 <input type='submit' value='Guardar' />
 </form>
 <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
-<img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 
 		</section>
 		

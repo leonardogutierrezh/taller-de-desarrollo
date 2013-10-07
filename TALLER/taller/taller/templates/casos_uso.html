@@ -20,14 +20,19 @@ function addRow() {
       var td1 = document.createElement("TD")
       var strHtml1 = "<input type=\"text\" name=\"caso\"></input>";
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
-      // clda 2
+      // celda 2
       var td2 = document.createElement("TD")
       var strHtml2 = "<input type=\"text\" name=\"actor\"></input>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      // celda 3
+      var td3 = document.createElement("TD")
+      var strHtml3 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td3.innerHTML = strHtml3.replace(/!count!/g,count);
       
       // agrego
       row.appendChild(td1);
       row.appendChild(td2);
+      row.appendChild(td3);
       
       count = parseInt(count) + 1;
       // agrego a la tabla
@@ -46,6 +51,19 @@ function eliminarFila() {
 	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
 	if (r==true) {
   		x="You pressed OK!";
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		var a = document.getElementById("tablaSistema").rows.length;
+  		document.getElementById("tablaSistema").deleteRow(a-1);
   	}
 	else {
   		x="You pressed Cancel!";
