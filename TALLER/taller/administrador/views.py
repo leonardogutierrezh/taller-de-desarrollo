@@ -294,7 +294,22 @@ def requerimientos(request,id_proyecto,rol,id_sistema):
     #requerimiento = Sistema.objects.get(pk=id_sistema)
     sistema= Sistema.objects.get(pk=id_sistema)
     requerimientos = Requerimiento.objects.filter(sistema=sistema)
-    return render_to_response('requerimientos.html', { 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    caracteristica = Caracteristica.objects.filter(sistema=sistema)
+    if request.method=='POST':
+      ids = request.POST.getlist('id')
+      nombre = request.POST.getlist('nombre')
+      carac = request.POST.getlist('caracteristica')
+      i = 0
+      while i < len(ids):
+        try:
+          value = Caracteristica.objects.get(pk=prese[i])
+          Requerimiento.objects.create(nombre=nombre[i],caracteristica=value,idrequerimiento=ids[i],sistema=sistema,detalle=False)
+          i += 1
+        except:         
+          i += 1
+#    if id_caracteristica != '0':
+#      dato = Caracteristica.objects.get(pk=id_caracteristica)
+    return render_to_response('requerimientos.html', {'caracteristica':caracteristica, 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def requerimiento_crear(request,id_proyecto,rol,id_sistema):

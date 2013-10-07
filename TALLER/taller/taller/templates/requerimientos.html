@@ -18,15 +18,15 @@ function addRow() {
       var row = document.createElement("TR");
       // celda 1
       var td1 = document.createElement("TD")
-      var strHtml1 = "<input></input>";
+      var strHtml1 = "<input type=\"text\" name=\"id\"></input>";
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
       // clda 2
       var td2 = document.createElement("TD")
-      var strHtml2 = "<input></input>";
+      var strHtml2 = "<input type=\"text\" name=\"nombre\"></input>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
       // celda 1
       var td3 = document.createElement("TD")
-      var strHtml3 = "<input></input>";
+      var strHtml3 = "<select name=\"caracteristica\">{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
       td3.innerHTML = strHtml3.replace(/!count!/g,count);
       
       // agrego
@@ -118,7 +118,7 @@ function eliminarFila() {
 
 		<a id="siguiente" href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
 <br></br> 
-
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 <table id="tablaRequerimientos" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center">
 	<tr>
 		<td style="background-color:#09C; border-radius:10px">Id de requerimiento</td>
@@ -152,7 +152,8 @@ function eliminarFila() {
 
 	</tr>
 </table>
-
+<input type='submit' value='Guardar' />
+</form>
 <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
 <img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 
