@@ -266,49 +266,75 @@ def editar_proyecto(request,id_proyecto):
     return render_to_response('editar_proyecto.html', { 'formulario': proyecto_form, 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def sistema(request,id_proyecto,rol,id_sistema):
+def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     sistema = Sistema.objects.get(pk=id_sistema)
     caracteristica = Caracteristica.objects.filter(sistema=sistema)
+    sistema = Sistema.objects.get(pk=id_sistema)
+    if request.method=='POST':
+      carac = request.POST.getlist('caracteristica')
+      prese = request.POST.getlist('presedencia')
+      prioridad = request.POST.getlist('prioridad')
+      i = 0
+      while i < len(carac):
+        try:        
+          if prese[i] == 'null':
+            value = None
+          else:
+            value = Caracteristica.objects.get(pk=prese[i])
+          Caracteristica.objects.create(nombre=carac[i],precedencia=value,prioridad=prioridad[i],sistema=sistema,detalle=False)
+          i += 1
+        except:         
+          i += 1
+    if id_caracteristica != '0':
+      dato = Caracteristica.objects.get(pk=id_caracteristica)
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def requerimientos(request,id_proyecto,rol,id_sistema):
+def requerimientos(request,id_proyecto,rol,id_sistema,id_requerimiento):
     #requerimiento = Sistema.objects.get(pk=id_sistema)
+    dato =""
     sistema= Sistema.objects.get(pk=id_sistema)
     requerimientos = Requerimiento.objects.filter(sistema=sistema)
-    return render_to_response('requerimientos.html', { 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
-
-@login_required(login_url='/') 
-def caracteristica_crear(request,id_proyecto,rol,id_sistema):
+    caracteristica = Caracteristica.objects.filter(sistema=sistema)
     if request.method=='POST':
-        formulario = CaracteristicaForm(request.POST)
-        if formulario.is_valid():
-          caracteristica = formulario.save(commit=False)
-          if caracteristica.precedencia == None:
-              caracteristica.precedencia = None  
-          print "victoria"
-          sistema= Sistema.objects.get(pk=id_sistema)
-          caracteristica.sistema = sistema
-          caracteristica.save()
-          redireccion = '/sistema/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
-          return HttpResponseRedirect(redireccion)
-    else:
-        formulario = CaracteristicaForm()
-    return render_to_response('crear_caracteristica.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+      ids = request.POST.getlist('id')
+      nombre = request.POST.getlist('nombre')
+      carac = request.POST.getlist('caracteristica')
+      i = 0
+      while i < len(ids):
+        try:
+          value = Caracteristica.objects.get(pk=carac[i])
+          Requerimiento.objects.create(nombre=nombre[i],caracteristica=value,idrequerimiento=ids[i],sistema=sistema,detalle=False)
+          i += 1
+        except:         
+          i += 1
+    if id_requerimiento != '0':
+      dato = Requerimiento.objects.get(pk=id_requerimiento)
+      if dato.detalle == False:
+        redireccion = '/requerimiento_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_requerimiento)
+        return HttpResponseRedirect(redireccion)   
+    return render_to_response('requerimientos.html', {'dato':dato,'caracteristica':caracteristica, 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def requerimiento_crear(request,id_proyecto,rol,id_sistema):
+def requerimiento_crear(request,id_proyecto,rol,id_sistema,id_requerimiento):
     if request.method=='POST':
         formulario = RequerimientoForm(request.POST,request.FILES)
         if formulario.is_valid():
+          req = Requerimiento.objects.get(pk=id_requerimiento)
           requerimiento = formulario.save(commit=False)
           if requerimiento.imagen == None:
               requerimiento.imagen = None  
           print "victoria"
           sistema= Sistema.objects.get(pk=id_sistema)
-          requerimiento.sistema = sistema
-          requerimiento.save()
-          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          req.sistema = sistema
+          req.descripcion = requerimiento.descripcion
+          req.imagen = requerimiento.imagen
+          req.prioridad = requerimiento.prioridad
+          req.interfaz = requerimiento.interfaz
+          req.reglas = requerimiento.reglas
+          req.detalle = True
+          req.save()
+          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0'
           return HttpResponseRedirect(redireccion)
     else:
         formulario = RequerimientoForm()
@@ -320,21 +346,42 @@ def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
     return render_to_response('requerimiento_detalle.html',{'requerimiento':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema}, context_instance=RequestContext(request))
     
 @login_required(login_url='/') 
-def casos_uso(request,id_proyecto,rol,id_sistema):
+def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
+    dato = ""
     sistema = Sistema.objects.get(pk=id_sistema)
     casos = CasosDeUso.objects.filter(sistema=sistema)
-    return render_to_response('casos_uso.html', { 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    valores = []
+    orden = []
+    if request.method=='POST':
+      caso = request.POST.getlist('caso')
+      actor = request.POST.getlist('actor')
+      i = 0
+      while i < len(caso):
+        try:        
+          CasosDeUso.objects.create(caso=caso[i],actor=actor[i],sistema=sistema,detalle=False)
+          i += 1
+        except:         
+          i += 1    
+    if id_casouso != '0':
+      dato = CasosDeUso.objects.get(pk=id_casouso)
+      if dato.detalle==False:
+        redireccion = '/casos_uso_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_casouso)
+        return HttpResponseRedirect(redireccion)   
+    return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def casos_uso_crear(request,id_proyecto,rol,id_sistema):
+def casos_uso_crear(request,id_proyecto,rol,id_sistema,id_casouso):
     if request.method=='POST':
         formulario = CasosDeUsoForm(request.POST)
         if formulario.is_valid():
+          dato = CasosDeUso.objects.get(pk=id_casouso)
           caso = formulario.save(commit=False)
-          sistema= Sistema.objects.get(pk=id_sistema)
-          caso.sistema = sistema
-          caso.save()
-          redireccion = '/casos_uso/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          dato.requerimiento = caso.requerimiento
+          dato.descripcion = caso.descripcion
+          dato.detalle = True
+          dato.precondicion = caso.precondicion
+          dato.save()
+          redireccion = '/casos_uso/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0'
           return HttpResponseRedirect(redireccion)
     else:
         formulario = CasosDeUsoForm()
@@ -537,10 +584,37 @@ def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
 @login_required(login_url='/') 
 def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
     dato = CasoPrueba.objects.get(pk=id_casoprueba)
+    escenario = dato.escenario
+    if request.method=='POST':
+      print "entreeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ids = request.POST.getlist('id')
+      nombres = request.POST.getlist('nombre')
+      esperados = request.POST.getlist('esperado')
+      niveles = request.POST.getlist('nivel')
+      tipos = request.POST.getlist('tipo')
+      i = 0
+      while i < len(ids):
+        try:        
+          CasoPrueba.objects.create(escenario=escenario,idcaso=ids[i],nombre=nombres[i],resultado=esperados[i],nivel=niveles[i],tipo=tipos[i],detalle=False)
+          i += 1
+        except:         
+          i += 1
     if dato.detalle==False:
       redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
-      return HttpResponseRedirect(redireccion)      
-    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'escenario':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':id_escenario}, context_instance=RequestContext(request))
+      return HttpResponseRedirect(redireccion)   
+    detalle = CasoPruebaDetalle.objects.get(casoprueba=dato)  
+    casos = CasoPrueba.objects.filter(escenario=dato)
+    sistema = Sistema.objects.get(pk=id_sistema)
+    titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
+    valores = []
+    orden = []
+    for caso in casos:
+      for titulo in titulos:
+        orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+      valores.append(orden)
+      orden = []
+    lista = zip(casos,valores)   
+    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'detalle':detalle,'escenario':escenario,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':escenario.id,'casoprueba':dato}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):

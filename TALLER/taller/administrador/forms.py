@@ -44,7 +44,7 @@ class ProyectoeForm(forms.ModelForm):
 class RequerimientoForm(forms.ModelForm):
   class Meta:
     model = Requerimiento
-    exclude = ['sistema']
+    exclude = ['sistema','nombre','caracteristica','detalle','idrequerimiento']
 
 class IteracionForm(forms.ModelForm):
   class Meta:
@@ -59,7 +59,7 @@ class CaracteristicaForm(forms.ModelForm):
 class CasosDeUsoForm(forms.ModelForm):
   class Meta:
     model = CasosDeUso
-    exclude= ['sistema']
+    exclude= ['sistema','actor','caso','detalle']
 
 class EscenarioForm(forms.ModelForm):
   class Meta:

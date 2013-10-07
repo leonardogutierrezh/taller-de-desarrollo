@@ -18,21 +18,26 @@ function addRow() {
       var row = document.createElement("TR");
       // celda 1
       var td1 = document.createElement("TD")
-      var strHtml1 = "<input></input>";
+      var strHtml1 = "<input type=\"text\" name=\"caracteristica\"></input>";
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
       // clda 2
       var td2 = document.createElement("TD")
-      var strHtml2 = "<input></input>";
+      var strHtml2 = "<select name=\"presedencia\"><option value=\"null\">Sin presedencia</option>{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
-      // celda 1
+      // celda 3
       var td3 = document.createElement("TD")
-      var strHtml3 = "<input></input>";
+      var strHtml3 = "<input type=\"text\" name=\"prioridad\"></input>";
       td3.innerHTML = strHtml3.replace(/!count!/g,count);
+      // celda 4
+      var td4 = document.createElement("TD")
+      var strHtml4 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td4.innerHTML = strHtml4.replace(/!count!/g,count);
       
       // agrego
       row.appendChild(td1);
       row.appendChild(td2);
       row.appendChild(td3);
+      row.appendChild(td4);
       
       count = parseInt(count) + 1;
       // agrego a la tabla
@@ -45,6 +50,32 @@ function deleteRow() {
   document.getElementById("tablaSistema").deleteRow(a-1);
   	
 } 
+
+function eliminarFila() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		x="You pressed OK!";
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		var a = document.getElementById("tablaSistema").rows.length;
+  		document.getElementById("tablaSistema").deleteRow(a-1);
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
     </SCRIPT>
 
 </head>
@@ -85,7 +116,7 @@ function deleteRow() {
 
 		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
 		</td>
 		{% endif %}
 </tr>
@@ -102,10 +133,9 @@ function deleteRow() {
 
 		<h3> Tabla de Caracteristicas</h3>
 		<br></br> 
-		<a id="siguiente" href='/caracteristica_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Caracteristica</a>
 
 		<br></br> 
-
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 		<table id="tablaSistema" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Caracteristica</td>
@@ -113,13 +143,16 @@ function deleteRow() {
 				<td style="background-color:#09C; border-radius:10px">Prioridad</td>
 			</tr>
 				{% for dato in caracteristica %}
-				<td><a  id="siguiente" href='/caracteristica_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>{{dato.nombre}}</a></td>
+				<td><a  id="siguiente" href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>{{dato.nombre}}</a></td>
 				<td>{% if dato.precedencia == None %}
 							No tiene precedencia
 						{%elif dato.precedencia != "None" %}	
 							{{dato.precedencia}}
 						{%endif%}</td>
-				<td> {{dato.prioridad}}</td>		
+				<td> {{dato.prioridad}}</td>
+				<td style="border:0; width:50px">
+					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+				</td>		
 				</tr>	 
 					{% empty %}
 			<tr>
@@ -127,9 +160,9 @@ function deleteRow() {
 					</tr>
 				{%endfor%}
 		</table>
-
+<input type='submit' value='Guardar' />
+</form>
 <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
-<img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 
 		</section>
 		
