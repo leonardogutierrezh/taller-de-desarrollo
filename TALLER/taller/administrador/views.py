@@ -290,8 +290,9 @@ def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def requerimientos(request,id_proyecto,rol,id_sistema):
+def requerimientos(request,id_proyecto,rol,id_sistema,id_requerimiento):
     #requerimiento = Sistema.objects.get(pk=id_sistema)
+    dato =""
     sistema= Sistema.objects.get(pk=id_sistema)
     requerimientos = Requerimiento.objects.filter(sistema=sistema)
     caracteristica = Caracteristica.objects.filter(sistema=sistema)
@@ -302,28 +303,38 @@ def requerimientos(request,id_proyecto,rol,id_sistema):
       i = 0
       while i < len(ids):
         try:
-          value = Caracteristica.objects.get(pk=prese[i])
+          value = Caracteristica.objects.get(pk=carac[i])
           Requerimiento.objects.create(nombre=nombre[i],caracteristica=value,idrequerimiento=ids[i],sistema=sistema,detalle=False)
           i += 1
         except:         
           i += 1
-#    if id_caracteristica != '0':
-#      dato = Caracteristica.objects.get(pk=id_caracteristica)
-    return render_to_response('requerimientos.html', {'caracteristica':caracteristica, 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    if id_requerimiento != '0':
+      dato = Requerimiento.objects.get(pk=id_requerimiento)
+      if dato.detalle == False:
+        redireccion = '/requerimiento_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_requerimiento)
+        return HttpResponseRedirect(redireccion)   
+    return render_to_response('requerimientos.html', {'dato':dato,'caracteristica':caracteristica, 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
-def requerimiento_crear(request,id_proyecto,rol,id_sistema):
+def requerimiento_crear(request,id_proyecto,rol,id_sistema,id_requerimiento):
     if request.method=='POST':
         formulario = RequerimientoForm(request.POST,request.FILES)
         if formulario.is_valid():
+          req = Requerimiento.objects.get(pk=id_requerimiento)
           requerimiento = formulario.save(commit=False)
           if requerimiento.imagen == None:
               requerimiento.imagen = None  
           print "victoria"
           sistema= Sistema.objects.get(pk=id_sistema)
-          requerimiento.sistema = sistema
-          requerimiento.save()
-          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema)
+          req.sistema = sistema
+          req.descripcion = requerimiento.descripcion
+          req.imagen = requerimiento.imagen
+          req.prioridad = requerimiento.prioridad
+          req.interfaz = requerimiento.interfaz
+          req.reglas = requerimiento.reglas
+          req.detalle = True
+          req.save()
+          redireccion = '/requerimientos/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0'
           return HttpResponseRedirect(redireccion)
     else:
         formulario = RequerimientoForm()
