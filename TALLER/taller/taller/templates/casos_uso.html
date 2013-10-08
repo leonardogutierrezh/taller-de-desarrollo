@@ -132,6 +132,9 @@ function eliminarFilaVacia() {
     <p>Requerimiento: {{dato.requerimiento}}</p>
     <p>Descripcion: {{dato.descripcion}}</p>
     <p>Precondicion: {{dato.precondicion}}</p>
+    {%if dato.detalle%}
+    <a href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>Ver escenarios de {{dato.caso}}</a>
+    {%endif%}
 <br></br> 
 <form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 <table  id="tablaCasosUso" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">

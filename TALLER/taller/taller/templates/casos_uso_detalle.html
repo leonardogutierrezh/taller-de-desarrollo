@@ -56,7 +56,7 @@
 		<ul>
 		  <li><a href='/editar_casos_uso/{{id}}/{{rol}}'>Editar Caso de Uso</a></li>
 			<br></br>
-			<li><a href='/escenarios_crear/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}'>Identificar Escenarios</a></li>
+			<li><a href='/escenarios_crear/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}'>Configurar Campos Adicionales</a></li>
 		  <br></br>    
 		</ul>
 		
@@ -64,8 +64,8 @@
 	</section>
 	
 	<br></br>
-
-		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+		<table id="contenedor" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Numero</td>
 				<td style="background-color:#09C; border-radius:10px">Flujo Originario</td>
@@ -88,7 +88,9 @@
 					</tr>
 				{%endfor%}
 		</table>
-
+<a id="boton1">Agregar</a>
+<input type='submit' value='Guardar' />
+</form>
 		<center>
 		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
@@ -100,6 +102,16 @@
 	</tr>
 
 </table>
+
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                //Aqui asignamos el click al elemento <a>
+                $("#boton1").click(function (){
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"numero\"></td><td><input type=\"text\" name=\"originario\"></td><td><input type=\"text\" name=\"alterno\"></td>{%for titulo in titulos%}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{%endfor%}</tr>");
+                });
+});
+</script>
 </body>
 </html>
 

@@ -408,6 +408,29 @@ def casos_uso_detalle(request,id_proyecto,rol,id_sistema,id_caso):
     escenarios = Escenario.objects.filter(caso=dato)
     valores = []
     orden = []
+    if request.method=='POST':
+      print "entreeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      num = request.POST.getlist('numero')
+      ori = request.POST.getlist('originario')
+      alt = request.POST.getlist('alterno')
+      listaTitulos = []
+      for titulo in titulos:
+        elemento = request.POST.getlist(titulo.titulo)
+        print elemento
+        tupla = titulo, elemento
+        listaTitulos.append(tupla)
+      i = 0
+      while i < len(num):
+        try:        
+          esc = Escenario.objects.create(caso=dato,numero=num[i],flujoOriginario=ori[i],flujoAlterno=alt[i])
+          for elem in listaTitulos:
+            print elem[0]
+            print elem[1]
+            EscenarioValor.objects.create(escenario=esc,titulo=elem[0],valor=elem[1][i])
+          i += 1
+        except:         
+          print "hizo except"
+          i += 1
     for escenario in escenarios:
         for titulo in titulos:
             orden.append(EscenarioValor.objects.get(escenario=escenario,titulo=titulo))
