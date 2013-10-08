@@ -421,7 +421,7 @@ def escenarios_crear(request,id_proyecto,rol,id_sistema,id_caso):
     if request.method=='POST':
         formulario = EscenarioDefineForm(request.POST)
         if formulario.is_valid():
-          numeroEsc = formulario.cleaned_data['numeroEscenarios']
+          numeroEsc = 0
           numeroCamp = formulario.cleaned_data['numeroCampos']
           redireccion = '/escenarios_crear2/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numeroEsc) + '/' + str(numeroCamp)
           return HttpResponseRedirect(redireccion)
@@ -439,14 +439,13 @@ def escenarios_crear2(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,nume
           for form in formulario:
             titulo = form.save(commit=False)
             sistema= Sistema.objects.get(pk=id_sistema)
-            print sistema.nombre
             titulo.sistema = sistema
             titulo.save()
-          redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp)  + '/0'
+          redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
           return HttpResponseRedirect(redireccion)
     else:
         if numero_camp=='0':  
-            redireccion = '/escenarios_crear3/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(numero_esc) + '/' + str(numero_camp) + '/0'
+            redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
             return HttpResponseRedirect(redireccion)
         else:
             formulario = formularioSet
