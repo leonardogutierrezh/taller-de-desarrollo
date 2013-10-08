@@ -51,11 +51,12 @@ function deleteRow() {
   	
 } 
 
-function eliminarFila() {
+function eliminarFila(id) {
 	var x;
 	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
 	if (r==true) {
-  		x="You pressed OK!";
+  		var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+      window.location.assign(string1 + id)
   	}
 	else {
   		x="You pressed Cancel!";
@@ -151,7 +152,7 @@ function eliminarFilaVacia() {
 						{%endif%}</td>
 				<td> {{dato.prioridad}}</td>
 				<td style="border:0; width:50px">
-					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
 				</td>		
 				</tr>	 
 					{% empty %}
