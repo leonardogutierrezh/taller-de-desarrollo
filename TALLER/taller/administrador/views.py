@@ -377,6 +377,12 @@ def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
     return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
+def delete_casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
+    caso = CasosDeUso.objects.get(pk=id_casouso).delete()
+    redireccion = '/casos_uso/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0'
+    return HttpResponseRedirect(redireccion)   
+
+@login_required(login_url='/') 
 def casos_uso_crear(request,id_proyecto,rol,id_sistema,id_casouso):
     if request.method=='POST':
         formulario = CasosDeUsoForm(request.POST)
