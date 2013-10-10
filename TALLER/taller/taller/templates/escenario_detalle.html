@@ -49,7 +49,7 @@
 		<div id="menu">
 		<ul>
 			<br></br>
-			<li><a href='/caso_prueba_crear/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{id_escenario}}'>Identificar Casos de Prueba</a></li>
+			<li><a href='/caso_prueba_crear/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{id_escenario}}'>Configurar Formulario de Casos de Prueba</a></li>
 		  <br></br>    
 		</ul>
 		<h3> Caso de prueba: {{casoprueba.nombre}} id: {{casoprueba.id}} </h3>
@@ -69,6 +69,9 @@
 				<td style="background-color:#09C; border-radius:10px">Resultado Esperado</td>
         <td style="background-color:#09C; border-radius:10px">Nivel de Prueba</td>
         <td style="background-color:#09C; border-radius:10px">Tipo de Prueba</td>
+        {%for titulo in titulos%}
+        <td style="background-color:#09C; border-radius:10px">{{titulo.titulo}}</td>
+        {%endfor%}
 			</tr>
 
 				{% for dato in lista %}
@@ -78,6 +81,9 @@
 				<td> {{dato.0.resultado}}</td>
 				<td> {{dato.0.nivel}}</td>
 				<td> {{dato.0.tipo}}</td>
+        {%for valor  in dato.1 %}		
+        <td> {{valor.valor}}</td>
+        {%endfor%}
 				</tr>	 
 				{%endfor%}
 
@@ -87,7 +93,7 @@
 <input type='submit' value='Guardar' />
 </form>
 		<center>
-		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
+		<a id="siguiente" href='/casos_uso_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{escenario.caso.id}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
 
 	<tr>
@@ -102,7 +108,7 @@
             $(document).ready(function (){
                 //Aqui asignamos el click al elemento <a>
                 $("#boton1").click(function (){
-                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><input type=\"text\" name=\"nivel\"></td><td><input type=\"text\" name=\"tipo\"></td></tr>");
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><input type=\"text\" name=\"nivel\"></td><td><input type=\"text\" name=\"tipo\"></td>{%for titulo in titulos%}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{%endfor%}</tr>");
                 });
 });
 </script>

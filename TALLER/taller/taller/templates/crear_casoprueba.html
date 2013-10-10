@@ -47,9 +47,18 @@
 		  <hr>
 		
 		  <section class='contenido' style="padding-left:20px">
-
-		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario.as_p}}
+			<div>
+			<h4>Campos Actuales</h4>
+      {%for titulo in titulos%}
+				<div class="campo-form"><div class="input-form">{{titulo.titulo}}</div></div>
+			{% endfor %}
+			</div>
+		<form id='formulario_req' method='post' enctype='multipart/form-data' action='' onsubmit="return confirm('Si guarda se perderan todos los casos de prueba creados anteriormente');">{% csrf_token %}
+			<div id="contenedor">
+			<h4>Nuevos Campos</h4>
+			<p>Al crear nuevos campos se perderan los anteriores</p>
+ 			</div>
+			<a id="boton1">Crear Nuevo Campo</a>
 			<p><br></br><input type='submit' value='Confirmar' /></p>
 		</form>
 
@@ -76,11 +85,21 @@
 	</tr>
 </table>
 <script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script>
+function validate(form) {
+
+    // validation code here ...
+
+
+    if(!valid) return false;
+    else return confirm('Do you really want to submit the form?');
+}
+</script>
 <script type="text/javascript">
             $(document).ready(function (){
                 //Aqui asignamos el click al elemento <a>
                 $("#boton1").click(function (){
-                    $( "#contenedor" ).append("<div class=\"campo-form\"><div class=\"label-form\">Nombre del campo</div><div class=\"input-form\"><input  name=\"alist\" /></div></div><div class=\"campo-error\"></div><div class=\"campo-form\"><div class=\"label-form\">Valor</div><div class=\"input-form\"><input  name=\"alist\" /></div></div><div class=\"campo-error\"></div>");
+                    $( "#contenedor" ).append("<div class=\"campo-form\"><div class=\"label-form\">Nombre del campo</div><div class=\"input-form\"><input name=\"alist\"/></div></div>");
                 });
 });
 </script>
