@@ -14,6 +14,7 @@ from django.forms.formsets import formset_factory
 def ingresar(request):
   if request.method == 'POST':
     formulario = AuthenticationForm(request.POST)
+    print "hola"
     if formulario.is_valid:
       usuario = request.POST['username']
       clave = request.POST['password']
