@@ -518,7 +518,7 @@ def escenarios_crear3(request,id_proyecto,rol,id_sistema,id_caso,numero_esc,nume
 def caso_prueba_crear(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     sistema = Sistema.objects.get(pk=id_sistema)
     titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
-    
+    escenario = Escenario.objects.get(pk=id_escenario)
     if request.method=='POST':
       cu = CasosDeUso.objects.filter(sistema=sistema)
       for caso in cu:
@@ -534,7 +534,7 @@ def caso_prueba_crear(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
       return HttpResponseRedirect(redireccion)
     else:
         formulario = CasoPruebaDefineForm()
-    return render_to_response('crear_casoprueba.html',{'titulos':titulos,'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+    return render_to_response('crear_casoprueba.html',{'titulos':titulos,'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema,'escenario':escenario}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def caso_prueba_crear2(request,id_proyecto,rol,id_sistema,id_caso,id_escenario,numero_cas,numero_camp):
@@ -691,7 +691,7 @@ def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_cas
           return HttpResponseRedirect(redireccion)
     else:
       formulario = CasoPruebaDetalleForm()
-    return render_to_response('crear_casoprueba.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+    return render_to_response('crear_casopruebadetalle.html',{'formulario':formulario, 'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar2(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba,numero_camp):

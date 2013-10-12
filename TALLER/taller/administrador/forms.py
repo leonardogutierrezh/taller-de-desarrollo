@@ -99,10 +99,10 @@ class CasoPruebaDefineForm(forms.Form):
   numeroCasos = forms.IntegerField(label='Numero de casos de prueba')
   numeroCampos = forms.IntegerField(label='Numero de campos adicionales')
 
-class CasoPruebaDetalleForm(forms.Form):
+class CasoPruebaDetalleForm(forms.ModelForm):
   class Meta:
     model=CasoPruebaDetalle
-    exclude=['casoprueba','sistema','casouso','autor']  
+    exclude=['casoprueba','sistema','casouso','autorcaso','fechaejec','fechaapro']
 
 class EjecucionCasoPruebaForm(forms.Form):
   class Meta:
