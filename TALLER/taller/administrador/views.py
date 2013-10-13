@@ -520,16 +520,9 @@ def caso_prueba_crear(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
     escenario = Escenario.objects.get(pk=id_escenario)
     if request.method=='POST':
-      cu = CasosDeUso.objects.filter(sistema=sistema)
-      for caso in cu:
-        escenarios = Escenario.objects.filter(caso=caso)
-        for escenario in escenarios:
-          CasoPrueba.objects.filter(escenario=escenario).delete()
-      for titulo in titulos:
-        titulo.delete()
       lista = request.POST.getlist("alist")
       for item in lista:
-        CasoPruebaExtra.objects.create(sistema=sistema,titulo=item)
+        CasoPruebaExtra.objects.create(sistema=sistema,titulo=item,activo=True)
       redireccion = '/escenario_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario)
       return HttpResponseRedirect(redireccion)
     else:
@@ -630,7 +623,10 @@ def escenario_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     for caso in casos:
         print len(titulos)
         for titulo in titulos:
-            orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+            try:
+              orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+            except:
+              orden.append("N/A")
         valores.append(orden)
         orden = []
     lista = zip(casos,valores)    
@@ -658,18 +654,21 @@ def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba
       redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
       return HttpResponseRedirect(redireccion)   
     detalle = CasoPruebaDetalle.objects.get(casoprueba=dato)  
-    casos = CasoPrueba.objects.filter(escenario=dato)
+    casos = CasoPrueba.objects.filter(escenario=dato.escenario)
     sistema = Sistema.objects.get(pk=id_sistema)
     titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
     valores = []
     orden = []
     for caso in casos:
       for titulo in titulos:
-        orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+        try:
+          orden.append(CasoPruebaValor.objects.get(caso=caso,titulo=titulo))
+        except:
+          orden.append("N/A")
       valores.append(orden)
       orden = []
     lista = zip(casos,valores)   
-    return render_to_response('escenario_detalle.html',{'lista':lista,'titulos':titulos,'detalle':detalle,'escenario':escenario,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso,'id_escenario':escenario.id,'casoprueba':dato}, context_instance=RequestContext(request))
+    return render_to_response('escenario_detalle.html',{'lista': lista, 'titulos': titulos, 'detalle': detalle, 'escenario': escenario, 'rol': rol, 'id': id_proyecto, 'id_sistema': id_sistema, 'id_caso':id_caso, 'id_escenario': escenario.id, 'casoprueba':dato}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
