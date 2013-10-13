@@ -133,7 +133,9 @@ function eliminarFilaVacia() {
     <p>Descripcion: {{dato.descripcion}}</p>
     <p>Precondicion: {{dato.precondicion}}</p>
     {%if dato.detalle%}
-    <a href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>Ver escenarios de {{dato.caso}}</a>
+              <div style="margin-top:12px; margin-left: 5px; ">
+                  <a style="color: #0099CC; text-decoration: none !important;" href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>Ver escenarios de {{dato.caso}}</a>
+              </div>
     {%endif%}
 <br></br> 
 <form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
