@@ -47,16 +47,17 @@
 		  <hr>
 		
 		  <section class='contenido' style="padding-left:20px">
-			<div>
-			<h4>Campos Actuales</h4>
-      {%for titulo in titulos%}
-				<div class="campo-form"><div class="input-form"><input type="checkbox" name="titulos" value='{{titulo.id}}'> {{titulo.titulo}}</div></div>
-			{% endfor %}
-			</div>
+
+
+
 		<form id='formulario_req' method='post' enctype='multipart/form-data' action='' onsubmit="return confirm('Si guarda se perderan todos los casos de prueba creados anteriormente');">{% csrf_token %}
 			<div id="contenedor">
+                			<h4>Campos Actuales</h4>
+                <p>Seleccione para eliminar</p>
+      {%for titulo in titulos%}
+		{%if titulo.activo%}<input type="checkbox" name="titulos" value='{{titulo.id}}'> {{titulo.titulo}}{%endif%}
+      {% endfor %}
 			<h4>Nuevos Campos</h4>
-			<p>Al crear nuevos campos se perderan los anteriores</p>
  			</div>
 			<a id="boton1">Crear Nuevo Campo</a>
 			<p><br></br><input type='submit' value='Confirmar' /></p>
