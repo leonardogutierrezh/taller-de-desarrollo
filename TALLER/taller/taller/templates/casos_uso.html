@@ -63,8 +63,8 @@ function eliminarFilaVacia() {
 	var x;
 	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
 	if (r==true) {
-  		var a = document.getElementById("tablaSistema").rows.length;
-  		document.getElementById("tablaSistema").deleteRow(a-1);
+  		var a = document.getElementById("tablaCasosUso").rows.length;
+  		document.getElementById("tablaCasosUso").deleteRow(a-1);
   	}
 	else {
   		x="You pressed Cancel!";
