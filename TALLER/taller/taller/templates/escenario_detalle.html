@@ -82,7 +82,7 @@
 				<td> {{dato.0.nivel}}</td>
 				<td> {{dato.0.tipo}}</td>
         {%for valor  in dato.1 %}		
-        <td> {{valor.valor}}</td>
+        <td>{% if valor == "N/A" %}N/A{%else%} {{valor.valor}} {%endif%}</td>
         {%endfor%}
 				</tr>	 
 				{%endfor%}

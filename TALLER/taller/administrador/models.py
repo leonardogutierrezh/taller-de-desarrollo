@@ -111,6 +111,7 @@ class CasoPrueba(models.Model):
 class CasoPruebaExtra(models.Model):
   sistema= models.ForeignKey(Sistema)
   titulo= models.CharField(max_length=40,verbose_name='Nombre del campo')
+  activo = models.BooleanField(default=True)
 
 class CasoPruebaValor(models.Model):
   caso = models.ForeignKey(CasoPrueba)
