@@ -520,7 +520,14 @@ def caso_prueba_crear(request,id_proyecto,rol,id_sistema,id_caso,id_escenario):
     titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
     escenario = Escenario.objects.get(pk=id_escenario)
     if request.method=='POST':
+      eliminar = request.POST.getlist("titulos")
       lista = request.POST.getlist("alist")
+      print "la longitud " + str(len(eliminar))
+      for item in eliminar:
+        print "un item"
+        desactivar = CasoPruebaExtra.objects.get(id=item)
+        desactivar.activo = False
+        desactivar.save()
       for item in lista:
         CasoPruebaExtra.objects.create(sistema=sistema,titulo=item,activo=True)
       redireccion = '/escenario_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario)

@@ -50,7 +50,7 @@
 			<div>
 			<h4>Campos Actuales</h4>
       {%for titulo in titulos%}
-				<div class="campo-form"><div class="input-form">{{titulo.titulo}}</div></div>
+				<div class="campo-form"><div class="input-form"><input type="checkbox" name="titulos" value='{{titulo.id}}'> {{titulo.titulo}}</div></div>
 			{% endfor %}
 			</div>
 		<form id='formulario_req' method='post' enctype='multipart/form-data' action='' onsubmit="return confirm('Si guarda se perderan todos los casos de prueba creados anteriormente');">{% csrf_token %}
