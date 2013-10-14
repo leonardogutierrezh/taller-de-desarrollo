@@ -91,8 +91,9 @@ class Escenario(models.Model):
   flujoAlterno= models.TextField(max_length=400,verbose_name='Flujo Alterno')
 
 class EscenarioExtra(models.Model):
-  sistema= models.ForeignKey(Sistema)
-  titulo= models.CharField(max_length=40,verbose_name='Nombre del campo')
+  sistema = models.ForeignKey(Sistema)
+  titulo = models.CharField(max_length=40, verbose_name='Nombre del campo')
+  activo = models.BooleanField(default=True)
 
 class EscenarioValor(models.Model):
   escenario = models.ForeignKey(Escenario)

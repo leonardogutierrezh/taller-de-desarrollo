@@ -49,7 +49,15 @@
 		  <section class='contenido' style="padding-left:20px">
 
 		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
-			{{formulario.as_p}}
+			<div id="contenedor">
+                <h4>Campos Actuales</h4>
+                <p>Seleccione para eliminar</p>
+                {%for titulo in titulos%}
+		            {%if titulo.activo%}<input type="checkbox" name="titulos" value='{{titulo.id}}'> {{titulo.titulo}}{%endif%}
+                {% endfor %}
+			    <h4>Nuevos Campos</h4>
+ 			</div>
+			<a id="boton1">Crear Nuevo Campo</a>
 			<p><br></br><input type='submit' value='Confirmar' /></p>
 		</form>
 
@@ -75,6 +83,25 @@
 		</td>
 	</tr>
 </table>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script>
+function validate(form) {
+
+    // validation code here ...
+
+
+    if(!valid) return false;
+    else return confirm('Do you really want to submit the form?');
+}
+</script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                //Aqui asignamos el click al elemento <a>
+                $("#boton1").click(function (){
+                    $( "#contenedor" ).append("<div class=\"campo-form\"><div class=\"label-form\">Nombre del campo</div><div class=\"input-form\"><input name=\"alist\"/></div></div>");
+                });
+});
+</script>
 </body>
 </html>
 
