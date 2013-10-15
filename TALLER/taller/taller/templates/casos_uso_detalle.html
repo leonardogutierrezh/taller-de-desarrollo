@@ -79,7 +79,7 @@
 				<td>{{dato.0.flujoOriginario}}</td>
 				<td> {{dato.0.flujoAlterno}}</td>
         {%for valor  in dato.1 %}		
-        <td> {{valor.valor}}</td>
+        <td>{% if valor == "N/A"%}N/A {%else%} {{valor.valor}}{%endif%}</td>
         {%endfor%}
 				</tr>	 
 					{% empty %}
@@ -108,7 +108,7 @@
             $(document).ready(function (){
                 //Aqui asignamos el click al elemento <a>
                 $("#boton1").click(function (){
-                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"numero\"></td><td><input type=\"text\" name=\"originario\"></td><td><input type=\"text\" name=\"alterno\"></td>{%for titulo in titulos%}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{%endfor%}</tr>");
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"numero\"></td><td><input type=\"text\" name=\"originario\"></td><td><input type=\"text\" name=\"alterno\"></td>{%for titulo in titulos%}{% if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{% else %}<td>N/A</td>{%endif%}{%endfor%}</tr>");
                 });
 });
 </script>

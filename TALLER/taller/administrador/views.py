@@ -425,20 +425,22 @@ def casos_uso_detalle(request,id_proyecto,rol,id_sistema,id_caso):
         try:        
           esc = Escenario.objects.create(caso=dato,numero=num[i],flujoOriginario=ori[i],flujoAlterno=alt[i])
           for elem in listaTitulos:
-            print elem[0]
-            print elem[1]
-            EscenarioValor.objects.create(escenario=esc,titulo=elem[0],valor=elem[1][i])
+            if elem[0].activo:
+              EscenarioValor.objects.create(escenario=esc,titulo=elem[0],valor=elem[1][i])
           i += 1
         except:         
           print "hizo except"
           i += 1
     for escenario in escenarios:
         for titulo in titulos:
-            orden.append(EscenarioValor.objects.get(escenario=escenario,titulo=titulo))
+            try:
+              orden.append(EscenarioValor.objects.get(escenario=escenario,titulo=titulo))
+            except:
+              orden.append("N/A")
         valores.append(orden)
         orden = []
     lista = zip(escenarios,valores)    
-    return render_to_response('casos_uso_detalle.html',{'lista':lista,'titulos':titulos,'caso':dato,'rol':rol,'id':id_proyecto,'id_sistema':id_sistema,'id_caso':id_caso}, context_instance=RequestContext(request))
+    return render_to_response('casos_uso_detalle.html', {'lista':lista, 'titulos':titulos, 'caso':dato, 'rol':rol, 'id':id_proyecto, 'id_sistema':id_sistema, 'id_caso':id_caso}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def escenarios_crear(request,id_proyecto,rol,id_sistema,id_caso):
@@ -450,12 +452,12 @@ def escenarios_crear(request,id_proyecto,rol,id_sistema,id_caso):
       print "la longitud " + str(len(eliminar))
       for item in eliminar:
         print "un item"
-        desactivar = CasoPruebaExtra.objects.get(id=item)
+        desactivar = EscenarioExtra.objects.get(id=item)
         desactivar.activo = False
         desactivar.save()
       for item in lista:
         EscenarioExtra.objects.create(sistema=sistema, titulo=item, activo=True)
-      redireccion = '/escenario_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_escenario)
+      redireccion = '/casos_uso_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso)
       return HttpResponseRedirect(redireccion)
     else:
         formulario = EscenarioDefineForm()
