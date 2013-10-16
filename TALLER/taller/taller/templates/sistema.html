@@ -26,7 +26,7 @@ function addRow() {
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
       // celda 3
       var td3 = document.createElement("TD")
-      var strHtml3 = "<input type=\"text\" name=\"prioridad\"></input>";
+      var strHtml3 = "<select name=\"prioridad\"><option value='Alta'>Alta</option><option value='Media'>Media</option><option value='Baja'>Baja</option> </select>";
       td3.innerHTML = strHtml3.replace(/!count!/g,count);
       // celda 4
       var td4 = document.createElement("TD")
