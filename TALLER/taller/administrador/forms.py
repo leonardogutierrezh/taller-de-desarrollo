@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
 from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor, CasoPruebaDetalle, EjecucionCasoPrueba
+from django.forms.extras.widgets import SelectDateWidget
 
 class UserForm(forms.ModelForm):
   class Meta:
@@ -10,6 +11,8 @@ class UserForm(forms.ModelForm):
     exclude = ['usuario']
 
 class ProyectoForm(forms.ModelForm):
+  fechaInicio = forms.DateField(widget=SelectDateWidget(), label='fecha de inicio')
+  fechaFin = forms.DateField(widget=SelectDateWidget(), label='fecha de finalizacion')
   class Meta:
     model = Proyecto
     exclude = ['iteActual']
@@ -37,9 +40,11 @@ class SistemaForm(forms.ModelForm):
     model = Sistema
 
 class ProyectoeForm(forms.ModelForm):
+  fechaInicio = forms.DateField(widget=SelectDateWidget(), label='fecha de inicio')
+  fechaFin = forms.DateField(widget=SelectDateWidget(), label='fecha de finalizacion')
   class Meta:
     model = Proyecto
-    exclude = ['nombre']
+    exclude = ['nombre', 'fechaInicio', 'fechaFin']
 
 class RequerimientoForm(forms.ModelForm):
   class Meta:
@@ -100,10 +105,11 @@ class CasoPruebaDefineForm(forms.Form):
   numeroCampos = forms.IntegerField(label='Numero de campos adicionales')
 
 class CasoPruebaDetalleForm(forms.ModelForm):
+  fecha = forms.DateField(widget=SelectDateWidget(), label='fecha de creacion')
   class Meta:
-    model=CasoPruebaDetalle
-    exclude=['casoprueba','sistema','casouso','autorcaso','fechaejec','fechaapro']
-
+    model = CasoPruebaDetalle
+    exclude = ['casoprueba', 'sistema', 'casouso', 'autorcaso', 'fechaejec', 'fechaapro', 'fecha']
+  fecha = forms.DateField(widget=SelectDateWidget(), label='fecha de creacion')
 class EjecucionCasoPruebaForm(forms.Form):
   class Meta:
     model=CasoPruebaDetalle

@@ -53,6 +53,7 @@
 		  <br></br>    
 		</ul>
 		<h3> Caso de prueba: {{casoprueba.nombre}} id: {{casoprueba.id}} </h3>
+    <p>Fecha de Creacion: {{detalle.fecha}}</p>
     <p>Version: {{detalle.version}} Autor: {{detalle.autorcaso}}</p>
     <p>Ambiente: {{detalle.ambiente}} Probador: {{detalle.probador}} </p>
     <p>Condicion: {{detalle.condicion}} </p>
@@ -108,7 +109,7 @@
             $(document).ready(function (){
                 //Aqui asignamos el click al elemento <a>
                 $("#boton1").click(function (){
-                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><input type=\"text\" name=\"nivel\"></td><td><input type=\"text\" name=\"tipo\"></td>{%for titulo in titulos%}{%if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\">{%else%}<td>N/A</td>{%endif%}</td>{%endfor%}</tr>");
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><select name=\"nivel\"><option value=\"Unitaria\">Unitaria</option><option value=\"Integracion\">Integracion</option><option value=\"Aceptacion\">Aceptacion</option><option value=\"Sistema\">Sistema</option><option value=\"Sist/Acept\">Sist/Acept</option> </td><td><input type=\"text\" name=\"tipo\"></td>{%for titulo in titulos%}{%if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\">{%else%}<td>N/A</td>{%endif%}</td>{%endfor%}</tr>");
                 });
 });
 </script>

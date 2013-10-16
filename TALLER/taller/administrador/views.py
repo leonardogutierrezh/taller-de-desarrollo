@@ -704,6 +704,7 @@ def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_cas
           form.sistema = Sistema.objects.get(id=id_sistema)
           form.casouso = CasosDeUso.objects.get(id=id_caso)
           form.autorcaso = request.user
+          form.fecha = formulario.cleaned_data['fecha']
           form.save()
           casoprueba.detalle = True
           casoprueba.save()

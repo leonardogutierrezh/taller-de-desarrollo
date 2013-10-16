@@ -127,7 +127,7 @@ class CasoPruebaDetalle(models.Model):
   version = models.CharField(max_length=40,verbose_name='Version del Caso de Prueba')
   ambiente = models.CharField(max_length=40,verbose_name='Ambiente de Prueba')
   autorcaso = models.ForeignKey(User)
-  probador = models.ForeignKey(User,related_name='relacion_probador_casoprueba')
+  probador = models.ForeignKey(User, related_name='relacion_probador_casoprueba', blank=True, null=True)
   fecha = models.DateField('Fecha de Creacion')
   fechaejec = models.DateField('Fecha de Ejecucion',null=True,blank=True)
   condicion = models.TextField(max_length=400,verbose_name='Condicion(es) para que se ejecute el Caso de Prueba')
