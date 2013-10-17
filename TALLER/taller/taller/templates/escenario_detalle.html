@@ -16,7 +16,89 @@
 		    today = new Date(); 
 		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
 		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
-		    //--> 
+		    //-->
+
+                 var count = "1";
+function addRow() {
+
+//  // Borro la primera fila
+//  if (count == "1"){
+//  document.getElementById("tablaSistema").deleteRow(1);
+//  };
+  var tbody = document.getElementById("contenedor").getElementsByTagName("TBODY")[0];
+      // creo una fila
+      var row = document.createElement("TR");
+      // celda 1
+      var td1 = document.createElement("TD")
+      var strHtml1 = "<input type=\"text\" name=\"id\"></input>";
+      td1.innerHTML = strHtml1.replace(/!count!/g,count);
+      // celda 2
+      var td2 = document.createElement("TD")
+      var strHtml2 = "<input type=\"text\" name=\"nombre\"></input>";
+      td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      // celda 3
+      var td3 = document.createElement("TD")
+      var strHtml3 = "<input type=\"text\" name=\"esperado\"></input>";
+      td3.innerHTML = strHtml3.replace(/!count!/g,count);
+    // celda 4
+      var td4 = document.createElement("TD")
+      var strHtml4 = "<select name=\"nivel\"><option value=\"Unitaria\">Unitaria</option><option value=\"Integracion\">Integracion</option><option value=\"Aceptacion\">Aceptacion</option><option value=\"Sistema\">Sistema</option><option value=\"Sist/Acept\">Sist/Acept</option></select>";
+      td4.innerHTML = strHtml4.replace(/!count!/g,count);
+    // celda 5
+      var td5 = document.createElement("TD")
+      var strHtml5 = "<input type=\"text\" name=\"tipo\"></input>";
+      td5.innerHTML = strHtml5.replace(/!count!/g,count);
+      // celda 4
+      var td6 = document.createElement("TD")
+      var strHtml6 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td6.innerHTML = strHtml6.replace(/!count!/g,count);
+
+      // agrego
+      row.appendChild(td1);
+      row.appendChild(td2);
+      row.appendChild(td3);
+      row.appendChild(td4);
+    row.appendChild(td5);
+    row.appendChild(td6);
+
+      count = parseInt(count) + 1;
+      // agrego a la tabla
+      tbody.appendChild(row);
+
+}
+
+function deleteRow() {
+  var a = document.getElementById("tablaSistema").rows.length;
+  document.getElementById("tablaSistema").deleteRow(a-1);
+
+}
+
+function eliminarFila(id) {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	if (r==true) {
+  	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+    //  window.location.assign(string1 + id)
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	if (r==true) {
+  		var a = document.getElementById("contenedor").rows.length;
+  		document.getElementById("contenedor").deleteRow(a-1);
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
 		    </script> 
 		</td>
 		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
@@ -82,6 +164,9 @@
 				<td> {{dato.0.resultado}}</td>
 				<td> {{dato.0.nivel}}</td>
 				<td> {{dato.0.tipo}}</td>
+                    <td style="border:0; width:50px">
+					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
+				</td>
         {%for valor  in dato.1 %}		
         <td>{% if valor == "N/A" %}N/A{%else%} {{valor.valor}} {%endif%}</td>
         {%endfor%}
@@ -89,10 +174,10 @@
 				{%endfor%}
 
 		</table>
-		<a id="boton1">Agregar</a>
 
 <input type='submit' value='Guardar' />
 </form>
+             <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
 		<center>
 		<a id="siguiente" href='/casos_uso_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{escenario.caso.id}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
