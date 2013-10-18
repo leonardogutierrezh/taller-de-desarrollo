@@ -66,7 +66,7 @@ function deleteRow() {
 
 function eliminarFila(id) {
 	var x;
-	var r=confirm("¿Está seguro que desea eliminar este Escenario?");
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
 	if (r==true) {
   	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
     //  window.location.assign(string1 + id)
@@ -79,7 +79,7 @@ function eliminarFila(id) {
 
 function eliminarFilaVacia() {
 	var x;
-	var r=confirm("¿Está seguro que desea eliminar este Escenario?");
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
 	if (r==true) {
   		var a = document.getElementById("contenedor").rows.length;
   		document.getElementById("contenedor").deleteRow(a-1);
@@ -165,7 +165,7 @@ function eliminarFilaVacia() {
 		</table>
 <input type='submit' value='Guardar' />
 </form>
-            <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
+            <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" id="boton1" style="cursor:pointer;" />
 		<center>
 		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
@@ -183,7 +183,7 @@ function eliminarFilaVacia() {
             $(document).ready(function (){
                 //Aqui asignamos el click al elemento <a>
                 $("#boton1").click(function (){
-                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"numero\"></td><td><input type=\"text\" name=\"originario\"></td><td><input type=\"text\" name=\"alterno\"></td>{%for titulo in titulos%}{% if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{% else %}<td>N/A</td>{%endif%}{%endfor%}</tr>");
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"numero\"></td><td><input type=\"text\" name=\"originario\"></td><td><input type=\"text\" name=\"alterno\"></td>{%for titulo in titulos%}{% if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{% else %}<td>N/A</td>{%endif%}{%endfor%}<td><img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\"></td></tr>");
                 });
 });
 </script>

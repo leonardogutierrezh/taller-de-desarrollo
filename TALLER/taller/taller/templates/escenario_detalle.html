@@ -75,7 +75,7 @@ function deleteRow() {
 
 function eliminarFila(id) {
 	var x;
-	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	var r=confirm("¿Está seguro que desea eliminar este Escenario?");
 	if (r==true) {
   	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
     //  window.location.assign(string1 + id)
@@ -88,7 +88,7 @@ function eliminarFila(id) {
 
 function eliminarFilaVacia() {
 	var x;
-	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	var r=confirm("¿Está seguro que desea eliminar este Escenario?");
 	if (r==true) {
   		var a = document.getElementById("contenedor").rows.length;
   		document.getElementById("contenedor").deleteRow(a-1);
@@ -177,7 +177,7 @@ function eliminarFilaVacia() {
 
 <input type='submit' value='Guardar' />
 </form>
-             <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
+             <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" id="boton1" style="cursor:pointer;" />
 		<center>
 		<a id="siguiente" href='/casos_uso_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{escenario.caso.id}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
@@ -194,7 +194,7 @@ function eliminarFilaVacia() {
             $(document).ready(function (){
                 //Aqui asignamos el click al elemento <a>
                 $("#boton1").click(function (){
-                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><select name=\"nivel\"><option value=\"Unitaria\">Unitaria</option><option value=\"Integracion\">Integracion</option><option value=\"Aceptacion\">Aceptacion</option><option value=\"Sistema\">Sistema</option><option value=\"Sist/Acept\">Sist/Acept</option> </td><td><input type=\"text\" name=\"tipo\"></td>{%for titulo in titulos%}{%if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\">{%else%}<td>N/A</td>{%endif%}</td>{%endfor%}</tr>");
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"id\"></td><td><input type=\"text\" name=\"nombre\"></td><td><input type=\"text\" name=\"esperado\"></td><td><select name=\"nivel\"><option value=\"Unitaria\">Unitaria</option><option value=\"Integracion\">Integracion</option><option value=\"Aceptacion\">Aceptacion</option><option value=\"Sistema\">Sistema</option><option value=\"Sist/Acept\">Sist/Acept</option> </td><td><input type=\"text\" name=\"tipo\"></td>{%for titulo in titulos%}{%if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\">{%else%}<td>N/A</td>{%endif%}</td>{%endfor%}<td><img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\"></td></tr>");
                 });
 });
 </script>
