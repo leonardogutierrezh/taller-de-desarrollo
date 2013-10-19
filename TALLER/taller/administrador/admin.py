@@ -28,4 +28,5 @@ admin.site.register(EscenarioExtra)
 admin.site.register(EscenarioValor)
 admin.site.register(CasoPrueba)
 admin.site.register(Caracteristica)
-
+admin.site.register(EjecucionCasoPrueba)
+admin.site.register(CasoPruebaDetalle)

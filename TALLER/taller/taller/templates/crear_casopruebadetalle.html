@@ -7,7 +7,95 @@
 
 </head>
 <body>
+		    <script language="javascript">
+		    <!--
+		    today = new Date();
+		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes());
+		    //-->
 
+                 var count = "1";
+function addRow() {
+
+//  // Borro la primera fila
+//  if (count == "1"){
+//  document.getElementById("tablaSistema").deleteRow(1);
+//  };
+  var tbody = document.getElementById("contenedor").getElementsByTagName("TBODY")[0];
+      // creo una fila
+      var row = document.createElement("TR");
+      // celda 1
+      var td1 = document.createElement("TD")
+      var strHtml1 = "<input type=\"text\" name=\"id\"></input>";
+      td1.innerHTML = strHtml1.replace(/!count!/g,count);
+      // celda 2
+      var td2 = document.createElement("TD")
+      var strHtml2 = "<input type=\"text\" name=\"nombre\"></input>";
+      td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      // celda 3
+      var td3 = document.createElement("TD")
+      var strHtml3 = "<input type=\"text\" name=\"esperado\"></input>";
+      td3.innerHTML = strHtml3.replace(/!count!/g,count);
+    // celda 4
+      var td4 = document.createElement("TD")
+      var strHtml4 = "<select name=\"nivel\"><option value=\"Unitaria\">Unitaria</option><option value=\"Integracion\">Integracion</option><option value=\"Aceptacion\">Aceptacion</option><option value=\"Sistema\">Sistema</option><option value=\"Sist/Acept\">Sist/Acept</option></select>";
+      td4.innerHTML = strHtml4.replace(/!count!/g,count);
+    // celda 5
+      var td5 = document.createElement("TD")
+      var strHtml5 = "<input type=\"text\" name=\"tipo\"></input>";
+      td5.innerHTML = strHtml5.replace(/!count!/g,count);
+      // celda 4
+      var td6 = document.createElement("TD")
+      var strHtml6 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td6.innerHTML = strHtml6.replace(/!count!/g,count);
+
+      // agrego
+      row.appendChild(td1);
+      row.appendChild(td2);
+      row.appendChild(td3);
+      row.appendChild(td4);
+    row.appendChild(td5);
+    row.appendChild(td6);
+
+      count = parseInt(count) + 1;
+      // agrego a la tabla
+      tbody.appendChild(row);
+
+}
+
+function deleteRow() {
+  var a = document.getElementById("tablaSistema").rows.length;
+  document.getElementById("tablaSistema").deleteRow(a-1);
+
+}
+
+function eliminarFila(id) {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Escenario?");
+	if (r==true) {
+  	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+    //  window.location.assign(string1 + id)
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar esta Ejecucion?");
+	if (r==true) {
+  		var a = document.getElementById("contenedor").rows.length;
+  		document.getElementById("contenedor").deleteRow(a-1);
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+		    </script>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
@@ -49,8 +137,19 @@
 
 		<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 			{{formulario.as_p}}
+            <br>
+            <h2>Ejecuciones</h2>
+            <table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+                <th>Paso</th>
+                <th>Condición</th>
+                <th>Valor(es)</th>
+                <th>Resultado Esperado</th>
+                <th>Resultado Obtenido</th>
+
+            </table>
 			<p><br></br><input type='submit' value='Confirmar' /></p>
 		</form>
+              <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" id="boton1" style="cursor:pointer;" />
 <div style="float:left; display:block; width:100%;">
 <div style="float:left; width:10%; display:block;">
 <div style="float:right; width:90%; display:block;">
@@ -96,5 +195,14 @@
 		</td>
 	</tr>
 </table>
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                //Aqui asignamos el click al elemento <a>
+                $("#boton1").click(function (){
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"paso\"></td><td><input type=\"text\" name=\"condicion\"></td><td><input type=\"text\" name=\"valor\"></td><td><input type=\"text\" name=\"esperado\"></td><td><input type=\"text\" name=\"obtenido\"></td><td><img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\"></td></tr>");
+                });
+});
+</script>
 </body>
 </html>
