@@ -4,7 +4,10 @@
 <title> SGP - Principal</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
+<script>
 
+
+</script>
 </head>
 <body>
 <table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
@@ -43,10 +46,43 @@
 		<td width="800" colspan="25" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
 		    <br></br>
-		    <h2>Bienvenido al Sistema de Gestión de Pruebas y Requerimientos</h2>
+		    <p>{{usuario}}, bienvenido(a) al Sistema de Gestión de Pruebas y Requerimientos</p>
 		    <br></br>
-		    <a>Usuario: {{usuario}}</a>
-			
+			<center>
+		    <table>
+		    <tr>
+			    <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;" ><center>Proyecto</center></td>
+			    <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;"><center>Roles</center></td>
+			    <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;"><center>Sistemas Asociados</center></td>
+		    </tr>
+
+		      {% for i in info %}
+
+		      <tr>
+		      <td style="border-bottom:thick double #A7A7A7"> <center> {{i.proyecto.nombre}} </center></td>
+		      <td style="border-bottom:thick double #A7A7A7"> <center>{% for r in i.roles %}
+			    
+			    {{r}} <a href='/proyecto/{{i.proyecto.id}}/{{r}}' > <img src="/static/images/lupa.png" alt="" width="20" height="20" border="0"/></a>
+			    <br></br>
+			    {% endfor %}
+		      <center>		      
+		      </td>
+		      <td style="border-bottom:thick double #A7A7A7"> <center>{% for s in i.sistemas %}
+			    {{s.sistema.nombre}} <a id="siguiente" href='/sistema/{{i.proyecto.id}}/Gerente de Proyecto/{{s.sistema.id}}/0'><img src="/static/images/lupa.png" alt="" width="20" height="20" border="0" /> </a>
+			    <br></br>
+			    {% endfor %}
+		      </center>
+		      </td>
+		      </tr>
+
+		      {% empty %}
+
+		    <tr>Actualmente No Tienes Proyectos Asignados</tr>
+
+		      {% endfor %}
+
+		    </table>
+		  </center>
 		    <section class='contenido'>
 		    </section>
 
@@ -60,6 +96,8 @@
 		</td>
 	</tr>
 </table>
+
+
 </body>
 </html>
 

@@ -33,7 +33,26 @@ def ingresar(request):
 @login_required(login_url='/')
 def principal(request):
   usuario = request.user
-  return render_to_response('principal.html',{'usuario':usuario}, context_instance=RequestContext(request))
+  proy_miembros = Miembro.objects.filter(usuario=usuario)
+  info  = []
+  proys = []
+  for p in proy_miembros:
+    if p.proyecto in proys:
+      continue
+    proys.append(p.proyecto)
+    
+  for p in proys:
+    sistemas = SistemaAsociado.objects.filter(proyecto=p)
+    _dict = {}
+    _dict["proyecto"]=p
+    _dict["sistemas"]=sistemas
+    proy_miembros = Miembro.objects.filter(proyecto=p)
+    _dict["roles"]=map(lambda x:x.rol,proy_miembros)
+    
+
+    info.append(_dict)
+    
+  return render_to_response('principal.html',{ 'info': info,'usuario':usuario}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def cerrar(request):
@@ -64,6 +83,12 @@ def editar_perfil(request):
         # formulario inicial
         user_form = UserForm(instance = perfiles)
     return render_to_response('perfil.html', { 'user_form': user_form, 'usuario': usuario }, context_instance=RequestContext(request))
+
+@login_required(login_url='/') 
+def configurar_metodologia(request):
+    usuario = request.user
+    formulario = MetodologiaForm()
+    return render_to_response('crear_metodologia.html', { 'formulario': formulario, 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def proyectos(request):
@@ -586,7 +611,6 @@ def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba
     dato = CasoPrueba.objects.get(pk=id_casoprueba)
     escenario = dato.escenario
     if request.method=='POST':
-      print "entreeeeeeeeeeeeeeeeeeeeeeeeeeee"
       ids = request.POST.getlist('id')
       nombres = request.POST.getlist('nombre')
       esperados = request.POST.getlist('esperado')
@@ -662,6 +686,5 @@ def caso_prueba_detalle_llenar2(request,id_proyecto,rol,id_sistema,id_caso,id_ca
   #        return HttpResponseRedirect(redireccion)
     else:
           campos = camposSet
-          print "ajaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
           formulario = CasoPruebaDetalleForm()
           return render_to_response('crear_casopruebadetalle.html',{'formulario':formulario,'campos':campos,'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))

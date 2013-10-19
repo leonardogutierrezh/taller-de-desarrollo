@@ -22,7 +22,7 @@ function addRow() {
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
       // clda 2
       var td2 = document.createElement("TD")
-      var strHtml2 = "<select name=\"presedencia\"><option value=\"null\">Sin presedencia</option>{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
+      var strHtml2 = "<select name=\"presedencia\"><option value=\"null\">Sin precedencia</option>{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
       // celda 3
       var td3 = document.createElement("TD")

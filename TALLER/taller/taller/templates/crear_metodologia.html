@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> SGP - Crear Metodología</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+
+	<tr>
+		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+
+		    <script language="javascript"> 
+		    <!-- 
+		    today = new Date(); 
+		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
+		    //--> 
+		    </script> 
+		</td>
+		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef"><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+
+	</tr>
+
+	<tr>
+		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+	</tr>
+
+	<tr>
+		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
+		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
+		
+		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
+		</td>
+			
+	</tr>
+
+	<tr>
+		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+  
+		<h2>Metodología</h2> 
+		<h3>Configurar Meodología<h3> 
+		  <hr>
+		</td>
+	</tr>
+
+	<tr>
+		<td nowrap="nowrap" colspan="25" valign="middle"  bgcolor="#efefef" class="text1" > 
+
+		  <section class='contenido' style="padding-left:20px">
+			  <form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+				  <table>{{formulario.as_table}}</table>
+				  <p><br></br><input type='submit' value='Confirmar' /></p>
+			  </form>
+		  </section>
+
+		<br></br>
+		</td>
+
+	</tr>
+
+	<tr>
+		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
+		</td>
+	</tr>
+</table>
+</body>
+</html>
+

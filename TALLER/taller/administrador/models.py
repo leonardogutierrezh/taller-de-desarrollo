@@ -12,7 +12,15 @@ class Proyecto(models.Model):
   iteraciones = models.IntegerField()
   iteActual = models.IntegerField(default=0)
 
-
+class Metodologia(models.Model):
+  usuario = models.ForeignKey(User)
+  nombre = models.CharField(max_length=100, unique=True)
+  descripcion = models.TextField(max_length=200)
+  numIteraciones = models.IntegerField()
+  idRequerimientos = models.CharField(max_length=10)
+  idCasos = models.CharField(max_length=10)
+  idCaracteristicas = models.CharField(max_length=10)
+  
 class Iteracion(models.Model):
   proyecto = models.ForeignKey(Proyecto)
   numero = models.IntegerField()

@@ -2,13 +2,18 @@
 from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
-from administrador.models import Perfil, Proyecto, Miembro, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor, CasoPruebaDetalle, EjecucionCasoPrueba
+from administrador.models import Perfil, Proyecto, Miembro, Metodologia, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor, CasoPruebaDetalle, EjecucionCasoPrueba
 
 class UserForm(forms.ModelForm):
   class Meta:
     model = Perfil
     exclude = ['usuario']
 
+class MetodologiaForm(forms.ModelForm):
+  class Meta:
+    model = Metodologia
+    exclude = ['usuario']
+    
 class ProyectoForm(forms.ModelForm):
   class Meta:
     model = Proyecto
