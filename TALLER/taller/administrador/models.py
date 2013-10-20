@@ -166,7 +166,7 @@ class CasoPruebaDetalle(models.Model):
   fechaapro = models.DateField('Fecha de Aprobacion',null=True,blank=True)
 
 class EjecucionCasoPrueba(models.Model):
-  caso = models.ForeignKey(CasoPruebaDetalle)
+  caso = models.ForeignKey(CasoPrueba)
   paso = models.CharField(max_length=40)
   condicion = models.CharField(max_length=40)
   valor = models.CharField(max_length=40)

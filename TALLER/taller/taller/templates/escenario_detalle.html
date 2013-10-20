@@ -140,11 +140,29 @@ function eliminarFilaVacia() {
     <p>Ambiente: {{detalle.ambiente}} Probador: {{detalle.probador}} </p>
     <p>Condicion: {{detalle.condicion}} </p>
     <p>Criterios: {{detalle.criterios}} </p>
-
+     <h2>Ejecuciones</h2>
+    <table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+        <th>Paso</th>
+        <th>Condición</th>
+        <th>Valor(es)</th>
+        <th>Resultado Esperado</th>
+        <th>Resultado Obtenido</th>
+        {%for ejecucion in ejecuciones %}
+        <tr>
+            <td>{{ejecucion.paso}}</td>
+            <td>{{ejecucion.condicion}}</td>
+            <td>{{ejecucion.valor}}</td>
+            <td>{{ejecucion.resultadoesp}}</td>
+            <td>{{ejecucion.resultadoobt}}</td>
+        </tr>
+        {%endfor%}
+        </table>
 	</section>
 	
 	<br></br>
+
 <form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+        <h2>Casos</h2>
 		<table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Id</td>

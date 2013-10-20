@@ -707,7 +707,8 @@ def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba
     if dato.detalle==False:
       redireccion = '/caso_prueba_detalle_llenar/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(id_casoprueba)
       return HttpResponseRedirect(redireccion)   
-    detalle = CasoPruebaDetalle.objects.get(casoprueba=dato)  
+    detalle = CasoPruebaDetalle.objects.get(casoprueba=dato)
+    ejecuciones = EjecucionCasoPrueba.objects.filter(caso=dato)
     casos = CasoPrueba.objects.filter(escenario=dato.escenario)
     sistema = Sistema.objects.get(pk=id_sistema)
     titulos = CasoPruebaExtra.objects.filter(sistema=sistema)
@@ -722,7 +723,7 @@ def caso_prueba_detalle(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba
       valores.append(orden)
       orden = []
     lista = zip(casos,valores)   
-    return render_to_response('escenario_detalle.html',{'lista': lista, 'titulos': titulos, 'detalle': detalle, 'escenario': escenario, 'rol': rol, 'id': id_proyecto, 'id_sistema': id_sistema, 'id_caso':id_caso, 'id_escenario': escenario.id, 'casoprueba':dato}, context_instance=RequestContext(request))
+    return render_to_response('escenario_detalle.html',{'ejecuciones':ejecuciones, 'lista': lista, 'titulos': titulos, 'detalle': detalle, 'escenario': escenario, 'rol': rol, 'id': id_proyecto, 'id_sistema': id_sistema, 'id_caso':id_caso, 'id_escenario': escenario.id, 'casoprueba':dato}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_casoprueba):
@@ -741,6 +742,16 @@ def caso_prueba_detalle_llenar(request,id_proyecto,rol,id_sistema,id_caso,id_cas
           form.save()
           casoprueba.detalle = True
           casoprueba.save()
+          pasos = request.POST.getlist('paso')
+          condiciones = request.POST.getlist('condicion')
+          valores = request.POST.getlist('valor')
+          esperados = request.POST.getlist('esperado')
+          obtenidos = request.POST.getlist('obtenido')
+          i = 0
+          while i < len(pasos):
+              ejecucion = EjecucionCasoPrueba.objects.create(caso=casoprueba, paso=pasos[i], condicion=condiciones[i], valor= valores[i], resultadoesp=esperados[i], resultadoobt=obtenidos[i])
+              ejecucion.save()
+              i += 1
           redireccion = '/escenario_detalle/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_caso) + '/' + str(casoprueba.escenario.id)
           return HttpResponseRedirect(redireccion)
     else:
