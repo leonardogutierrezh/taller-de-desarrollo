@@ -7,6 +7,20 @@
 
 </head>
 <body>
+<script>
+function metodologia() {
+	var x;
+	var r=confirm("Para crear un proyecto debe tener por lo menos una metodología, ¿Desea crear una metodología?");
+	if (r==true) {
+  	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+     window.location.assign('/crear_metodologia')
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+</script>
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
@@ -25,7 +39,7 @@
 	</tr>
 
 	<tr>
-		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | <a href="/crear_proyecto"> CREAR PROYECTO </a> | <a href="/crear_metodologia"> METODOLOGIAS </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | {% if metodologias == 0%}<a href='#' onclick=metodologia()>{%else%}<a href="/crear_proyecto">{%endif%} CREAR PROYECTO </a> | <a href="/crear_metodologia"> METODOLOGIAS </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
 	</tr>
 
 	<tr>

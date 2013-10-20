@@ -35,6 +35,7 @@ def ingresar(request):
 def principal(request):
   usuario = request.user
   proy_miembros = Miembro.objects.filter(usuario=usuario)
+  metodologias = Metodologia.objects.all().count()
   info  = []
   proys = []
   for p in proy_miembros:
@@ -53,7 +54,7 @@ def principal(request):
 
     info.append(_dict)
     
-  return render_to_response('principal.html',{ 'info': info,'usuario':usuario}, context_instance=RequestContext(request))
+  return render_to_response('principal.html',{ 'info': info,'usuario':usuario, 'metodologias':metodologias}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def cerrar(request):
@@ -62,6 +63,7 @@ def cerrar(request):
 
 @login_required(login_url='/') 
 def editar_perfil(request):
+    metodologias = Metodologia.objects.all().count()
     usuario = request.user
     if Perfil.objects.filter(pk=usuario.id):
         perfiles = Perfil.objects.get(pk=usuario.id)
@@ -83,10 +85,11 @@ def editar_perfil(request):
     else:
         # formulario inicial
         user_form = UserForm(instance = perfiles)
-    return render_to_response('perfil.html', { 'user_form': user_form, 'usuario': usuario }, context_instance=RequestContext(request))
+    return render_to_response('perfil.html', {'metodologias': metodologias, 'user_form': user_form, 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def crear_metodologia(request):
+    metodologias = Metodologia.objects.all().count()
     if request.method=='POST':
       formulario = MetodologiaForm(request.POST)
       if formulario.is_valid():
@@ -97,14 +100,15 @@ def crear_metodologia(request):
 	
     usuario = request.user
     formulario = MetodologiaForm()
-    return render_to_response('crear_metodologia.html', { 'formulario': formulario, 'usuario': usuario }, context_instance=RequestContext(request))
+    return render_to_response('crear_metodologia.html', {'metodologias':metodologias, 'formulario': formulario, 'usuario': usuario }, context_instance=RequestContext(request))
     #return render_to_response('crear_metodologia.html', { 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def proyectos(request):
     usuario = request.user
+    metodologias = Metodologia.objects.all().count()
     proyectos = Miembro.objects.filter(usuario=usuario)
-    return render_to_response('proyectos.html', { 'proyectos': proyectos, 'usuario': usuario }, context_instance=RequestContext(request))
+    return render_to_response('proyectos.html', {'metodologias':metodologias, 'proyectos': proyectos, 'usuario': usuario }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def proyecto_detalle(request,id_proyecto,rol):
