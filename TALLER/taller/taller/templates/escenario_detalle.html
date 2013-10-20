@@ -134,6 +134,7 @@ function eliminarFilaVacia() {
 			<li><a href='/caso_prueba_crear/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{id_escenario}}'>Configurar Formulario de Casos de Prueba</a></li>
 		  <br></br>    
 		</ul>
+        {%if casoprueba.detalle %}
 		<h3> Caso de prueba: {{casoprueba.nombre}} id: {{casoprueba.id}} </h3>
     <p>Fecha de Creacion: {{detalle.fecha}}</p>
     <p>Version: {{detalle.version}} Autor: {{detalle.autorcaso}}</p>
@@ -141,7 +142,7 @@ function eliminarFilaVacia() {
     <p>Condicion: {{detalle.condicion}} </p>
     <p>Criterios: {{detalle.criterios}} </p>
      <h2>Ejecuciones</h2>
-    <table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+    <table border=none width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
         <th>Paso</th>
         <th>Condición</th>
         <th>Valor(es)</th>
@@ -157,6 +158,7 @@ function eliminarFilaVacia() {
         </tr>
         {%endfor%}
         </table>
+       {%endif%}
 	</section>
 	
 	<br></br>

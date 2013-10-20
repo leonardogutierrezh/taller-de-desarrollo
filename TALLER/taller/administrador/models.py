@@ -150,6 +150,11 @@ class CasoPruebaValor(models.Model):
   valor = models.TextField(max_length=400)
 
 class CasoPruebaDetalle(models.Model):
+  choices = (
+      ('Aprobo', 'Aprobo'),
+      ('Fallo', 'Fallo'),
+      ('Por ejecutar', 'Por ejecutar')
+  )
   casoprueba = models.ForeignKey(CasoPrueba)
   sistema = models.ForeignKey(Sistema)
   casouso = models.ForeignKey(CasosDeUso)
@@ -162,7 +167,7 @@ class CasoPruebaDetalle(models.Model):
   fechaejec = models.DateField('Fecha de Ejecucion',null=True,blank=True)
   condicion = models.TextField(max_length=400,verbose_name='Condicion(es) para que se ejecute el Caso de Prueba')
   criterios = models.TextField(max_length=400,verbose_name='Criterios de Aprobacion del Caso de Prueba')
-  desicion = models.CharField(max_length=40,verbose_name='Desicion de Aprobacion del Caso de Prueba')
+  desicion = models.CharField(max_length=40,verbose_name='Desicion de Aprobacion del Caso de Prueba', choices=choices)
   fechaapro = models.DateField('Fecha de Aprobacion',null=True,blank=True)
 
 class EjecucionCasoPrueba(models.Model):

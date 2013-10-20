@@ -793,3 +793,8 @@ def caso_prueba_detalle_llenar2(request,id_proyecto,rol,id_sistema,id_caso,id_ca
           campos = camposSet
           formulario = CasoPruebaDetalleForm()
           return render_to_response('crear_casopruebadetalle.html',{'formulario':formulario,'campos':campos,'id': id_proyecto,'rol':rol,'id_sistema':id_sistema}, context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def eliminar_requerimiento(request, id_proyecto, rol, id_sistema, id_requerimiento):
+    Requerimiento.objects.get(pk=id_requerimiento).delete()
+    return HttpResponseRedirect('/requerimientos' + '/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0')

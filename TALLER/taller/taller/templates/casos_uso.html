@@ -126,13 +126,12 @@ function eliminarFilaVacia() {
 
 		
 		  <section class='contenido'  style="padding-left:20px; padding-right:20px">
-	
-		<h3> Resumen Casos de Uso {{dato.caso}}</h3>
+	{%if dato.detalle %}
+		<h3> Resumen Caso de Uso {{dato.caso}}</h3>
 		<br>
     <p>Requerimiento: {{dato.requerimiento}}</p>
     <p>Descripcion: {{dato.descripcion}}</p>
     <p>Precondicion: {{dato.precondicion}}</p>
-    {%if dato.detalle%}
               <div style="margin-top:12px; margin-left: 5px; ">
                   <a style="color: #0099CC; text-decoration: none !important;" href='/casos_uso_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}'>Ver escenarios de {{dato.caso}}</a>
               </div>

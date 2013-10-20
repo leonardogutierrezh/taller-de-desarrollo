@@ -51,11 +51,12 @@ function deleteRow() {
   	
 } 
 
-function eliminarFila() {
+function eliminarFila(id) {
 	var x;
 	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
 	if (r==true) {
-  		x="You pressed OK!";
+  	var string1 = "/eliminar_requerimiento/{{id}}/{{rol}}/{{sistema.id}}/";
+     window.location.assign(string1 + id)
   	}
 	else {
   		x="You pressed Cancel!";
@@ -65,7 +66,7 @@ function eliminarFila() {
 
 function eliminarFilaVacia() {
 	var x;
-	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	var r=confirm("¿Está seguro que desea eliminar este requerimiento?");
 	if (r==true) {
   		var a = document.getElementById("tablaRequerimientos").rows.length;
   		document.getElementById("tablaRequerimientos").deleteRow(a-1);
@@ -134,8 +135,7 @@ function eliminarFilaVacia() {
 		<h3> Tabla de Requerimientos</h3>
 		<br></br> 
 
-		<a id="siguiente" href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
-<br></br> 
+
 <form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 <table id="tablaRequerimientos" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center">
 	<tr>
@@ -155,7 +155,7 @@ function eliminarFilaVacia() {
 			{{dato.caracteristica}}
 		</td>
 		<td style="border:0; width:50px">
-			<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+			<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
 		</td>
 	</tr>
 		{% empty %}
