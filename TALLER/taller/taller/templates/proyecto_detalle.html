@@ -7,10 +7,10 @@
 
 </head>
 <body>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
-		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+		<td width="100%" height="33" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
 
 		    <script language="javascript"> 
 		    <!-- 
@@ -20,16 +20,16 @@
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
 	<tr>
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | <a href="/crear_proyecto"> CREAR PROYECTO </a> | <a href="/crear_metodologia"> METODOLOGIAS </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
 	</tr>
 
 	<tr>
-		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<td width="100%" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
 		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
@@ -42,33 +42,21 @@
 
 		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> <br />	
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> <br />	
 		</td>
 		{% endif %}
 </tr>
 	<tr>
 
-		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+		<td width="100%" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
 		<h2>Proyectos</h2>
 		<h3>Detalle Proyecto<h3>
 		  <hr>
 
 		
-		  <section class='contenido' style="padding-left:20px">
+		  <section style="padding-left:20px">
 
-			  <!--<div id="menu">
-			    <ul>
-				{% if rol == "Gerente de Proyecto" %}	
-				<li><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a></li>
-				<br></br>
-				<li><a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a></li>
-				<br></br>
-				<li><a href='/editar/{{proyecto.id}}'>Editar</a></li>
-				{% endif %}	
-			    </ul>
-			  </div>
-			 !-->
 			<p>Nombre del Proyecto: {{proyecto.nombre}}</p>
 			<p>Fecha de Inicio: {{proyecto.fechaInicio}}</p>
 			<p>Fecha Final: {{proyecto.fechaFin}}</p>
@@ -91,6 +79,7 @@
 		      <p style="padding-left:20px">Plan de iteración: <a id= "siguiente" href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
 		      <p style="padding-left:20px">Plan de evaluación de iteración: <a id= "siguiente" href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
 		      <p style="padding-left:20px"> <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
+
 		      {% elif proyecto.iteActual < 0 %}
 		      <p style="padding-left:20px">Todas las iteraciones fueron terminadas</p>
 		      {% endif %}		
@@ -124,8 +113,9 @@
 
 	</tr>
 
+
 	<tr>
-		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<td width="100%" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>

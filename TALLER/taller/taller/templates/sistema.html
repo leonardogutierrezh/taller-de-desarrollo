@@ -9,10 +9,10 @@
 var count = "1";
 function addRow() {
 	  
-  // Borro la primera fila
-  if (count == "1"){
-  document.getElementById("tablaSistema").deleteRow(1);
-  };
+//  // Borro la primera fila
+//  if (count == "1"){
+//  document.getElementById("tablaSistema").deleteRow(1);
+//  };
   var tbody = document.getElementById("tablaSistema").getElementsByTagName("TBODY")[0];
       // creo una fila
       var row = document.createElement("TR");
@@ -26,7 +26,7 @@ function addRow() {
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
       // celda 3
       var td3 = document.createElement("TD")
-      var strHtml3 = "<input type=\"text\" name=\"prioridad\"></input>";
+      var strHtml3 = "<select name=\"prioridad\"><option value='Alta'>Alta</option><option value='Media'>Media</option><option value='Baja'>Baja</option> </select>";
       td3.innerHTML = strHtml3.replace(/!count!/g,count);
       // celda 4
       var td4 = document.createElement("TD")
@@ -51,11 +51,12 @@ function deleteRow() {
   	
 } 
 
-function eliminarFila() {
+function eliminarFila(id) {
 	var x;
 	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
 	if (r==true) {
-  		x="You pressed OK!";
+  		var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+      window.location.assign(string1 + id)
   	}
 	else {
   		x="You pressed Cancel!";
@@ -81,10 +82,10 @@ function eliminarFilaVacia() {
 </head>
 <body>
 <!-- Save for Web Slices (index.psd) -->
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
-		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+		<td width="100%" height="33" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
 
 		    <script language="javascript"> 
 		    <!-- 
@@ -94,16 +95,16 @@ function eliminarFilaVacia() {
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
 	<tr>
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | <a href="/crear_proyecto"> CREAR PROYECTO </a> | <a href="/crear_metodologia"> METODOLOGIAS </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
 	</tr>
 
 	<tr>
-		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<td width="100%" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
 		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
@@ -116,13 +117,13 @@ function eliminarFilaVacia() {
 
 		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
 		</td>
 		{% endif %}
 </tr>
 
 	<tr>
-		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+		<td width="100%" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
 		<h2>Sistema: {{sistema.nombre}}</h2>
 		<p>Descripción: {{sistema.descripcion}}</p>		
@@ -151,7 +152,7 @@ function eliminarFilaVacia() {
 						{%endif%}</td>
 				<td> {{dato.prioridad}}</td>
 				<td style="border:0; width:50px">
-					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
 				</td>		
 				</tr>	 
 					{% empty %}
@@ -173,7 +174,7 @@ function eliminarFilaVacia() {
 	</tr>
 
 	<tr>
-		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<td width="100%" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>

@@ -18,9 +18,8 @@ clear:both;
 }
 
 .text1 {
-	font: 16px "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font: 14px "Trebuchet MS", Arial, Helvetica, sans-serif;
 	color:#000;
-	font-weight:bold;
 }
 .text2 {
 	font: 14px Tahoma, Geneva, sans-serif;
@@ -36,17 +35,15 @@ clear:both;
 .text4 {
 	font: 14px Tahoma, Geneva, sans-serif;
 	color:#052578;
-	font-weight:bold;
 }
 .text5 {
 	font: 14px Tahoma, Geneva, sans-serif;
 	color:#052578;
-	font-weight:bold;
 }
 
 
 a:link {
-	font: 16px Tahoma, Geneva, sans-serif;
+	font: 14px Tahoma, Geneva, sans-serif;
 	color:#000;
 	font-weight:normal;
 	text-decoration:none;
@@ -60,7 +57,7 @@ a:visited{
 }
 
 a:hover {
-	font: 16px Tahoma, Geneva, sans-serif;
+	font: 14px Tahoma, Geneva, sans-serif;
 	color:#000;
 	font-weight:normal;
 	text-decoration:underline;
@@ -235,40 +232,4 @@ a.adv:visited {text-decoration: none; font-weight:bold; color:#000;}
 #formulario_req th {
   text-align:left;
   
-}
-
-#overlay {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-}
-
-#modal {
-    position:absolute;
-    background:url(tint20.png) 0 0 repeat;
-    background:rgba(0,0,0,0.2);
-    border-radius:14px;
-    padding:8px;
-}
-
-#content {
-    border-radius:8px;
-    background:#fff;
-    padding:20px;
-}
-
-#close {
-    position:absolute;
-    background:url(close.png) 0 0 no-repeat;
-    width:24px;
-    height:27px;
-    display:block;
-    text-indent:-9999px;
-    top:-7px;
-    right:-7px;
 }

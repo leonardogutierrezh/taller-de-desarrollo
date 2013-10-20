@@ -7,29 +7,101 @@
 
 </head>
 <body>
-<table width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
-		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+		<td width="100%" height="33" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
 
 		    <script language="javascript"> 
 		    <!-- 
 		    today = new Date(); 
 		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
 		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
-		    //--> 
+		    //-->
+
+                var count = "1";
+function addRow() {
+
+//  // Borro la primera fila
+//  if (count == "1"){
+//  document.getElementById("tablaSistema").deleteRow(1);
+//  };
+  var tbody = document.getElementById("contenedor").getElementsByTagName("TBODY")[0];
+      // creo una fila
+      var row = document.createElement("TR");
+      // celda 1
+      var td1 = document.createElement("TD")
+      var strHtml1 = "<input type=\"text\" name=\"numero\"></input>";
+      td1.innerHTML = strHtml1.replace(/!count!/g,count);
+      // clda 2
+      var td2 = document.createElement("TD")
+      var strHtml2 = "<input type=\"text\" name=\"originario\"></input>";
+      td2.innerHTML = strHtml2.replace(/!count!/g,count);
+      // celda 3
+      var td3 = document.createElement("TD")
+      var strHtml3 = "<input type=\"text\" name=\"alterno\"></input>";
+      td3.innerHTML = strHtml3.replace(/!count!/g,count);
+      // celda 4
+      var td4 = document.createElement("TD")
+      var strHtml4 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td4.innerHTML = strHtml4.replace(/!count!/g,count);
+
+      // agrego
+      row.appendChild(td1);
+      row.appendChild(td2);
+      row.appendChild(td3);
+      row.appendChild(td4);
+
+      count = parseInt(count) + 1;
+      // agrego a la tabla
+      tbody.appendChild(row);
+
+}
+
+function deleteRow() {
+  var a = document.getElementById("tablaSistema").rows.length;
+  document.getElementById("tablaSistema").deleteRow(a-1);
+
+}
+
+function eliminarFila(id) {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	if (r==true) {
+  	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+    //  window.location.assign(string1 + id)
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	if (r==true) {
+  		var a = document.getElementById("contenedor").rows.length;
+  		document.getElementById("contenedor").deleteRow(a-1);
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
 	<tr>
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | <a href="/crear_proyecto"> CREAR PROYECTO </a> | <a href="/crear_metodologia"> METODOLOGIAS </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
 	</tr>
 
 	<tr>
-		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<td width="100%" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
 		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
@@ -39,7 +111,7 @@
 	</tr>
 
 	<tr>
-		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+		<td width="100%" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
 		<h2> Detalle Caso de Uso</h2>	
 		  <hr>
@@ -56,7 +128,7 @@
 		<ul>
 		  <li><a href='/editar_casos_uso/{{id}}/{{rol}}'>Editar Caso de Uso</a></li>
 			<br></br>
-			<li><a href='/escenarios_crear/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}'>Identificar Escenarios</a></li>
+			<li><a href='/escenarios_crear/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}'>Configurar Campos Adicionales</a></li>
 		  <br></br>    
 		</ul>
 		
@@ -64,8 +136,8 @@
 	</section>
 	
 	<br></br>
-
-		<table border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+		<table id="contenedor" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
 			<tr>
 				<td style="background-color:#09C; border-radius:10px">Numero</td>
 				<td style="background-color:#09C; border-radius:10px">Flujo Originario</td>
@@ -78,8 +150,11 @@
 				<td><a  id="siguiente" href='/escenario_detalle/{{id}}/{{rol}}/{{id_sistema}}/{{id_caso}}/{{dato.0.id}}'>Escenario {{dato.0.numero}}</a></td>
 				<td>{{dato.0.flujoOriginario}}</td>
 				<td> {{dato.0.flujoAlterno}}</td>
+            <td style="border:0; width:50px">
+					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
+				</td>
         {%for valor  in dato.1 %}		
-        <td> {{valor.valor}}</td>
+        <td>{% if valor == "N/A"%}N/A {%else%} {{valor.valor}}{%endif%}</td>
         {%endfor%}
 				</tr>	 
 					{% empty %}
@@ -88,18 +163,30 @@
 					</tr>
 				{%endfor%}
 		</table>
-
+<input type='submit' value='Guardar' />
+</form>
+            <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" id="boton1" style="cursor:pointer;" />
 		<center>
 		<a id="siguiente" href='/casos_uso/{{id}}/{{rol}}/{{id_sistema}}'><img src="/static/images/back.png" width="30" height="30"/> Volver Atrás</a>
 		</center>
 
 	<tr>
-		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<td width="100%" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
 
 </table>
+
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                //Aqui asignamos el click al elemento <a>
+                $("#boton1").click(function (){
+                	$('#contenedor tr:last').after("<tr><td><input type=\"text\" name=\"numero\"></td><td><input type=\"text\" name=\"originario\"></td><td><input type=\"text\" name=\"alterno\"></td>{%for titulo in titulos%}{% if titulo.activo %}<td><input type=\"text\" name=\"{{titulo.titulo}}\"></td>{% else %}<td>N/A</td>{%endif%}{%endfor%}<td><img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\"></td></tr>");
+                });
+});
+</script>
 </body>
 </html>
 

@@ -9,29 +9,35 @@
 var count = "1";
 function addRow() {
 	  
-  // Borro la primera fila
-  if (count == "1"){
-  document.getElementById("tablaRequerimientos").deleteRow(1);
-  };
+//  // Borro la primera fila
+//  if (count == "1"){
+//  document.getElementById("tablaRequerimientos").deleteRow(1);
+//  };
   var tbody = document.getElementById("tablaRequerimientos").getElementsByTagName("TBODY")[0];
       // creo una fila
       var row = document.createElement("TR");
       // celda 1
       var td1 = document.createElement("TD")
-      var strHtml1 = "<input></input>";
+      var strHtml1 = "<input type=\"text\" name=\"id\"></input>";
       td1.innerHTML = strHtml1.replace(/!count!/g,count);
       // clda 2
       var td2 = document.createElement("TD")
-      var strHtml2 = "<input></input>";
+      var strHtml2 = "<input type=\"text\" name=\"nombre\"></input>";
       td2.innerHTML = strHtml2.replace(/!count!/g,count);
-      // celda 1
+      // celda 3
       var td3 = document.createElement("TD")
-      var strHtml3 = "<input></input>";
-      td1.innerHTML = strHtml3.replace(/!count!/g,count);
+      var strHtml3 = "<select name=\"caracteristica\">{% for item in caracteristica %}<option value=\"{{item.id}}\">{{item.nombre}}</option>{% endfor %}</select>";
+      td3.innerHTML = strHtml3.replace(/!count!/g,count);
+      // celda 4
+      var td4 = document.createElement("TD")
+      var strHtml4 = "<img src=\"/static/images/eliminar.png\" class=\"vacia\" width=\"20\" height=\"20\" border=\"0\" align=\"center\" onclick=\"eliminarFilaVacia()\" style=\"cursor:pointer;\">";
+      td4.innerHTML = strHtml4.replace(/!count!/g,count);
+      
       // agrego
       row.appendChild(td1);
       row.appendChild(td2);
       row.appendChild(td3);
+      row.appendChild(td4);
       
       count = parseInt(count) + 1;
       // agrego a la tabla
@@ -44,14 +50,40 @@ function deleteRow() {
   document.getElementById("tablaRequerimientos").deleteRow(a-1);
   	
 } 
+
+function eliminarFila() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		x="You pressed OK!";
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
+function eliminarFilaVacia() {
+	var x;
+	var r=confirm("¿Está seguro que desea eliminar este Caso de Uso?");
+	if (r==true) {
+  		var a = document.getElementById("tablaRequerimientos").rows.length;
+  		document.getElementById("tablaRequerimientos").deleteRow(a-1);
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+
     </SCRIPT>
 
 </head>
 <body>
-<table  width="800" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+<table  width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
 
 	<tr>
-		<td width="800" height="33" colspan="22" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+		<td width="100%" height="33" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
 
 		    <script language="javascript"> 
 		    <!-- 
@@ -61,16 +93,16 @@ function deleteRow() {
 		    //--> 
 		    </script> 
 		</td>
-		<td width="95" height="33" colspan="3" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" align="left" valign="top" bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
 	<tr>
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos">PROYECTOS</a> | <a>NOSOTROS</a> | <a>SOPORTE</a> | <a>CONTACTO</a> <br />
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | <a href="/crear_proyecto"> CREAR PROYECTO </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
 	</tr>
 
 	<tr>
-		<td width="800" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<td width="100%" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
 		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
 		
@@ -83,14 +115,14 @@ function deleteRow() {
 
 		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="800" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
 		</td>
 		{% endif %}
 </tr>
 
 
 	<tr>
-		<td width="800" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+		<td width="100%" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
 
 		<h2>Sistema: {{sistema.nombre}}</h2>
 		<p>Descripción: {{sistema.descripcion}}</p>		
@@ -104,7 +136,7 @@ function deleteRow() {
 
 		<a id="siguiente" href='/requerimiento_crear/{{id}}/{{rol}}/{{sistema.id}}'>Crear Requerimiento</a>
 <br></br> 
-
+<form id='formulario_req' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 <table id="tablaRequerimientos" border=none  width="100%" cellpadding="3" cellspacing="3" style="text-align:center">
 	<tr>
 		<td style="background-color:#09C; border-radius:10px">Id de requerimiento</td>
@@ -114,8 +146,17 @@ function deleteRow() {
 		{% for dato in requerimientos %}
 	<tr>
 		<td>{{dato.idrequerimiento}}</td>
-		<td><a id="siguiente" href='/requerimientos_detalle/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}' >{{dato.nombre}}</a></td>
-		<td>{{dato.caracteristica}}</td>
+		<td>
+			<a id="siguiente" href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/{{dato.id}}' >
+				{{dato.nombre}}
+			</a>
+		</td>
+		<td>
+			{{dato.caracteristica}}
+		</td>
+		<td style="border:0; width:50px">
+			<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila()" style="cursor:pointer;"/>
+		</td>
 	</tr>
 		{% empty %}
 	<tr>
@@ -129,13 +170,13 @@ function deleteRow() {
 
 	</tr>
 </table>
-
+<input type='submit' value='Guardar' />
+</form>
 <img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
-<img src="/static/images/minus.png" width="30" height="30" alt="" border="0" align="right" onclick="deleteRow()" />
 
 <br></br>
 	<tr>
-		<td width="800" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<td width="100%" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
