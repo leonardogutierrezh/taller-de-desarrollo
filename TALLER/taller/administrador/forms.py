@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from django import forms
 from django.contrib.auth.models import User
 
-from administrador.models import Perfil, Proyecto, Miembro, Metodologia, Requerimiento, Iteracion, Sistema, Caracteristica, CasosDeUso, Escenario, EscenarioExtra, EscenarioValor, CasoPrueba, CasoPruebaExtra, CasoPruebaValor, CasoPruebaDetalle, EjecucionCasoPrueba
+from administrador.models import *
 
 
 from django.forms.extras.widgets import SelectDateWidget
@@ -135,3 +135,8 @@ class ProbarForm(forms.Form):
   fecha = forms.DateField(widget=SelectDateWidget(), label='fecha de ejecución')
   aprobado = forms.ChoiceField(choices= choice, label='Decisión de Aprobación del Caso de Prueba')
   notas = forms.CharField(widget= forms.Textarea)
+
+class ArtefactosForm(forms.ModelForm):
+    class Meta:
+        model= Artefactos
+        exclude=['proyecto']

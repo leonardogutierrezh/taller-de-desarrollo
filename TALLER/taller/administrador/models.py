@@ -178,3 +178,8 @@ class EjecucionCasoPrueba(models.Model):
   valor = models.CharField(max_length=40)
   resultadoesp = models.CharField(max_length=40,verbose_name='Resultado Esperado')
   resultadoobt = models.CharField(max_length=40,verbose_name='Resultado Obtenido')
+
+class Artefactos(models.Model):
+  nombre = models.CharField(max_length=40)
+  proyecto = models.ForeignKey(Proyecto)
+  artefacto = models.FileField(upload_to='artefactos', verbose_name='Plan de Iteracion')

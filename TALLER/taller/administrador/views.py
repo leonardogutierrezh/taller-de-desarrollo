@@ -5,7 +5,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm, CasoPruebaForm, CasoPruebaExtraForm, CasoPruebaValorForm, CasoPruebaDefineForm, CasoPruebaDetalleDefineForm, CasoPruebaDetalleForm, MetodologiaForm, EjecucionCasoPruebaForm,ProbarForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm, CasoPruebaForm, CasoPruebaExtraForm, CasoPruebaValorForm, CasoPruebaDefineForm, CasoPruebaDetalleDefineForm, CasoPruebaDetalleForm, MetodologiaForm, EjecucionCasoPruebaForm,ProbarForm, ArtefactosForm
 from administrador.models import Perfil
 from administrador.models import *
 from django.core.urlresolvers import reverse
@@ -117,12 +117,13 @@ def proyecto_detalle(request,id_proyecto,rol):
     dato = Proyecto.objects.get(pk=id_proyecto)
     sistemas = SistemaAsociado.objects.filter(proyecto=dato)
     iteraciones = Iteracion.objects.filter(proyecto=dato)
+    artefactos = Artefactos.objects.filter(proyecto=dato)
     if dato.iteActual > 0:
       iteracion = Iteracion.objects.get(proyecto=dato,numero=dato.iteActual)
       iteracion.status="En progreso"
       return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'iteracion':iteracion,'iteraciones':iteraciones,'sistemas':sistemas}, context_instance=RequestContext(request))
     else:
-      return render_to_response('proyecto_detalle.html',{'proyecto':dato,'rol':rol,'sistemas':sistemas,'iteraciones':iteraciones}, context_instance=RequestContext(request))
+      return render_to_response('proyecto_detalle.html',{'artefactos':artefactos, 'proyecto':dato,'rol':rol,'sistemas':sistemas,'iteraciones':iteraciones}, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def crear_proyecto(request):
@@ -804,7 +805,7 @@ def eliminar_requerimiento(request, id_proyecto, rol, id_sistema, id_requerimien
 @login_required(login_url='/')
 def pruebas(request):
   usuario = request.user
-  casos = CasoPruebaDetalle.objects.filter(probador=usuario)
+  casos = CasoPruebaDetalle.objects.filter(probador=usuario, desicion="Por ejecutar")
   return render_to_response('pruebas.html', {'casos': casos}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
@@ -837,3 +838,49 @@ def probar(request, id_casouso):
     return render_to_response('probar.html', {'ejecuciones': ejecuciones, 'formulario': formulario, 'caso': caso, 'detalle': caso_detalle}, context_instance=RequestContext(request))
   return HttpResponseRedirect('/')
 
+@login_required(login_url='/')
+def gestionar(request, id_proyecto):
+  proyecto = Proyecto.objects.get(pk=id_proyecto)
+  pruebas_aprob = CasoPruebaDetalle.objects.filter(desicion="Aprobo")
+  pruebas_fallo = CasoPruebaDetalle.objects.filter(desicion="Fallo")
+  pruebas_ejecutar = CasoPruebaDetalle.objects.filter(desicion="Por ejecutar")
+  return render_to_response('gestionar.html', {'proyecto':proyecto, "aprobadas": pruebas_aprob, 'fallas': pruebas_fallo, "ejecutar": pruebas_ejecutar}, context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def asignarpruebas(request, id_proyecto):
+  proyecto = Proyecto.objects.get(pk=id_proyecto)
+  pruebas_ejecutar = CasoPruebaDetalle.objects.filter(desicion="Por ejecutar")
+  probadores = Miembro.objects.filter(proyecto=proyecto, rol='Probador')
+  if request.method == 'POST':
+    nuevos = request.POST.getlist('probador')
+    for item in nuevos:
+      if item == 'None':
+        continue
+      else:
+        div = item.split('_')
+        case = CasoPruebaDetalle.objects.get(pk=div[0])
+        prob = User.objects.get(pk=div[1])
+        case.probador = prob
+        case.save()
+        print div
+  return render_to_response('asignarpruebas.html', {"proyecto": proyecto, 'ejecutar': pruebas_ejecutar, 'probadores': probadores}, context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def artefactos(request, id_proyecto,rol):
+  usuario = request.user
+  proyecto = Proyecto.objects.get(pk=id_proyecto)
+  if request.method == 'POST':
+    formulario = ArtefactosForm(request.POST,request.FILES)
+    if formulario.is_valid():
+      form = formulario.save(commit=False)
+      form.proyecto = proyecto
+      form.save()
+      return HttpResponseRedirect("/proyecto/" + str(id_proyecto) + "/" + rol )
+  else:
+    formulario = ArtefactosForm()
+  return render_to_response('artefactos.html',{'formulario': formulario},context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def eliminar_escenario(request, id_proyecto, rol, id_sistema, id_caso, id_escenario):
+    Escenario.objects.get(pk=id_escenario).delete()
+    return HttpResponseRedirect('/casos_uso_detalle' + '/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + id_caso)

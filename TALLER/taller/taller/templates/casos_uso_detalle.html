@@ -66,10 +66,10 @@ function deleteRow() {
 
 function eliminarFila(id) {
 	var x;
-	var r=confirm("¿Está seguro que desea eliminar este Caso de Prueba?");
+	var r=confirm("¿Está seguro que desea eliminar este Escenario?");
 	if (r==true) {
-  	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
-    //  window.location.assign(string1 + id)
+  	var string1 = "/eliminar_escenario/{{id}}/{{rol}}/{{id_sistema}}/{{caso.id}}/";
+      window.location.assign(string1 + id)
   	}
 	else {
   		x="You pressed Cancel!";
@@ -151,7 +151,7 @@ function eliminarFilaVacia() {
 				<td>{{dato.0.flujoOriginario}}</td>
 				<td> {{dato.0.flujoAlterno}}</td>
             <td style="border:0; width:50px">
-					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
+					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.0.id}})" style="cursor:pointer;"/>
 				</td>
         {%for valor  in dato.1 %}		
         <td>{% if valor == "N/A"%}N/A {%else%} {{valor.valor}}{%endif%}</td>

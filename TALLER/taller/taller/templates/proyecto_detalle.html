@@ -40,11 +40,11 @@
 
 <tr>
 
-		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> <br />	
+
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7">{%if rol == "Gerente de Pruebas"%} <a href='/gestionar/{{proyecto.id}}'>Gestionar Pruebas</a>{%endif%}{% if rol == "Gerente de Proyecto" %}<a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> | <a href='/gestionar/{{proyecto.id}}'>Gestionar Pruebas</a>{%endif%}<br />
 		</td>
-		{% endif %}
+
 </tr>
 	<tr>
 
@@ -67,10 +67,21 @@
 			<br></br>
 
 		      <div style="float: right width: 40%;">
+              <h3>Artefactos</h3>
+               <ul>
+              {%for artefacto in artefactos%}
+                  <li><a href='/media/{{artefacto.artefacto.url}}' id="siguiente">{{artefacto.nombre}}</a></li>
+
+               {% endfor%}
+               </ul>
+               {%if rol == "Gerente de Proyecto"%}
+                  <a href="/artefactos/{{proyecto.id}}/{{rol}}" id="siguiente">Agregar artefacto</a>
+               {%endif%}
+                  		      <br></br>
 		      <h3>Iteración:</h3>
 		      {% if proyecto.iteActual == 0 %}
 			<p style="padding-left:20px">No hay iteración en proceso</p>
-			<p style="padding-left:20px"> <a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>
+			<p style="padding-left:20px"> {% if rol == "Gerente de Proyecto"%}<a id="siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Activar Proyecto</a>{%endif%}
 		      {% elif proyecto.iteActual > 0 %}
 
 		      <p style="padding-left:20px">Iteración actual: {{iteracion.numero}} </p>
@@ -78,7 +89,7 @@
 		      <p style="padding-left:20px">Status: {{iteracion.status}} </p>
 		      <p style="padding-left:20px">Plan de iteración: <a id= "siguiente" href='/media/{{iteracion.planIteracion.url}}'>Descargar</a></p>
 		      <p style="padding-left:20px">Plan de evaluación de iteración: <a id= "siguiente" href='/media/{{iteracion.planEvaIteracion.url}}'>Descargar</a></p>
-		      <p style="padding-left:20px"> <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>
+		      <p style="padding-left:20px">{% if rol == "Gerente de Proyecto" %} <a id= "siguiente" href='/proyecto_iterar/{{proyecto.id}}/{{rol}}'>Iterar</a></p>{%endif%}
 
 		      {% elif proyecto.iteActual < 0 %}
 		      <p style="padding-left:20px">Todas las iteraciones fueron terminadas</p>
