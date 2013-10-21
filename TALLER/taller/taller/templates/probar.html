@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title> SGP - Perfil</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<script>
+function metodologia() {
+	var x;
+	var r=confirm("Para crear un proyecto debe tener por lo menos una metodología, ¿Desea crear una metodología?");
+	if (r==true) {
+  	//	var string1 = "/delete_caracteristica/{{id}}/{{rol}}/{{sistema.id}}/";
+     window.location.assign('/crear_metodologia')
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
+	document.getElementById("demo").innerHTML=x;
+}
+</script>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="table_01">
+
+	<tr>
+		<td width="100%" height="33" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
+
+		    <script language="javascript">
+		    <!--
+		    today = new Date();
+		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes());
+		    //-->
+		    </script>
+		</td>
+		<td width="95" height="33" align="left" valign="top"  bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+
+	</tr>
+
+	<tr>
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href = "/principal/">INICIO</a> | <a  href = "/perfil">PERFIL</a> | <a href = "/proyectos"> MIS PROYECTOS</a> | {% if metodologias == 0%}<a href='#' onclick=metodologia()>{%else%}<a href="/crear_proyecto">{%endif%} CREAR PROYECTO </a> | <a href="/crear_metodologia"> METODOLOGIAS </a> | <a>NOSOTROS</a> | <a>CONTACTO</a> <br />
+	</tr>
+
+	<tr>
+		<td width="100%" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
+		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
+		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
+
+		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
+		</td>
+
+	</tr>
+
+	<tr>
+		<td width="100%" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+
+		<h2>Ejecución del caso de prueba {{caso.nombre}}</h2>
+		  <hr>
+
+		<center>
+		  <form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
+			  <table border=none id="contenedor" width="100%" cellpadding="3" cellspacing="3" style="text-align:left; ">
+                  <tr>
+                      <td>Nombre Sistema: {{caso.escenario.caso.sistema.nombre}}</td>
+                      <td>Nivel de Prueba: {{caso.nivel}}</td>
+                  </tr>
+                  <tr>
+                      <td>Id Caso de Uso: {{caso.escenario.caso.caso}}</td>
+                      <td>Tipo(s) de Prueba(s): {{caso.tipo}}</td>
+                  </tr>
+                  <tr>
+                      <td>Id Requerimiento: {{detalle.requerimiento.idrequerimiento}}</td>
+                      <td>Ambiente de Prueba: {{detalle.ambiente}}</td>
+                  </tr>
+                  <tr>
+                      <td>Id/Nombre Escenario: {{caso.escenario.numero}}</td>
+                      <td>Autor del Caso de Prueba: {{detalle.autorcaso}}</td>
+                  </tr>
+                  <tr>
+                      <td>Versión del Caso de Pruebaa: {{detalle.version}}</td>
+                      <td>Fecha de Creacion: {{detalle.fecha}}</td>
+                  </tr>
+                  <tr style="background-color: darkseagreen;"><td>Condición(es) para que se ejecute el Caso de Prueba:</td><td>Fecha de Ejecución</td></tr>
+                  <tr><td>{{detalle.condicion}}</td><td>{{formulario.fecha}}{{formulario.fecha.errors}}</td></tr>
+			  </table>
+              <h2>Para la Ejecucion del Caso de Prueba</h2>
+                       <table border=none width="100%" cellpadding="3" cellspacing="3" style="text-align:left; ">
+                          <th>Paso</th>
+                          <th>Condición</th>
+                          <th>Valor(es)</th>
+                          <th>Resultado Esperado</th>
+                          <th>Resultado Obtenido</th>
+                           <tr>
+                               {%for ejecucion in ejecuciones%}
+                               <td>{{ejecucion.paso}}</td>
+                               <td>{{ejecucion.condicion}}</td>
+                               <td>{{ejecucion.valor}}</td>
+                               <td>{{ejecucion.resultadoesp}}</td>
+                               <td><input  name="{{ejecucion.id}}" value="{{ejecucion.resultadoobt}}"></td>
+                               {%endfor%}
+                           </tr>
+                      </table>
+              <p>Desición de Aprobación del Caso de Prueba: {{formulario.aprobado}}{{formulario.aprobado.errors}}</p>
+              <h2>Notas</h2>
+              {{formulario.notas}}{{formulario.notas.errors}}
+			  <br></br>
+			  <p><input type='submit' value='Confirmar'/></p>
+		  </form>
+		    <br></br>
+		</center>
+		</td>
+
+	</tr>
+
+	<tr>
+		<td width="100%" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
+		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

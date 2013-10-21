@@ -117,7 +117,7 @@ class CasoPruebaDetalleForm(forms.ModelForm):
   fecha = forms.DateField(widget=SelectDateWidget(), label='fecha de creacion')
   class Meta:
     model = CasoPruebaDetalle
-    exclude = ['casoprueba', 'sistema', 'casouso', 'autorcaso', 'fechaejec', 'fechaapro', 'fecha']
+    exclude = ['casoprueba', 'sistema', 'casouso', 'autorcaso', 'fechaejec', 'fechaapro', 'fecha', 'notas']
   fecha = forms.DateField(widget=SelectDateWidget(), label='fecha de creacion')
 class EjecucionCasoPruebaForm(forms.Form):
   class Meta:
@@ -126,3 +126,12 @@ class EjecucionCasoPruebaForm(forms.Form):
 
 class CasoPruebaDetalleDefineForm(forms.Form):
   numeroCampos = forms.IntegerField(label='Numero de ejecuciones')
+
+class ProbarForm(forms.Form):
+  choice = (
+      ('Aprobo', 'Aprobo'),
+      ('Fallo', 'Fallo'),
+  )
+  fecha = forms.DateField(widget=SelectDateWidget(), label='fecha de ejecución')
+  aprobado = forms.ChoiceField(choices= choice, label='Decisión de Aprobación del Caso de Prueba')
+  notas = forms.CharField(widget= forms.Textarea)

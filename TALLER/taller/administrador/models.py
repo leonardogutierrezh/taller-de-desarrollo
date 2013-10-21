@@ -169,6 +169,7 @@ class CasoPruebaDetalle(models.Model):
   criterios = models.TextField(max_length=400,verbose_name='Criterios de Aprobacion del Caso de Prueba')
   desicion = models.CharField(max_length=40,verbose_name='Desicion de Aprobacion del Caso de Prueba', choices=choices)
   fechaapro = models.DateField('Fecha de Aprobacion',null=True,blank=True)
+  notas = models.TextField(null= True, blank= True)
 
 class EjecucionCasoPrueba(models.Model):
   caso = models.ForeignKey(CasoPrueba)

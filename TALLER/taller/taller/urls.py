@@ -51,6 +51,8 @@ urlpatterns = patterns('',
     url(r'^casos_uso/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_casouso>\d+)$', 'administrador.views.casos_uso'),
     url(r'^delete_casos_uso/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_casouso>\d+)$', 'administrador.views.delete_casos_uso'),
     url(r'^casos_uso_crear/(?P<id_proyecto>\d+)/(?P<rol>\D*)/(?P<id_sistema>\d+)/(?P<id_casouso>\d+)$', 'administrador.views.casos_uso_crear'),
+    url(r'^pruebas$', 'administrador.views.pruebas'),
+    url(r'^probar/(?P<id_casouso>\d+)$', 'administrador.views.probar'),
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root':settings.MEDIA_ROOT,}),
 
 

@@ -1,13 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title> SGP - Principal</title>
+<title> SGP - Perfil</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <link href="/static/css/styles.css" rel="stylesheet" type="text/css" />
-<script>
 
-
-</script>
 </head>
 <body>
 <script>
@@ -29,15 +26,15 @@ function metodologia() {
 	<tr>
 		<td width="100%" height="33" align="left" valign="middle" bgcolor="#efefef" class="text3" style="padding-left:20px">
 
-		    <script language="javascript"> 
-		    <!-- 
-		    today = new Date(); 
+		    <script language="javascript">
+		    <!--
+		    today = new Date();
 		    document.write(" Fecha: ", today.getDate(),"/",today.getMonth()+1,"/",today.getYear());
-		    document.write(" Hora: ", today.getHours(),":",today.getMinutes()); 
-		    //--> 
-		    </script> 
+		    document.write(" Hora: ", today.getHours(),":",today.getMinutes());
+		    //-->
+		    </script>
 		</td>
-		<td width="95" height="33"  align="left" bgcolor="#efefef" valign="top"><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
+		<td width="95" height="33" align="left" valign="top"  bgcolor="#efefef" ><a href = "/cerrar"><img src="/static/images/logout.png" alt="" width="95" height="33" border="0" /></a></td>
 
 	</tr>
 
@@ -49,74 +46,48 @@ function metodologia() {
 		<td width="100%" height="140" colspan="25" align="left" valign="top" bgcolor="#0099CC">
 		<img src="/static/images/logo.jpg" width="220" height="100" alt="" border="0" />
 		<img src="/static/images/lisi.jpg" width="140" height="110"alt="" border="0" align="right" />
-		
-		
+
 		<p id="titulo" style=" color:white; line-height:200%; font-size:15px;" >SISTEMA DE GESTIÓN DE PRUEBAS Y REQUERIMIENTOS</p>
 		</td>
-			
+
 	</tr>
 
 	<tr>
-		<td width="100%" colspan="25" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+		<td width="100%" colspan="25" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
+
+		<h2>Casos de Prueba por ejecutar</h2>
+		  <hr>
+
+		<center>
+			  <table  border=none width="100%" cellpadding="3" cellspacing="3" style="text-align:center ">
+                  <th style="background-color:#09C; border-radius:10px">Sistema</th>
+                  <th style="background-color:#09C; border-radius:10px">Escenario</th>
+                  <th style="background-color:#09C; border-radius:10px">Caso de Prueba</th>
+                  <th style="background-color:#09C; border-radius:10px">Decisión de aprobación</th>
+
+                  {%for caso in casos%}
+                   <tr>
+                      <td>{{caso.casoprueba.escenario.numero}}</td>
+                      <td>{{caso.requerimiento}}</td>
+                      <td><a id="siguiente" href="probar/{{caso.casoprueba.id}}">{{caso.casoprueba.nombre}}</a></td>
+                      <td>{{caso.desicion}}</td>
+                   </tr>
+                  {% endfor %}
+
+			  </table >
+			  <br></br>
 
 		    <br></br>
-		    <h3>{{usuario}}, bienvenido(a) al Sistema de Gestión de Pruebas y Requerimientos</h3>
-		    <br></br>
-			<center>
-		    <table>
-
-
-		      {% for i in info %}
-
-		      <tr>
-			      <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;" ><center>Proyecto</center></td>
-			      <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;"><center>Roles</center></td>
-			      <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;"><center>Sistemas Asociados</center></td>
-		      </tr>
-
-		      <tr>
-		      <td style="border-bottom:thick double #A7A7A7"> <center> {{i.proyecto.nombre}} </center></td>
-		      <td style="border-bottom:thick double #A7A7A7"> <center>{% for r in i.roles %}
-			    
-			    {{r}} <a href='/proyecto/{{i.proyecto.id}}/{{r}}' > <img src="/static/images/lupa.png" alt="" width="20" height="20" border="0"/></a>
-			    <br></br>
-			    {% endfor %}
-		      <center>		      
-		      </td>
-		      <td style="border-bottom:thick double #A7A7A7"> <center>{% for s in i.sistemas %}
-			    {{s.sistema.nombre}} <a id="siguiente" href='/sistema/{{i.proyecto.id}}/Gerente de Proyecto/{{s.sistema.id}}/0'><img src="/static/images/lupa.png" alt="" width="20" height="20" border="0" /> </a>
-			    <br></br>
-			    {% endfor %}
-		      </center>
-		      </td>
-		      </tr>
-
-		      {% empty %}
-
-		    <tr>Actualmente No Tienes Proyectos Asignados</tr>
-
-		      {% endfor %}
-
-		    </table>
-              {% if casos != 0%}
-             <a href="/pruebas" id="siguiente" >Tienes {{casos}} Casos de prueba por ejecutar</a>
-              {% endif %}
-		  </center>
-		    <section class='contenido'>
-		    </section>
-
-		    <br></br>
+		</center>
 		</td>
+
 	</tr>
-	
+
 	<tr>
 		<td width="100%" height="49" colspan="27" align="center" valign="middle" class="text2" style="background:url(/static/images/b_footer.jpg)">
 		<span class="text3">Copyright &copy; Sistema de Gestión de Pruebas y Requerimientos / Taller de Desarrollo </span><br/>
 		</td>
 	</tr>
 </table>
-
-
 </body>
 </html>
-

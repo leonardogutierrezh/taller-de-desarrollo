@@ -5,11 +5,12 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm, CasoPruebaForm, CasoPruebaExtraForm, CasoPruebaValorForm, CasoPruebaDefineForm, CasoPruebaDetalleDefineForm, CasoPruebaDetalleForm, MetodologiaForm, EjecucionCasoPruebaForm
+from administrador.forms import UserForm, ProyectoForm, MiembroForm, ProyectoeForm, RequerimientoForm, IteracionForm, SistemaForm, CaracteristicaForm, CasosDeUsoForm, EscenarioDefineForm, EscenarioExtraForm, EscenarioForm, EscenarioValorForm, CasoPruebaForm, CasoPruebaExtraForm, CasoPruebaValorForm, CasoPruebaDefineForm, CasoPruebaDetalleDefineForm, CasoPruebaDetalleForm, MetodologiaForm, EjecucionCasoPruebaForm,ProbarForm
 from administrador.models import Perfil
 from administrador.models import *
 from django.core.urlresolvers import reverse
-from django.forms.formsets import formset_factory 
+from django.forms.formsets import formset_factory
+import datetime
 
 def ingresar(request):
   if request.method == 'POST':
@@ -34,6 +35,7 @@ def ingresar(request):
 @login_required(login_url='/')
 def principal(request):
   usuario = request.user
+  casos = CasoPruebaDetalle.objects.filter(probador=usuario, desicion="Por ejecutar").count()
   proy_miembros = Miembro.objects.filter(usuario=usuario)
   metodologias = Metodologia.objects.all().count()
   info  = []
@@ -54,7 +56,7 @@ def principal(request):
 
     info.append(_dict)
     
-  return render_to_response('principal.html',{ 'info': info,'usuario':usuario, 'metodologias':metodologias}, context_instance=RequestContext(request))
+  return render_to_response('principal.html',{'casos': casos,  'info': info,'usuario':usuario, 'metodologias':metodologias}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def cerrar(request):
@@ -798,3 +800,40 @@ def caso_prueba_detalle_llenar2(request,id_proyecto,rol,id_sistema,id_caso,id_ca
 def eliminar_requerimiento(request, id_proyecto, rol, id_sistema, id_requerimiento):
     Requerimiento.objects.get(pk=id_requerimiento).delete()
     return HttpResponseRedirect('/requerimientos' + '/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/0')
+
+@login_required(login_url='/')
+def pruebas(request):
+  usuario = request.user
+  casos = CasoPruebaDetalle.objects.filter(probador=usuario)
+  return render_to_response('pruebas.html', {'casos': casos}, context_instance=RequestContext(request))
+
+@login_required(login_url='/')
+def probar(request, id_casouso):
+  usuario = request.user
+  caso = CasoPrueba.objects.get(pk=id_casouso)
+  caso_detalle = CasoPruebaDetalle.objects.get(casoprueba=caso)
+  ejecuciones = EjecucionCasoPrueba.objects.filter(caso=caso)
+  if caso_detalle.probador == usuario:
+    if request.method == 'POST':
+        formulario = ProbarForm(request.POST)
+        if formulario.is_valid():
+          caso_detalle.fechaejec = formulario.cleaned_data['fecha']
+          if formulario.cleaned_data['aprobado'] == 'Aprobo':
+            caso_detalle.fechaapro = datetime.date.today()
+          caso_detalle.desicion = formulario.cleaned_data['aprobado']
+          caso_detalle.notas = formulario.cleaned_data['notas']
+          caso_detalle.save()
+          for ejecucion in ejecuciones:
+            print ejecucion.id
+            if request.POST.get(str(ejecucion.id)) == None:
+              continue
+            else:
+              ejecucion.resultadoobt = request.POST.get(str(ejecucion.id))
+              print ejecucion.resultadoobt
+              ejecucion.save()
+          return HttpResponseRedirect('/pruebas')
+    else:
+      formulario = ProbarForm(initial={'fecha': caso_detalle.fechaejec, 'notas': caso_detalle.notas})
+    return render_to_response('probar.html', {'ejecuciones': ejecuciones, 'formulario': formulario, 'caso': caso, 'detalle': caso_detalle}, context_instance=RequestContext(request))
+  return HttpResponseRedirect('/')
+
