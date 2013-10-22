@@ -14,14 +14,6 @@ class Proyecto(models.Model):
 
 class Metodologia(models.Model):
   
-  cicloV_types = (
-                 ('iteraciones','iteraciones'),
-                 ('sprint','sprint'),
-                 ('fases','fases'),
-                 ('etapas','etapas'),
-                 ('entregables','entregables')
-                 )
-
   complementada_types = (
                  ('RUP','RUP'),
                  ('UP','UP'),
@@ -36,8 +28,6 @@ class Metodologia(models.Model):
   descripcion = models.TextField(max_length=200, verbose_name='Descripción')
   artefactos = models.TextField(max_length=400, verbose_name='Artefactos')
   roles = models.TextField(max_length=400)
-  cicloVida = models.CharField(max_length=50,choices=cicloV_types, verbose_name='Ciclo de Vida' )
-  divCicloVida = models.IntegerField(verbose_name='División Ciclo Vida')
   complementada = models.CharField(max_length=50, choices=complementada_types, verbose_name='Se complementa con')
   
   def __unicode__(self):
@@ -45,11 +35,11 @@ class Metodologia(models.Model):
   
 class Iteracion(models.Model):
   proyecto = models.ForeignKey(Proyecto)
-  numero = models.IntegerField()
+  numero = models.IntegerField(null=True)
   objetivo = models.TextField(max_length=100)
   criterio = models.TextField(max_length=100, verbose_name='criterio de evaluación')
-  planIteracion = models.FileField(upload_to='planIteracion', verbose_name='Plan de Iteracion')
-  planEvaIteracion = models.FileField(upload_to='planEvaIteracion', verbose_name='Plan de evaluación de iteración')
+  planIteracion = models.FileField(upload_to='planIteracion', verbose_name='Plan de Iteracion', null=True)
+  planEvaIteracion = models.FileField(upload_to='planEvaIteracion', verbose_name='Plan de evaluación de iteración', null=True)
   status = models.CharField(max_length=20)
        
 class Miembro(models.Model):
