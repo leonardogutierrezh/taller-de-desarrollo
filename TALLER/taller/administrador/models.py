@@ -48,8 +48,8 @@ class Iteracion(models.Model):
   numero = models.IntegerField()
   objetivo = models.TextField(max_length=100)
   criterio = models.TextField(max_length=100, verbose_name='criterio de evaluación')
-  planIteracion = models.FileField(upload_to='planIteracion', verbose_name='Plan de Iteracion')
-  planEvaIteracion = models.FileField(upload_to='planEvaIteracion', verbose_name='Plan de evaluación de iteración')
+  planIteracion = models.FileField(upload_to='planIteracion', verbose_name='Plan de Iteracion', null=True)
+  planEvaIteracion = models.FileField(upload_to='planEvaIteracion', verbose_name='Plan de evaluación de iteración', null=True)
   status = models.CharField(max_length=20)
        
 class Miembro(models.Model):
