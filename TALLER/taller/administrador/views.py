@@ -311,6 +311,7 @@ def editar_proyecto(request,id_proyecto):
 def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     sistema = Sistema.objects.get(pk=id_sistema)
     caracteristica = Caracteristica.objects.filter(sistema=sistema)
+    caracteristicas = Caracteristica.objects.all().count()
     sistema = Sistema.objects.get(pk=id_sistema)
     if request.method=='POST':
       carac = request.POST.getlist('caracteristica')
@@ -329,7 +330,7 @@ def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
           i += 1
     if id_caracteristica != '0':
       dato = Caracteristica.objects.get(pk=id_caracteristica)
-    return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('sistema.html', { 'caracteristica': caracteristica, 'caracteristicas': caracteristicas, 'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def delete_caracteristica(request,id_proyecto,rol,id_sistema,id_caracteristica):
@@ -362,7 +363,7 @@ def requerimientos(request,id_proyecto,rol,id_sistema,id_requerimiento):
       if dato.detalle == False:
         redireccion = '/requerimiento_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_requerimiento)
         return HttpResponseRedirect(redireccion)   
-    return render_to_response('requerimientos.html', {'dato':dato,'caracteristica':caracteristica, 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('requerimientos.html', {'dato':dato,'caracteristica':caracteristica,'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def requerimiento_crear(request,id_proyecto,rol,id_sistema,id_requerimiento):
@@ -398,6 +399,7 @@ def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
 def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
     dato = ""
     sistema = Sistema.objects.get(pk=id_sistema)
+    caracteristicas = Caracteristica.objects.all().count()
     casos = CasosDeUso.objects.filter(sistema=sistema)
     valores = []
     orden = []
@@ -416,7 +418,7 @@ def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
       if dato.detalle==False:
         redireccion = '/casos_uso_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_casouso)
         return HttpResponseRedirect(redireccion)   
-    return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema, 'caracteristicas':caracteristicas, 'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def delete_casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
