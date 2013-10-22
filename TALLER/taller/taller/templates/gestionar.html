@@ -52,7 +52,7 @@ function metodologia() {
 
 	</tr>
 <tr>
-    <td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href="/gestionar/{{proyecto.id}}">Informe de Pruebas</a> | <a href="/asignarpruebas/{{proyecto.id}}">Gestionar Pruebas</a><br />
+    <td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href="/gestionar/{{proyecto.id}}/0">Informe de Pruebas</a> | <a href="/asignarpruebas/{{proyecto.id}}">Gestionar Pruebas</a><br />
 		</td>
 </tr>
 	<tr>
@@ -62,50 +62,92 @@ function metodologia() {
 		  <hr>
 
 		<center>
+         {%for sistema in sistemas %}
+           <a href="/gestionar/{{proyecto.id}}/{{sistema.sistema.id}}" id="siguiente"> {{sistema.sistema.nombre}}</a>
+         {%endfor%}
+            {%if id != 0 %}
             <table  width="100%" >
             <tr>
                 <td>
-            <h3>Pruebas Aprobadas</h3>
-			  <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0">
-                  <tr style="background-color:#09C; border-radius:10px"><td>Prueba</td><td>Probador</td></tr>
-                  {% for prueba in aprobadas %}
-                  <tr>
-                      <td>{{prueba.casoprueba.nombre}}</td><td>{{prueba.probador}}</td>
-                  </tr>
-                  {%endfor%}
-			  </table>
-                    </td>
-                <td>
-              <h3>Pruebas Falladas</h3>
-			  <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0">
-                  <tr style="background-color:#09C; border-radius:10px"><td>Prueba</td><td>Probador</td></tr>
-                  {% for prueba in fallas %}
+            <h4>Tabla de Pruebas</h4>
+			  <table width="100%" border="1" align="center" style="text-align: center;" cellpadding="0" cellspacing="0">
+                <th style="background-color: #09C;">ID Caracteristica</th>
+                <th style="background-color: #09C;">Tipo de requerimiento</th>
+                <th style="background-color: #09C;">IDs de CP asociados</th>
+                <th style="background-color: #09C;">Aprobó</th>
+                <th style="background-color: #09C;">Falló</th>
+                <th style="background-color: #09C;">% de Cumplimiento de Requerimiento asociado</th>
+                {%for caracteristica in casos%}
+                <tr>
+                    <td>{{caracteristica.0.nombre}}</td>
+                    <td><table border="1" width="100%">
+                        {% for requerimiento in caracteristica.1 %}
+                        <tr><td>{{requerimiento.requerimiento.nombre}}</td></tr>
+                        {%endfor%}
+                    </table></td>
+                    <td><table border="1" width="100%">
+                        {% for requerimiento in caracteristica.1 %}
+                        <tr><td>{{requerimiento.casoprueba.idcaso}}</td></tr>
+                        {%endfor%}
+                    </table></td>
+                    <td><table border="1" width="100%">
+                        {% for requerimiento in caracteristica.1 %}
+                        <tr><td>{%if requerimiento.desicion == 'Aprobo'%}Aprobo{%else%} - {%endif%}</td></tr>
+                        {%endfor%}
+                    </table></td>
+                    <td><table border="1" width="100%">
+                        {% for requerimiento in caracteristica.1 %}
+                        <tr><td>{%if requerimiento.desicion == 'Fallo'%}Fallo{%else%} - {%endif%}</td></tr>
+                        {%endfor%}
+                    </table></td>
+                    <td><table border="1" width="100%">
+                        {% for porcentaje in caracteristica.2 %}
+                        <tr><td>{{porcentaje.1.nombre}}: {{porcentaje.0}}%</td></tr>
+                        {%endfor%}
+                    </table></td>
+                </tr>
 
-                  <tr>
-                      <td>{{prueba.casoprueba.nombre}}</td><td>{{prueba.probador}}</td>
-                  </tr>
-                  {%endfor%}
-			  </table>
-               </td>
-                <td>
-              <h3>Por ejecutar</h3>
-			  <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0">
-                  <tr style="background-color:#09C; border-radius:10px"><td>Prueba</td><td>Probador</td></tr>
-                  {% for prueba in ejecutar %}
-
-                  <tr>
-                      <td>{{prueba.casoprueba.nombre}}</td><td>{{prueba.probador}}</td>
-                  </tr>
-                  {%endfor%}
-                  </td>
-                  </tr>
-			  </table>
-            </td>
-             </tr>
+                {%endfor%}
+                <tr style="font-style: bolder; font-weight: bolder;">
+                    <td>Total</td>
+                    <td></td>
+                    <td>{{totalcasos}}</td>
+                    <td>{{aprobados}}%</td>
+                    <td>{{fallados}}%</td>
+                    <td>{{promedioporcentaje}}%</td>
+                </tr>
               </table>
 			  <br></br>
+                    <h4>Grafico de porcentajes de completitud</h4>
+                    <table width="100%">
+                    {% for caracteristica in casos%}
+                        {% for porcentaje in caracteristica.2 %}
+                    <tr>
+                         <td width="10%" style="text-align: center;">{{porcentaje.1.nombre}}:</td>
+                         <td width="90%"><meter style="width:75%;height:25px;" id="bars" title="Awesomeness" max="100" low="50" high="100" optimum="80" value="{{porcentaje.2}}"></meter> {{porcentaje.0}}% </td>
+
+                    </tr>
+
+                        {%endfor%}
+
+                    {%endfor%}
+                    </table>
+			  <br></br>
+
 		  </form>
 		    <br></br>
+            <h4>Obrservaciones generales en cuanto a la implementación de los Casos de Uso</h4>
+                <br>
+                {% for caso in casosuso %}
+                <p style="font-style: oblique">Para el caso de uso {{caso.0.caso}} se encontro: <p>
+                <ul>
+                    {%for prueba in caso.1%}
+                    <li><p> - En la prueba {{prueba.casoprueba.idcaso}}: {%if prueba.notas == None%}No existen observaciones{%else%}{{prueba.notas}}{%endif%}</p></li>
+                    {%endfor%}
+                 </ul>
+                 <br></br>
+                {%endfor%}
+                {%endif%}
 		</center>
 		</td>
 
