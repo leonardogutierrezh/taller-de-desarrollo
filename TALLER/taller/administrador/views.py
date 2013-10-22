@@ -845,10 +845,15 @@ def gestionar(request, id_proyecto, id_sistema):
   proyecto = Proyecto.objects.get(pk=id_proyecto)
   sistemas = SistemaAsociado.objects.filter(proyecto=proyecto)
   casos = []
+  casosusolist = []
   if id_sistema == "0":
     print "0"
   else:
+    promedio = 0
     sistema = Sistema.objects.get(pk=id_sistema)
+    totalcasos = 0
+    porcentajeaprobo = 0
+    porcentajefallo = 0
     caracteristicas = Caracteristica.objects.filter(sistema=sistema)
     totalporcentajes = []
     for caracteristica in caracteristicas:
@@ -876,13 +881,13 @@ def gestionar(request, id_proyecto, id_sistema):
       for por in totalporcentajes:
         suma = suma + por
       promedio = round(float(suma)/float(len(totalporcentajes)),2)
-      casosuso = CasosDeUso.objects.filter(sistema=sistema)
-      casosusolist = []
-      for caso in casosuso:
-        escenario= Escenario.objects.filter(caso=caso)
-        casospaux = CasoPrueba.objects.filter(escenario__in=escenario)
-        casospu = CasoPruebaDetalle.objects.filter(casoprueba__in = casospaux, desicion= "Fallo")
-        casosusolist.append((caso, casospu))
+    casosuso = CasosDeUso.objects.filter(sistema=sistema)
+    for caso in casosuso:
+      escenario= Escenario.objects.filter(caso=caso)
+      casospaux = CasoPrueba.objects.filter(escenario__in=escenario)
+      casospu = CasoPruebaDetalle.objects.filter(casoprueba__in = casospaux, desicion= "Fallo")
+      casosusolist.append((caso, casospu))
+
 #  pruebas_aprob = CasoPruebaDetalle.objects.filter(desicion="Aprobo")
 #  pruebas_fallo = CasoPruebaDetalle.objects.filter(desicion="Fallo")
 #  pruebas_ejecutar = CasoPruebaDetalle.objects.filter(desicion="Por ejecutar")
