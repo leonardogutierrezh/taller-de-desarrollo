@@ -35,7 +35,7 @@ class Metodologia(models.Model):
   
 class Iteracion(models.Model):
   proyecto = models.ForeignKey(Proyecto)
-  numero = models.IntegerField()
+  numero = models.IntegerField(null=True)
   objetivo = models.TextField(max_length=100)
   criterio = models.TextField(max_length=100, verbose_name='criterio de evaluación')
   planIteracion = models.FileField(upload_to='planIteracion', verbose_name='Plan de Iteracion', null=True)
