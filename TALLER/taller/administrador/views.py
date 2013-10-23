@@ -311,6 +311,7 @@ def editar_proyecto(request,id_proyecto):
 def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
     sistema = Sistema.objects.get(pk=id_sistema)
     caracteristica = Caracteristica.objects.filter(sistema=sistema)
+    caracteristicas = Caracteristica.objects.all().count()
     sistema = Sistema.objects.get(pk=id_sistema)
     if request.method=='POST':
       carac = request.POST.getlist('caracteristica')
@@ -329,7 +330,7 @@ def sistema(request,id_proyecto,rol,id_sistema,id_caracteristica):
           i += 1
     if id_caracteristica != '0':
       dato = Caracteristica.objects.get(pk=id_caracteristica)
-    return render_to_response('sistema.html', { 'caracteristica': caracteristica,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('sistema.html', { 'caracteristica': caracteristica, 'caracteristicas': caracteristicas, 'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def delete_caracteristica(request,id_proyecto,rol,id_sistema,id_caracteristica):
@@ -362,7 +363,7 @@ def requerimientos(request,id_proyecto,rol,id_sistema,id_requerimiento):
       if dato.detalle == False:
         redireccion = '/requerimiento_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_requerimiento)
         return HttpResponseRedirect(redireccion)   
-    return render_to_response('requerimientos.html', {'dato':dato,'caracteristica':caracteristica, 'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('requerimientos.html', {'dato':dato,'caracteristica':caracteristica,'requerimientos': requerimientos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def requerimiento_crear(request,id_proyecto,rol,id_sistema,id_requerimiento):
@@ -398,6 +399,7 @@ def requerimiento_detalle(request,id_proyecto,rol,id_sistema,id_requerimiento):
 def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
     dato = ""
     sistema = Sistema.objects.get(pk=id_sistema)
+    caracteristicas = Caracteristica.objects.all().count()
     casos = CasosDeUso.objects.filter(sistema=sistema)
     valores = []
     orden = []
@@ -416,7 +418,7 @@ def casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
       if dato.detalle==False:
         redireccion = '/casos_uso_crear/' + str(id_proyecto) + '/' + str(rol) + '/' + str(id_sistema) + '/' + str(id_casouso)
         return HttpResponseRedirect(redireccion)   
-    return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema,'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
+    return render_to_response('casos_uso.html', {'dato':dato, 'casos': casos,'sistema':sistema, 'caracteristicas':caracteristicas, 'id':id_proyecto,'rol':rol }, context_instance=RequestContext(request))
 
 @login_required(login_url='/') 
 def delete_casos_uso(request,id_proyecto,rol,id_sistema,id_casouso):
@@ -839,12 +841,58 @@ def probar(request, id_casouso):
   return HttpResponseRedirect('/')
 
 @login_required(login_url='/')
-def gestionar(request, id_proyecto):
+def gestionar(request, id_proyecto, id_sistema):
   proyecto = Proyecto.objects.get(pk=id_proyecto)
-  pruebas_aprob = CasoPruebaDetalle.objects.filter(desicion="Aprobo")
-  pruebas_fallo = CasoPruebaDetalle.objects.filter(desicion="Fallo")
-  pruebas_ejecutar = CasoPruebaDetalle.objects.filter(desicion="Por ejecutar")
-  return render_to_response('gestionar.html', {'proyecto':proyecto, "aprobadas": pruebas_aprob, 'fallas': pruebas_fallo, "ejecutar": pruebas_ejecutar}, context_instance=RequestContext(request))
+  sistemas = SistemaAsociado.objects.filter(proyecto=proyecto)
+  casos = []
+  casosusolist = []
+  if id_sistema == "0":
+    print "0"
+  else:
+    promedio = 0
+    sistema = Sistema.objects.get(pk=id_sistema)
+    totalcasos = 0
+    porcentajeaprobo = 0
+    porcentajefallo = 0
+    caracteristicas = Caracteristica.objects.filter(sistema=sistema)
+    totalporcentajes = []
+    for caracteristica in caracteristicas:
+      requerimientos = Requerimiento.objects.filter(caracteristica=caracteristica)
+      casosprueba = CasoPruebaDetalle.objects.filter(requerimiento__in = requerimientos).exclude(desicion="Por ejecutar")
+      porcentajes = []
+      for requerimiento in requerimientos:
+        casosFallo = CasoPruebaDetalle.objects.filter(requerimiento=requerimiento, desicion="Fallo").count()
+        casosAprobo = CasoPruebaDetalle.objects.filter(requerimiento=requerimiento, desicion="Aprobo").count()
+        if casosFallo == 0 and casosAprobo == 0:
+          porcentaje = 100
+        else:
+          porcentaje = (float(casosAprobo)/float((casosFallo + casosAprobo)))*100
+        totalporcentajes.append(porcentaje)
+        porcentajes.append((round(porcentaje, 2), requerimiento, int(porcentaje)))
+      print porcentaje
+      tupla = (caracteristica, casosprueba, porcentajes)
+      casos.append(tupla)
+      totalaprobados = CasoPruebaDetalle.objects.filter(desicion="Aprobo").count()
+      totalfallo = CasoPruebaDetalle.objects.filter(desicion="Fallo").count()
+      porcentajeaprobo = round((float(totalaprobados)/float((totalaprobados + totalfallo)))*100,2)
+      porcentajefallo = round((float(totalfallo)/float((totalaprobados + totalfallo)))*100,2)
+      totalcasos = totalaprobados + totalfallo
+      suma = 0
+      for por in totalporcentajes:
+        suma = suma + por
+      promedio = round(float(suma)/float(len(totalporcentajes)),2)
+    casosuso = CasosDeUso.objects.filter(sistema=sistema)
+    for caso in casosuso:
+      escenario= Escenario.objects.filter(caso=caso)
+      casospaux = CasoPrueba.objects.filter(escenario__in=escenario)
+      casospu = CasoPruebaDetalle.objects.filter(casoprueba__in = casospaux, desicion= "Fallo")
+      casosusolist.append((caso, casospu))
+
+#  pruebas_aprob = CasoPruebaDetalle.objects.filter(desicion="Aprobo")
+#  pruebas_fallo = CasoPruebaDetalle.objects.filter(desicion="Fallo")
+#  pruebas_ejecutar = CasoPruebaDetalle.objects.filter(desicion="Por ejecutar")
+    return render_to_response('gestionar.html', {'id':id_sistema, 'casosuso': casosusolist, 'promedioporcentaje': promedio, 'totalcasos': totalcasos, 'aprobados': porcentajeaprobo, 'fallados': porcentajefallo, 'sistema': sistema, 'casos': casos, 'sistemas': sistemas, 'proyecto':proyecto}, context_instance=RequestContext(request))
+  return render_to_response('gestionar.html', {'id':id_sistema, 'sistemas': sistemas, 'proyecto':proyecto}, context_instance=RequestContext(request))
 
 @login_required(login_url='/')
 def asignarpruebas(request, id_proyecto):

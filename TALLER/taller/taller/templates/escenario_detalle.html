@@ -184,12 +184,12 @@ function eliminarFilaVacia() {
 				<td> {{dato.0.resultado}}</td>
 				<td> {{dato.0.nivel}}</td>
 				<td> {{dato.0.tipo}}</td>
+        {%for valor  in dato.1 %}		
+        <td>{% if valor == "N/A" %}N/A{%else%} {	{valor.valor}} {%endif%}</td>
+        {%endfor%}
                     <td style="border:0; width:50px">
 					<img src="/static/images/eliminar.png" width="20" height="20" alt="" border="0" align="center" onclick="eliminarFila({{dato.id}})" style="cursor:pointer;"/>
 				</td>
-        {%for valor  in dato.1 %}		
-        <td>{% if valor == "N/A" %}N/A{%else%} {{valor.valor}} {%endif%}</td>
-        {%endfor%}
 				</tr>	 
 				{%endfor%}
 

@@ -56,9 +56,11 @@
 
 		    <form id='formulario' method='post' enctype='multipart/form-data' action=''>{% csrf_token %}
 			    <table>{{formulario.as_table}}</table>
-			    <p> 		
-			    <br></br>
-			    <input type='submit' value='Confirmar' />
+                <div class='contenido' style="margin-top: 10px; margin-left: 50px; color: red;">
+                    El formato de archivos válidos son .pdf, .doc y .docx
+                </div>
+			    <p>
+			    <input style="margin-top: 20px; margin-left: 10px;" type='submit' value='Confirmar' />
 			    </p>
 		    </form>
 		  </section>
@@ -74,6 +76,15 @@
 		</td>
 	</tr>
 </table>
+
+<script src="{{ STATIC_URL }}js/jquery.js"></script>
+<script type="text/javascript">
+            $(document).ready(function (){
+                $('#id_planIteracion').attr("accept", "application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword");
+                $('#id_planEvaIteracion').attr("accept", "application/pdf, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword");
+});
+</script>
+
 </body>
 </html>
 

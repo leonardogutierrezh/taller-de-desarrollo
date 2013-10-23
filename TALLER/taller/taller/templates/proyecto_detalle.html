@@ -42,7 +42,7 @@
 
 
 
-		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7">{%if rol == "Gerente de Pruebas"%} <a href='/gestionar/{{proyecto.id}}'>Gestionar Pruebas</a>{%endif%}{% if rol == "Gerente de Proyecto" %}<a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> | <a href='/gestionar/{{proyecto.id}}'>Gestionar Pruebas</a>{%endif%}<br />
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7">{%if rol == "Gerente de Pruebas"%} <a href='/gestionar/{{proyecto.id}}/0'>Gestionar Pruebas</a>{%endif%}{% if rol == "Gerente de Proyecto" %}<a href='/crear_proyecto_equipo/{{proyecto.id}}'>Agregar Equipo</a> | <a href='/eliminar_proyecto/{{proyecto.id}}'>Eliminar</a> | <a href='/editar/{{proyecto.id}}'>Editar</a> | <a href='/gestionar/{{proyecto.id}}/0'>Gestionar Pruebas</a>{%endif%}<br />
 		</td>
 
 </tr>

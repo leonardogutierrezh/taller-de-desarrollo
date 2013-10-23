@@ -61,7 +61,6 @@ function eliminarFila(id) {
 	else {
   		x="You pressed Cancel!";
   	}
-	document.getElementById("demo").innerHTML=x;
 }
 
 function eliminarFilaVacia() {
@@ -74,7 +73,17 @@ function eliminarFilaVacia() {
 	else {
   		x="You pressed Cancel!";
   	}
-	document.getElementById("demo").innerHTML=x;
+}
+
+    function caract() {
+        var x;
+	var r=confirm("Para crear un requerimiento debe tener por lo menos una característica, ¿Desea crear una característica?");
+	if (r==true) {
+     window.location.assign('/sistema/{{id}}/{{rol}}/{{sistema.id}}/0')
+  	}
+	else {
+  		x="You pressed Cancel!";
+  	}
 }
 
     </SCRIPT>
@@ -117,7 +126,7 @@ function eliminarFilaVacia() {
 
 		{% if rol == "Gerente de Proyecto" %}	
 
-		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />	
+		<td width="100%" height="49" colspan="25" align="center" valign="middle" class="text2" bgcolor="#a7a7a7"><a href='/sistema/{{id}}/{{rol}}/{{sistema.id}}/0'>Tabla de Caracteristicas</a> | {% if caracteristicas == 0%} <a href='#' onclick=caract()>{%else%} <a href='/requerimientos/{{id}}/{{rol}}/{{sistema.id}}/0'> {%endif%} Tabla de Requerimientos</a> | <a href='/casos_uso/{{id}}/{{rol}}/{{sistema.id}}/0'>Resumen de Casos de Uso</a> | <a href='/proyecto/{{id}}/{{rol}}'>Regresar al proyecto</a> <br />
 		</td>
 		{% endif %}
 </tr>
@@ -163,7 +172,7 @@ function eliminarFilaVacia() {
 		</table>
 <input type='submit' value='Guardar' />
 </form>
-<img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" />
+<img src="/static/images/plus.png" width="30" height="30" alt="" border="0" align="right" onclick="addRow()" style="cursor:pointer;" />
 
 		</section>
 		
