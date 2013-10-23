@@ -65,14 +65,15 @@ function metodologia() {
 			<center>
 		    <table>
 
-
-		      {% for i in info %}
-
 		      <tr>
 			      <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;" ><center>Proyecto</center></td>
 			      <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;"><center>Roles</center></td>
 			      <td style="background-color:#09C; border-radius:10px; margin-right:10px; width:30%;"><center>Sistemas Asociados</center></td>
 		      </tr>
+
+		      {% for i in info %}
+
+
 
 		      <tr>
 		      <td style="border-bottom:thick double #A7A7A7"> <center> {{i.proyecto.nombre}} </center></td>
@@ -92,9 +93,9 @@ function metodologia() {
 		      </tr>
 
 		      {% empty %}
-
+		    <br></br>
 		    <tr>Actualmente No Tienes Proyectos Asignados</tr>
-
+		    <br></br>
 		      {% endfor %}
 
 		    </table>

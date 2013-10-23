@@ -42,9 +42,9 @@
 
 		
 		<td width="100%" colspan="25" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
-<br></br>
-		<h2><p color="red"> Error de usuario o contraseña, por favor intente nuevamente. </p></h2>
-<br></br>
+
+		<h1><p color="red"> Error de usuario o contraseña, por favor intente nuevamente. </p></h1>
+
 		</td>
 
 	</tr>

@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 
 class Proyecto(models.Model):
   nombre = models.CharField(max_length=100, unique=True)
-  fechaInicio = models.DateField('Fecha de Inicio')
-  fechaFin = models.DateField('Fecha de Finalización')
-  descripcion = models.TextField(max_length=200)
-  metodologia = models.ForeignKey('Metodologia')
-  recursos = models.TextField(max_length=200)
-  iteraciones = models.IntegerField()
+  fechaInicio = models.DateField(verbose_name='Fecha de Inicio')
+  fechaFin = models.DateField(verbose_name='Fecha de Finalización')
+  descripcion = models.TextField(max_length=200, verbose_name='Descripción')
+  metodologia = models.ForeignKey('Metodologia', verbose_name='Metodología')
+  recursos = models.TextField(max_length=200, verbose_name='Recursos')
+  iteraciones = models.IntegerField(verbose_name='Iteraciones')
   iteActual = models.IntegerField(default=0)
 
 class Metodologia(models.Model):
@@ -150,6 +150,11 @@ class CasoPruebaValor(models.Model):
   valor = models.TextField(max_length=400)
 
 class CasoPruebaDetalle(models.Model):
+  choices = (
+      ('Aprobo', 'Aprobo'),
+      ('Fallo', 'Fallo'),
+      ('Por ejecutar', 'Por ejecutar')
+  )
   casoprueba = models.ForeignKey(CasoPrueba)
   sistema = models.ForeignKey(Sistema)
   casouso = models.ForeignKey(CasosDeUso)
@@ -162,13 +167,19 @@ class CasoPruebaDetalle(models.Model):
   fechaejec = models.DateField('Fecha de Ejecucion',null=True,blank=True)
   condicion = models.TextField(max_length=400,verbose_name='Condicion(es) para que se ejecute el Caso de Prueba')
   criterios = models.TextField(max_length=400,verbose_name='Criterios de Aprobacion del Caso de Prueba')
-  desicion = models.CharField(max_length=40,verbose_name='Desicion de Aprobacion del Caso de Prueba')
+  desicion = models.CharField(max_length=40,verbose_name='Desicion de Aprobacion del Caso de Prueba', choices=choices)
   fechaapro = models.DateField('Fecha de Aprobacion',null=True,blank=True)
+  notas = models.TextField(null= True, blank= True)
 
 class EjecucionCasoPrueba(models.Model):
-  caso = models.ForeignKey(CasoPruebaDetalle)
+  caso = models.ForeignKey(CasoPrueba)
   paso = models.CharField(max_length=40)
   condicion = models.CharField(max_length=40)
   valor = models.CharField(max_length=40)
   resultadoesp = models.CharField(max_length=40,verbose_name='Resultado Esperado')
   resultadoobt = models.CharField(max_length=40,verbose_name='Resultado Obtenido')
+
+class Artefactos(models.Model):
+  nombre = models.CharField(max_length=40)
+  proyecto = models.ForeignKey(Proyecto)
+  artefacto = models.FileField(upload_to='artefactos', verbose_name='Plan de Iteracion')

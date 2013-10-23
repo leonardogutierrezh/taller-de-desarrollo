@@ -40,11 +40,17 @@
 
 	<tr>
 
-		
+		<p color="red"> Usuario No Activo, por favor, contacte al Administrador. </p>
+		<br></br>
 		<td width="100%" colspan="25" align="center" valign="middle" nowrap="nowrap" bgcolor="#efefef" class="text1">
-<br></br>
-		<h2><p color="red"> Error de usuario o contraseña, por favor intente nuevamente. </p></h2>
-<br></br>
+
+		<h1>Ingresa</h1>
+		<form id='formulario' method='post' action=''>{% csrf_token %}
+			<table>{{formulario}}</table>
+		  <p><input type='submit' value='Ingresar'/></p>
+		</form> 
+
+		<br></br>
 		</td>
 
 	</tr>

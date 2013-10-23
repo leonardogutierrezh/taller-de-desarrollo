@@ -37,7 +37,6 @@ class Metodologia(models.Model):
   artefactos = models.TextField(max_length=400, verbose_name='Artefactos')
   roles = models.TextField(max_length=400)
   cicloVida = models.CharField(max_length=50,choices=cicloV_types, verbose_name='Ciclo de Vida' )
-  divCicloVida = models.IntegerField(verbose_name='División Ciclo Vida')
   complementada = models.CharField(max_length=50, choices=complementada_types, verbose_name='Se complementa con')
   
   def __unicode__(self):
